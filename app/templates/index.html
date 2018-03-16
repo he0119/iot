@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<head>
+    <title>IOT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <script type="text/javascript" src="/static/jquery-3.2.1.min.js"></script>
+    <script type='text/javascript' src='/static/knockout-3.4.2.js'></script>
+</head>
+<html>
+
+<body>
+
+    <ul>
+        <li>time :
+            <p data-bind="text: time" />
+        </li>
+        <li>temperature :
+            <p data-bind="text: temperature" />
+        </li>
+        <li>relative_humidity :
+            <p data-bind="text: relative_humidity" />
+        </li>
+        <li>relay1_status :
+            <p data-bind="text: relay1_status" />
+        </li>
+        <li>relay2_status :
+            <p data-bind="text: relay2_status" />
+        </li>
+    </ul>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            function setData() {
+                $.ajax({
+                    url: "/api/status",
+                    async: true,
+                    success: function (data) {
+                        var time = new Date(data["time"]);
+                        ViewModel.time(time.toLocaleString());
+                        ViewModel.temperature(data["temperature"]);
+                        ViewModel.relative_humidity(data["relative_humidity"]);
+                        ViewModel.relay1_status(data["relay1_status"]);
+                        ViewModel.relay2_status(data["relay2_status"]);
+                        timeout: refreshInterval;
+                    },
+                    dataType: "json"
+                });
+            }
+            let ViewModel = {
+                time: ko.observable(""),
+                temperature: ko.observable(""),
+                relative_humidity: ko.observable(""),
+                relay1_status: ko.observable(""),
+                relay2_status: ko.observable("")
+            }
+            setData();
+            const refreshInterval = 10000; //10s
+            setInterval(setData, refreshInterval);
+            // Activates knockout.js
+            ko.applyBindings(ViewModel);
+        });
+    </script>
+</body>
+
+</html>

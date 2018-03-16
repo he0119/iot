@@ -1,0 +1,12 @@
+[Unit]
+Description=The IoT Flask Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/iot/configuration/iot.sh
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,3 @@
+目录下运行
+pipreqs ./ --encoding UTF-8
+可以得到requirements.txt

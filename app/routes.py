@@ -1,26 +1,40 @@
+'''setting about routes'''
 import logging
 import os
 from datetime import datetime, timedelta
 
 from flask import (abort, flash, g, jsonify, make_response, redirect,
-                   render_template, request, send_from_directory, url_for)
+                   render_template, request, send_from_directory, session,
+                   url_for)
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy.sql.expression import and_
 
 from app import app, db
 from app.models import DeviceData, User
 
+#Authentication
 auth = HTTPBasicAuth()
 @auth.verify_password
-def verify_password(username, password):
-    user = User.query.filter_by(username = username).first()
-    if not user or not user.check_password(password):
-        return False
+def verify_password(username_or_token, password):
+    user = User.verify_auth_token(username_or_token)
+    if not user:
+        # try to authenticate with username/password
+        user = User.query.filter_by(username = username_or_token).first()
+        if not user or not user.check_password(password):
+            return False
     g.user = user
     return True
 
+@app.route('/api/token')
+@auth.login_required
+def get_auth_token():
+    token = g.user.generate_auth_token()
+    return jsonify({'token': token.decode('ascii')})
+
+
 @app.route('/')
 @app.route('/index')
+@auth.login_required
 def index():
     return render_template("index.html")
 
@@ -43,8 +57,11 @@ def set_data():
     device_data = request.data.decode().split(",")
     u = DeviceData()
     if device_data[0] == "0":
-        u.set_data(device_data[1], device_data[2], True if device_data[3]
-               == "ON" else False, True if device_data[4] == "ON" else False, datetime.strptime(device_data[5], "%Y-%m-%d %H:%M:%S"))
+        u.set_data(device_data[1],
+                   device_data[2],
+                   True if device_data[3] == "ON" else False,
+                   True if device_data[4] == "ON" else False,
+                   datetime.strptime(device_data[5], "%Y-%m-%d %H:%M:%S"))
     else:
         g.data = device_data #如果是直接请求获取设备状态，则把数据保存在data中
     try:

@@ -17,13 +17,3 @@ def index():
 @frontend_bp.route('/history')
 def history():
     return render_template("history.html")
-
-@frontend_bp.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
-
-@frontend_bp.route('/favicon.ico')
-def favicon():
-    print(frontend_bp.root_path)
-    return send_from_directory(os.path.join(frontend_bp.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')

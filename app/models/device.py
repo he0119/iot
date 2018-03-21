@@ -3,9 +3,9 @@ from app.common.db import db
 class DeviceData(db.Model):
     """Device Data(id, time, temperature, relative_humidity, relay1_status, relay2_status)"""
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.DateTime)
-    temperature = db.Column(db.String(32))
-    relative_humidity = db.Column(db.String(32))
+    time = db.Column(db.DateTime, index=True)
+    temperature = db.Column(db.Float)
+    relative_humidity = db.Column(db.Float)
     relay1_status = db.Column(db.Boolean)
     relay2_status = db.Column(db.Boolean)
 

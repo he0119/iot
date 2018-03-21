@@ -1,10 +1,11 @@
-import logging
-from datetime import datetime
+'''Standalone MQTT'''
 import json
+import logging
 
 import paho.mqtt.client as mqtt
 import requests
 from requests.auth import HTTPBasicAuth
+
 import config
 
 SERVER_USERNAME = config.get_config("server", "username")
@@ -27,6 +28,10 @@ def on_message(client, userdata, msg):
     '''The callback for when a PUBLISH message is received from the server.'''
     # print(msg.topic + " " + msg.payload.decode())
     device_data = msg.payload.decode().split(",")
+    if device_data[1] == "Error" or device_data[2] == "Error":
+        device_data[1] = None
+        device_data[2] = None
+
     json_data = json.dumps({"code" : int(device_data[0]),
                             "temperature" : float(device_data[1]),
                             "relative_humidity" : float(device_data[2]),

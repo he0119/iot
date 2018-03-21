@@ -43,7 +43,7 @@ def on_message(client, userdata, msg):
         res = requests.post(API_URL,
                             data=json_data,
                             auth=HTTPBasicAuth(SERVER_USERNAME, SERVER_PASSWORD))
-        if res.json()["status"] == "failed":
+        if res.json()["message"] == "failed":
             print("failed")
     except requests.exceptions.ConnectionError:
         print("failed")

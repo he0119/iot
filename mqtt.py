@@ -28,6 +28,7 @@ def on_message(client, userdata, msg):
     '''The callback for when a PUBLISH message is received from the server.'''
     # print(msg.topic + " " + msg.payload.decode())
     device_data = msg.payload.decode().split(",")
+    
     if device_data[1] == "Error" or device_data[2] == "Error":
         device_data[1] = None
         device_data[2] = None
@@ -38,7 +39,7 @@ def on_message(client, userdata, msg):
                             "relay1" : True if device_data[3] == "ON" else False,
                             "relay2" : True if device_data[4] == "ON" else False,
                             "time" : device_data[5]})
-    print(json_data)
+
     try:
         res = requests.post(API_URL,
                             data=json_data,

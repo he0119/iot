@@ -22,8 +22,6 @@ class Status(Resource):
                          "relay2_status": latest.relay2_status}
         except Exception as e:
             logging.exception(e)
-        finally:
-            db.session.remove()
         return jsonify(json_data)
 
     @auth.login_required

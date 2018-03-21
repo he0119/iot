@@ -1,11 +1,4 @@
-import os
-
-from flask import (Blueprint, make_response, render_template,
-                   send_from_directory, jsonify)
-from flask_restful import Api
-
-from app.api.resources.device import Status
-from app.api.resources.token import Token
+from flask import Blueprint, render_template
 
 frontend_bp = Blueprint('frontend_bp', __name__)
 

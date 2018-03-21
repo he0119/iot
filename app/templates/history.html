@@ -86,12 +86,15 @@
             function setData() {
                 let start = new Date();
                 let end = new Date();
+                let interval = 18;
                 start.setTime(start.getTime() - 24 * 60 * 60 * 1000);
                 start = Math.floor((start.getTime() + start.getTimezoneOffset() * 60 * 1000) / 1000);
                 end = Math.floor((end.getTime() + end.getTimezoneOffset() * 60 * 1000) / 1000);
                 $.ajax({
-                    url: "/api/history/" + start + ":" + end + ":" + "18",
+                    url: "/api/history",
                     async: true,
+                    data: { "start": start, "end": end, "interval": interval }, 
+                    dataType: "json",
                     success: function (data) {
                         deviceData = data;
                         dateLength = deviceData.length;

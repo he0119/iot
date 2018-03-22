@@ -1,8 +1,10 @@
+from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from iot.common.db import app, db
+from iot.common.db import db
+
 
 class User(db.Model):
     '''User Data(id, username, password_hash)'''
@@ -21,12 +23,12 @@ class User(db.Model):
 
     def generate_auth_token(self, expiration=600):
         '''expiration = 600'''
-        s = Serializer(app.config['SECRET_KEY'], expires_in = expiration)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
         return s.dumps({ 'id': self.id })
     
     @staticmethod
     def verify_auth_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except SignatureExpired:

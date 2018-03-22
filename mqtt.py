@@ -34,8 +34,8 @@ def on_message(client, userdata, msg):
 
     #post mqtt status data to server using json
     json_data = json.dumps({'code' : int(device_data[0]),
-                            'temperature' : float(device_data[1]),
-                            'relative_humidity' : float(device_data[2]),
+                            'temperature' : float(device_data[1]) if device_data[1] else None,
+                            'relative_humidity' : float(device_data[2]) if device_data[2] else None,
                             'relay1' : True if device_data[3] == 'ON' else False,
                             'relay2' : True if device_data[4] == 'ON' else False,
                             'time' : device_data[5]})
@@ -48,8 +48,6 @@ def on_message(client, userdata, msg):
             print('failed')
     except requests.exceptions.ConnectionError:
         print('iot server offline')
-    finally:
-        pass
 
 def main():
     '''main function'''

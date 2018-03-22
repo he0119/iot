@@ -2,7 +2,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.common.db import app, db
+from iot.common.db import app, db
 
 class User(db.Model):
     '''User Data(id, username, password_hash)'''

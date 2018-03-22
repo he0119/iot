@@ -1,5 +1,5 @@
 '''Flask App'''
-from app.app import app
+from iot import app
 
 if __name__ == '__main__':
     app.run(debug=True)

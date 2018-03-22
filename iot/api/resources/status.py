@@ -6,9 +6,9 @@ from datetime import datetime
 from flask import g, jsonify, request
 from flask_restful import Resource
 
-from app.common.auth import auth
-from app.common.db import db
-from app.models.device import DeviceData
+from iot.common.auth import auth
+from iot.common.db import db
+from iot.models.device import DeviceData
 
 class Status(Resource):
     '''

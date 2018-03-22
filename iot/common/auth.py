@@ -3,7 +3,7 @@ Auth
 '''
 from flask import g
 from flask_httpauth import HTTPBasicAuth
-from app.models.user import User
+from iot.models.user import User
 
 
 auth = HTTPBasicAuth()

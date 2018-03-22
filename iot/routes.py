@@ -3,9 +3,9 @@ import os
 
 from flask import jsonify, make_response, send_from_directory
 
-from app import app
-from app.api.api import api_bp
-from app.frontend.controllers import frontend_bp
+from iot import app
+from iot.api.api import api_bp
+from iot.frontend.controllers import frontend_bp
 
 app.register_blueprint(api_bp, url_prefix='/api')
 app.register_blueprint(frontend_bp, url_prefix='')

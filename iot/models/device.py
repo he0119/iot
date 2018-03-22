@@ -1,7 +1,7 @@
 '''
 Device Model
 '''
-from app.common.db import db
+from iot.common.db import db
 
 class DeviceData(db.Model):
     '''Device Data(id, time, temperature, relative_humidity, relay1_status, relay2_status)'''

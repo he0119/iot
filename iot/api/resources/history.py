@@ -7,8 +7,8 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 from sqlalchemy.sql.expression import and_
 
-from app.common.db import db
-from app.models.device import DeviceData
+from iot.common.db import db
+from iot.models.device import DeviceData
 
 
 class History(Resource):

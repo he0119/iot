@@ -3,7 +3,7 @@ Token Resource
 '''
 from flask import jsonify, g
 from flask_restful import Resource
-from app.common.auth import auth
+from iot.common.auth import auth
 
 class Token(Resource):
     '''get(login_required): return token'''

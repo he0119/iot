@@ -4,9 +4,9 @@ RESTful API
 from flask import Blueprint
 from flask_restful import Api
 
-from app.api.resources.status import Status
-from app.api.resources.token import Token
-from app.api.resources.history import History
+from iot.api.resources.status import Status
+from iot.api.resources.token import Token
+from iot.api.resources.history import History
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)

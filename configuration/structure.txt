@@ -22,8 +22,10 @@ iot\
             controllers.py
         __init__.py
         app.py
+    arduino\
     migration\
     configurations\
     iot.py
     mqtt.py
     config.py
+    app.db

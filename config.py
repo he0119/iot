@@ -5,13 +5,14 @@ import os
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 def get_config(section, key):
-    '''获取config配置文件'''
+    '''read config in py.conf'''
     config = configparser.ConfigParser()
     path = os.path.split(os.path.realpath(__file__))[0] + '/configuration/py.conf'
     config.read(path)
     return config.get(section, key)
 
 class Config(object):
+    '''config about flask'''
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or 'the quick brown fox jumps over the lazy dog'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \

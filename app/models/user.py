@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.common.db import app, db
 
 class User(db.Model):
-    """User Data(id, username, password_hash)"""
+    '''User Data(id, username, password_hash)'''
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)

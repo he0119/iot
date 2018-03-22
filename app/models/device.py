@@ -1,7 +1,10 @@
+'''
+Device Model
+'''
 from app.common.db import db
 
 class DeviceData(db.Model):
-    """Device Data(id, time, temperature, relative_humidity, relay1_status, relay2_status)"""
+    '''Device Data(id, time, temperature, relative_humidity, relay1_status, relay2_status)'''
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.DateTime, index=True)
     temperature = db.Column(db.Float)

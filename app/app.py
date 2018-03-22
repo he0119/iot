@@ -12,10 +12,11 @@ app.register_blueprint(frontend_bp, url_prefix='')
 
 @app.errorhandler(404)
 def not_found(error):
+    '''handle 404 error'''
     return make_response(jsonify({'message': 'Not found'}), 404)
 
 @app.route('/favicon.ico')
 def favicon():
-    print(frontend_bp.root_path)
+    '''route for favicon.ico'''
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')

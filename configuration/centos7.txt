@@ -1,33 +1,40 @@
 //启用EPEL
 yum install epel-release
+
 //nginx
-service nginx start
+systemctl start nginx
 lsof -i :80
 配置目录/etc/nginx/conf.d
+
 //配置letsencrypt
 yum install certbot-nginx
 certbot --nginx //注意conf文件里不能有中文
+
 //安装crontab
 yum install crontabs -y
-service crond status //状态
-service crond start  //启动
+systemctl status crond //状态
+systemctl start crond//启动
 //crontab -e 配置
 0 6 * * * python3 /usr/tieba/tiebasign.py
 0 8 * * * python3 /usr/tieba/tiebasign.py
 0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew //每天0点12点执行，每次等待随机0-3600秒后续期
+
 //设置时区
 timedatectl set-timezone Asia/Shanghai
 //设置语言
 vim /etc/locale.conf 
 LANG='zh_CN.UTF-8'
-//安装Xshell上传rz，下载sz插件
+
+//安装Xshell需要的插件
 yum install lrzsz -y
+
 //安装netstat
 yum install net-tools
+
 //配置python3
-yum install openssl
+yum install openssl -y
 yum install openssl-devel -y
-yum install zlib-devel
+yum install zlib-devel -y
 
 wget --no-check-certificate https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
 tar -xzvf Python-3.6.4.tgz
@@ -36,20 +43,20 @@ cd Python-3.6.4
 make && make install
 ln -s /usr/local/python3/bin/python3 /usr/bin/python3
 
-wget --no-check-certificate https://github.com/pypa/pip/archive/9.0.1.tar.gz
-tar -zvxf 9.0.1.tar.gz
-cd pip-9.0.1
+wget --no-check-certificate https://github.com/pypa/pip/archive/9.0.3.tar.gz
+tar -zvxf 9.0.3.tar.gz
+cd pip-9.0.3
 python3 setup.py install
 ln -s /usr/local/python3/bin/pip /usr/bin/pip3
 pip3 install --upgrade pip
 
-yum -y install epel-release
-yum -y install python-pip
 //安装虚拟环境
+yum -y install python-pip
 pip install virtualenv
-virtualenv venv
+virtualenv --no-site-packages venv --python=python3
 source venv/bin/activate
 pip install -r requirement.txt
+
 //后台运行
 利用systemd
 向 /usr/lib/systemd/system 加入 iot.service 文件

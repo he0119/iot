@@ -3,8 +3,9 @@ Description=The IoT Flask Server
 After=network.target
 
 [Service]
-Type=simple
-ExecStart=/bin/bash /usr/iot/configuration/iot.sh
+Type=idle
+WorkingDirectory=/usr/iot
+ExecStart=/usr/iot/venv/bin/python run.py
 Restart=on-failure
 RestartSec=30s
 

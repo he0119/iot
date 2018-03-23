@@ -4,11 +4,11 @@ import json
 import requests
 from iot import mqtt
 
-import config
+from config import Config
 
-SERVER_USERNAME = config.get_config('server', 'username')
-SERVER_PASSWORD = config.get_config('server', 'password')
-API_URL = 'http://127.0.0.1:5000/api/status'
+SERVER_USERNAME = Config.SERVER_USERNAME
+SERVER_PASSWORD = Config.SERVER_PASSWORD
+API_URL = Config.API_URL
 
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):

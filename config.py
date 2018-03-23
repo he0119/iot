@@ -19,7 +19,7 @@ class Config(object):
         'sqlite:///' + os.path.join(BASEDIR, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    MQTT_CLIENT_ID = "server2"
+    MQTT_CLIENT_ID = get_config('mqtt', 'id')
     # use the free broker from HIVEMQ
     MQTT_BROKER_URL = get_config('mqtt', 'url')
     # default port for non-tls connection
@@ -34,3 +34,9 @@ class Config(object):
     MQTT_TLS_ENABLED = True
     # get ca from server
     MQTT_TLS_CA_CERTS = None
+
+    SERVER_USERNAME = get_config('server', 'username')
+
+    SERVER_PASSWORD = get_config('server', 'password')
+
+    API_URL = 'http://127.0.0.1:5000/api/status'

@@ -32,4 +32,5 @@ class Config(object):
     MQTT_KEEPALIVE = 5
     # set TLS to disabled for testing purposes
     MQTT_TLS_ENABLED = True
+    # get ca from server
     MQTT_TLS_CA_CERTS = None

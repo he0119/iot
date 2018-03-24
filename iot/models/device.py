@@ -18,6 +18,6 @@ class DeviceData(db.Model):
         self.relative_humidity = relative_humidity
         self.relay1_status = relay1_status
         self.relay2_status = relay2_status
-        
+
     def __repr__(self):
         return '<DeviceData {}>'.format(self.time)

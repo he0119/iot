@@ -1,3 +1,4 @@
+'''User Model'''
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import BadSignature, SignatureExpired
@@ -23,9 +24,9 @@ class User(db.Model):
 
     def generate_auth_token(self, expiration=600):
         '''expiration = 600'''
-        s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
-        return s.dumps({ 'id': self.id })
-    
+        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps({'id': self.id})
+
     @staticmethod
     def verify_auth_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -37,6 +38,6 @@ class User(db.Model):
             return None # invalid token
         user = User.query.get(data['id'])
         return user
-        
+
     def __repr__(self):
         return '<User {}>'.format(self.username)

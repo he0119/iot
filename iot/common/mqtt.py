@@ -6,10 +6,6 @@ from iot import mqtt
 
 from config import Config
 
-SERVER_USERNAME = Config.SERVER_USERNAME
-SERVER_PASSWORD = Config.SERVER_PASSWORD
-API_URL = Config.API_URL
-
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
     '''The callback for when the client receives a CONNACK response from the server.'''
@@ -38,9 +34,10 @@ def handle_mqtt_message(client, userdata, msg):
                             'time' : device_data[5]})
 
     try:
-        res = requests.post(API_URL,
+        res = requests.post(Config.API_URL,
                             data=json_data,
-                            auth=requests.auth.HTTPBasicAuth(SERVER_USERNAME, SERVER_PASSWORD))
+                            auth=requests.auth.HTTPBasicAuth(Config.SERVER_USERNAME,
+                                                             Config.SERVER_PASSWORD))
         if res.json()['message'] == 'failed':
             print('failed')
     except requests.exceptions.ConnectionError:

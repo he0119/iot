@@ -1,6 +1,6 @@
 import os
 
-from flask import (Blueprint, render_template, jsonify, 
+from flask import (Blueprint, render_template, jsonify,
                    make_response, send_from_directory, current_app)
 
 frontend_bp = Blueprint('frontend_bp', __name__)
@@ -8,10 +8,12 @@ frontend_bp = Blueprint('frontend_bp', __name__)
 @frontend_bp.route('/')
 @frontend_bp.route('/index')
 def index():
+    '''index.html'''
     return render_template('index.html')
 
 @frontend_bp.route('/history')
 def history():
+    '''history.html'''
     return render_template('history.html')
 
 @frontend_bp.app_errorhandler(404)

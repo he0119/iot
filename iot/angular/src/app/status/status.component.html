@@ -1,7 +1,34 @@
-<mat-list role="list">
-  <mat-list-item role="listitem">Time:{{status?.time}}</mat-list-item>
-  <mat-list-item role="listitem">Temperature:{{status?.temperature}}</mat-list-item>
-  <mat-list-item role="listitem">Relative Humidity:{{status?.relativeHumidity}}</mat-list-item>
-  <mat-list-item role="listitem">Relay1 Status:{{status?.relay1Status}}</mat-list-item>
-  <mat-list-item role="listitem">Relay2 Status:{{status?.relay2Status}}</mat-list-item>
+<mat-list>
+  <mat-list-item>
+    <span class="label">Time:</span>
+    <span class="data">{{status?.time}}</span>
+  </mat-list-item>
+  <mat-list-item>
+    <span class="label">Temperature:</span>
+    <span class="data">{{status?.temperature}}</span>
+  </mat-list-item>
+  <mat-list-item>
+    <span class="label">Relative Humidity:</span>
+    <span class="data">{{status?.relativeHumidity}}</span>
+  </mat-list-item>
+  <mat-list-item>
+    <span class="label">Relay1 Status:</span>
+    <mat-slide-toggle class="data" color="primary" [checked]="status?.relay1Status">
+      <div *ngIf="status?.relay1Status; else relayOFF">
+        ON
+      </div>
+    </mat-slide-toggle>
+  </mat-list-item>
+  <mat-list-item>
+    <span class="label">Relay2 Status:</span>
+    <mat-slide-toggle class="data" color="primary" [checked]="status?.relay2Status">
+      <div *ngIf="status?.relay2Status; else relayOFF">
+        ON
+      </div>
+    </mat-slide-toggle>
+  </mat-list-item>
 </mat-list>
+
+<ng-template #relayOFF>
+  OFF
+</ng-template>

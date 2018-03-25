@@ -1,11 +1,21 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>IOT</span>
-  </mat-toolbar-row>
+    <button mat-button routerLink="/">IOT</button>
+    <button mat-button routerLink="/status">Status</button>
+    <button mat-button routerLink="/history">History</button>
+    <span class="fill-remaining-space"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>cached</mat-icon>
+          <span>Refresh</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Admin</span>
+        </button>
+      </mat-menu>
 </mat-toolbar>
-<!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item>Item 1</button>
-  <button mat-menu-item>Item 2</button>
-</mat-menu> -->
-<app-status></app-status>
+
+<router-outlet></router-outlet>

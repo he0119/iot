@@ -43,9 +43,9 @@
                         var time = new Date(data["time"]);
                         ViewModel.time(time.toLocaleString());
                         ViewModel.temperature(data["temperature"]);
-                        ViewModel.relative_humidity(data["relative_humidity"]);
-                        ViewModel.relay1_status(data["relay1_status"]);
-                        ViewModel.relay2_status(data["relay2_status"]);
+                        ViewModel.relative_humidity(data["relativeHumidity"]);
+                        ViewModel.relay1_status(data["relay1Status"]);
+                        ViewModel.relay2_status(data["relay2Status"]);
                         timeout: refreshInterval;
                     },
                     dataType: "json"

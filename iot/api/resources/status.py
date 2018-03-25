@@ -27,9 +27,9 @@ class Status(Resource):
         latest = db.session.query(DeviceData).get(max_id)
         json_data = {'time' : latest.time,
                      'temperature': latest.temperature,
-                     'relative_humidity': latest.relative_humidity,
-                     'relay1_status': latest.relay1_status,
-                     'relay2_status': latest.relay2_status}
+                     'relativeHumidity': latest.relative_humidity,
+                     'relay1Status': latest.relay1_status,
+                     'relay2Status': latest.relay2_status}
         return jsonify(json_data)
 
     @staticmethod

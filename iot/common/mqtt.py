@@ -40,5 +40,7 @@ def handle_mqtt_message(client, userdata, msg):
                                                              Config.SERVER_PASSWORD))
         if res.json()['message'] == 'failed':
             print('failed')
+        if res.json()['message'] == 'already exist':
+            print('already exist')
     except requests.exceptions.ConnectionError:
         print('iot server offline')

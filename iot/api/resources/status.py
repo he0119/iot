@@ -41,15 +41,19 @@ class Status(Resource):
         '''
         json_data = request.get_json(force=True)
         new_data = DeviceData()
+        time = datetime.strptime(json_data['time'], '%Y-%m-%d %H:%M:%S')
         if json_data['code'] == 0:
-            new_data.set_data(json_data['temperature'],
-                              json_data['relative_humidity'],
-                              json_data['relay1'],
-                              json_data['relay2'],
-                              datetime.strptime(json_data['time'], '%Y-%m-%d %H:%M:%S'))
-            db.session.add(new_data)
-            db.session.commit()
-            return jsonify({'message': 'succeed'})
-
+            if not db.session.query(DeviceData.time).filter(
+                    DeviceData.time == time).all():
+                new_data.set_data(json_data['temperature'],
+                                  json_data['relative_humidity'],
+                                  json_data['relay1'],
+                                  json_data['relay2'],
+                                  time)
+                db.session.add(new_data)
+                db.session.commit()
+                return jsonify({'message': 'succeed'})
+            else:
+                return jsonify({'message': 'already exist'})
         g.data = json_data #if code is not 0, save current status to g.data
         return jsonify({'message': 'succeed'})

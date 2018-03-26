@@ -29,12 +29,14 @@ import { StatusService } from './status.service';
 import { StatusComponent } from './status/status.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HistoryComponent } from './history/history.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StatusComponent,
-    HistoryComponent
+    HistoryComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

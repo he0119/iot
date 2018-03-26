@@ -4,13 +4,16 @@ Frontend
 import os
 import re
 
-from flask import Blueprint, current_app, render_template, send_from_directory, jsonify, make_response
+from flask import (Blueprint, current_app, jsonify, make_response,
+                   render_template, send_from_directory)
 
 frontend_bp = Blueprint('frontend_bp', __name__)
 
 @frontend_bp.route('/', defaults={'path': ''})
 @frontend_bp.route('/<path:path>')
 def catch_all(path):
+    if not path:
+        return angular_page()
     is_angular_page = re.match(r'^((?!api\/)\w\/?)+$', path)
     if is_angular_page:
         return angular_page()

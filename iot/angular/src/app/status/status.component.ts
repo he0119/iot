@@ -18,6 +18,14 @@ export class StatusComponent implements OnInit {
   ngOnInit(): void {
     this.getStatus();
   }
+
+  getRelayText(relay: boolean): string {
+    if (relay) {
+      return 'ON';
+    }
+    return 'OFF';
+  }
+
   getStatus(): void {
     this.statusService.getStatus()
       .subscribe(status => this.status = status);

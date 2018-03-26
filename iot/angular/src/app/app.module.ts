@@ -5,19 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
-
-import { MatButtonModule } from '@angular/material/button';
-
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
-import { MatRadioModule } from '@angular/material/radio';
-
-import { MatDividerModule } from '@angular/material/divider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
-
+import { MatButtonModule } from '@angular/material/button';
 
 import { NgModule } from '@angular/core';
 
@@ -41,19 +31,15 @@ import { NotfoundComponent } from './notfound/notfound.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+
     BrowserAnimationsModule,
-    MatTabsModule,
-    MatCheckboxModule,
-    MatRadioModule,
     MatMenuModule,
     MatToolbarModule,
-    MatButtonModule,
     MatListModule,
     MatIconModule,
-    MatDividerModule,
     MatSlideToggleModule,
-    MatCardModule,
-    MatGridListModule,
+    MatButtonModule,
+
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule
   ],

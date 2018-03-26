@@ -12,12 +12,14 @@ frontend_bp = Blueprint('frontend_bp', __name__)
 @frontend_bp.route('/', defaults={'path': ''})
 @frontend_bp.route('/<path:path>')
 def catch_all(path):
+    print(path)
     if not path:
         return angular_page()
     is_angular_page = re.match(r'^((?!api\/)\w\/?)+$', path)
     if is_angular_page:
         return angular_page()
-    is_angular_src = re.match(r'.*\.(js|css|json|html)', path)
+    is_angular_src = re.match(r'^.*\.(js|css|json|html)$', path)
+    print(is_angular_src)
     if is_angular_src:
         return angular_src(is_angular_src[0])
     return make_response(jsonify({'message': 'Not found'}), 404)

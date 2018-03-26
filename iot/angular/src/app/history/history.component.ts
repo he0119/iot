@@ -34,16 +34,29 @@ export class HistoryComponent implements OnInit {
               {
                 label: 'Temperature',
                 data: temperature,
+                backgroundColor: '#3cba9f',
                 borderColor: '#3cba9f',
-                fill: false
+                fill: false,
               },
               {
                 label: 'Relative Humidity',
                 data: relativeHumidity,
+                backgroundColor: '#ffcc00',
                 borderColor: '#ffcc00',
-                fill: false
+                fill: false,
               },
             ]
+          },
+          options: {
+            tooltips: {
+              mode: 'index',
+              intersect: false,
+            },
+            elements: {
+              point: {
+                radius: 0,
+              },
+            },
           },
         });
       });

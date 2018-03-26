@@ -2,35 +2,33 @@
 Frontend
 '''
 import os
+import re
 
-from flask import (Blueprint, render_template, jsonify,
-                   make_response, send_from_directory, current_app)
+from flask import Blueprint, current_app, render_template, send_from_directory, jsonify, make_response
 
 frontend_bp = Blueprint('frontend_bp', __name__)
 
-@frontend_bp.route('/')
-@frontend_bp.route('/index')
-def index():
+@frontend_bp.route('/', defaults={'path': ''})
+@frontend_bp.route('/<path:path>')
+def catch_all(path):
+    is_angular_page = re.match(r'^((?!api\/)\w\/?)+$', path)
+    if is_angular_page:
+        return angular_page()
+    is_angular_src = re.match(r'.*\.(js|css|json|html)', path)
+    if is_angular_src:
+        return angular_src(is_angular_src[0])
+    return make_response(jsonify({'message': 'Not found'}), 404)
+
+def angular_page():
     '''index.html'''
     return send_from_directory('angular/dist', 'index.html')
 
-@frontend_bp.route('/<regex(".*\.(js|css|json|html)"):path>')
 def angular_src(path):
     '''angular static files'''
-    print(path.split('.')[-1])
+    print(path)
     if path.split('.')[-1] == 'js':
         return send_from_directory('angular/dist', path, mimetype='text/javascript')
     return send_from_directory('angular/dist', path)
-
-@frontend_bp.route('/history')
-def history():
-    '''history.html'''
-    return render_template('history.html')
-
-@frontend_bp.app_errorhandler(404)
-def not_found(error):
-    '''handle 404 error'''
-    return make_response(jsonify({'message': 'Not found'}), 404)
 
 @frontend_bp.route('/favicon.ico')
 def favicon():

@@ -18,10 +18,6 @@ def create_app(Config):
     migrate.init_app(app, db)
     mqtt.init_app(app)
 
-    from iot.common.regex import RegexConverter
-
-    app.url_map.converters['regex'] = RegexConverter
-
     import iot.common.mqtt
 
     from iot.api.api import api_bp

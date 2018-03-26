@@ -15,7 +15,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
+
 import { StatusService } from './status.service';
+import { HistoryService } from './history.service';
+
 import { StatusComponent } from './status/status.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HistoryComponent } from './history/history.component';
@@ -41,9 +44,12 @@ import { NotfoundComponent } from './notfound/notfound.component';
     MatButtonModule,
 
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [StatusService],
+  providers: [
+    StatusService,
+    HistoryService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

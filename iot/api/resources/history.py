@@ -56,4 +56,4 @@ class History(Resource):
                 history['relative_humidity'] = data['relative_humidity']
                 json_data.append(history)
 
-        return jsonify(json_data)
+        return jsonify({'list': json_data})

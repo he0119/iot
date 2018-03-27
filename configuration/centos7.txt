@@ -1,5 +1,5 @@
 //启用EPEL
-yum install epel-release
+yum -y install epel-release
 
 //nginx
 systemctl start nginx
@@ -7,17 +7,19 @@ lsof -i :80
 配置目录/etc/nginx/conf.d
 
 //配置letsencrypt
-yum install certbot-nginx
+yum -y install certbot-nginx
 certbot --nginx //注意conf文件里不能有中文
 
 //安装crontab
 yum install crontabs -y
 systemctl status crond //状态
 systemctl start crond//启动
+
 //crontab -e 配置
 0 6 * * * python3 /usr/tieba/tiebasign.py
 0 8 * * * python3 /usr/tieba/tiebasign.py
-0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew //每天0点12点执行，每次等待随机0-3600秒后续期
+//每天0点12点执行，每次等待随机0-3600秒后续期
+0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew
 
 //设置时区
 timedatectl set-timezone Asia/Shanghai
@@ -26,15 +28,13 @@ vim /etc/locale.conf
 LANG='zh_CN.UTF-8'
 
 //安装Xshell需要的插件
-yum install lrzsz -y
+yum -y install lrzsz
 
 //安装netstat
-yum install net-tools
+yum -y install net-tools
 
 //配置python3
-yum install openssl -y
-yum install openssl-devel -y
-yum install zlib-devel -y
+yum -y install zlib-devel openssl openssl-devel
 
 wget --no-check-certificate https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
 tar -xzvf Python-3.6.4.tgz

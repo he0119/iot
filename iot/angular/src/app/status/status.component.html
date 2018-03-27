@@ -1,7 +1,7 @@
 <mat-list>
   <mat-list-item>
     <span class="label">Time:</span>
-    <span class="data">{{status?.time}}</span>
+    <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
   </mat-list-item>
   <mat-list-item>
     <span class="label">Temperature:</span>

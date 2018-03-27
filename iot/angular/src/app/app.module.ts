@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,19 +24,22 @@ import { StatusComponent } from './status/status.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HistoryComponent } from './history/history.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StatusComponent,
     HistoryComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
 
     BrowserAnimationsModule,
+    MatCardModule,
     MatMenuModule,
     MatToolbarModule,
     MatListModule,

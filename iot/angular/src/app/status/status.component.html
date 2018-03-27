@@ -1,0 +1,20 @@
+<p>
+  <span class="label">Time:</span>
+  <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
+</p>
+<p>
+  <span class="label">Temperature:</span>
+  <span class="data">{{status?.temperature}}</span>
+</p>
+<p>
+  <span class="label">Relative Humidity:</span>
+  <span class="data">{{status?.relativeHumidity}}</span>
+</p>
+<p>
+  <span class="label">Relay1 Status:</span>
+  <span>{{status?.relay1Status ? 'ON' : 'OFF'}}</span>
+</p>
+<p>
+  <span class="label">Relay2 Status:</span>
+  <span>{{status?.relay2Status ? 'ON' : 'OFF'}}</span>
+</p>

@@ -10,14 +10,21 @@ import { StatusService } from '../status.service';
 })
 export class StatusComponent implements OnInit, OnDestroy {
   @Input() status: Status;
-
   interval: any;
+  relay1 = 'OFF';
+  relay2 = 'OFF';
 
   constructor(private statusService: StatusService) { }
 
   getCurrentData() {
     this.statusService.currentData()
-      .subscribe(status => this.status = status);
+      .subscribe(status => {
+        this.status = status;
+        if (this.status) {
+          this.relay1 = this.status.relay1Status ? 'ON' : 'OFF';
+          this.relay2 = this.status.relay2Status ? 'ON' : 'OFF';
+        }
+      });
   }
 
   ngOnInit() {
@@ -29,5 +36,18 @@ export class StatusComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.interval);
+  }
+
+  changeRelay1() {
+    this.statusService.setRelayState(1, this.relay1)
+      .subscribe(result =>
+        console.log(result)
+      );
+  }
+  changeRelay2() {
+    this.statusService.setRelayState(2, this.relay2)
+    .subscribe(result =>
+      console.log(result)
+    );
   }
 }

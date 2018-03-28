@@ -8,6 +8,7 @@ from flask_restful import Resource
 
 from iot.common.auth import auth
 from iot.common.db import db
+from iot.common.mqtt import mqtt
 from iot.models.device import DeviceData
 
 class Status(Resource):
@@ -31,6 +32,19 @@ class Status(Resource):
                      'relay1Status': latest.relay1_status,
                      'relay2Status': latest.relay2_status}
         return jsonify(json_data)
+
+    @staticmethod
+    @auth.login_required
+    def put():
+        '''chage status'''
+        json_data = request.get_json(force=True)
+        if json_data['status'] == "ON":
+            payload = str(json_data['id']) + '1'
+        else:
+            payload = str(json_data['id']) + '0'
+
+        res = mqtt.publish('control', payload=payload, qos=2, retain=False)
+        return jsonify({'rc' : res.rc})
 
     @staticmethod
     @auth.login_required

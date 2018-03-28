@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HistoryService {
+  API_URL = 'api/history';
 
   constructor(private http: HttpClient) { }
 
@@ -13,7 +13,6 @@ export class HistoryService {
     .set('end', end)
     .set('interval', interval);
 
-    return this.http.get('api/history', {params})
-      .map(result => result);
+    return this.http.get(this.API_URL, {params});
   }
 }

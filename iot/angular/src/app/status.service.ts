@@ -9,11 +9,16 @@ import { Status } from './status';
 
 @Injectable()
 export class StatusService {
+  API_URL = 'api/status';
 
   constructor(private http: HttpClient) { }
 
+  setRelayState(id: number, input: string) {
+    return this.http.put(this.API_URL, {'id' : id, 'status' : input});
+  }
+
   currentData(): Observable<Status> {
-    return this.http.get<Status>('api/status')
+    return this.http.get<Status>(this.API_URL)
     .pipe(
       catchError(this.handleError<Status>('getStatus'))
     );

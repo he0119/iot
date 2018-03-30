@@ -38,7 +38,7 @@ class Status(Resource):
     def put():
         '''chage status'''
         json_data = request.get_json(force=True)
-        if json_data['status'] == "ON":
+        if json_data['status'] == 'ON':
             payload = str(json_data['id']) + '1'
         else:
             payload = str(json_data['id']) + '0'

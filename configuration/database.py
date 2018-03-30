@@ -1,10 +1,7 @@
-import os
-import sys
-from sqlalchemy import create_engine
-
-from sqlalchemy import Column, String, create_engine, Boolean, Integer, DateTime, Float
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import (Boolean, Column, DateTime, Float, Integer, String,
+                        create_engine)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 # 创建对象的基类:
 Base = declarative_base()

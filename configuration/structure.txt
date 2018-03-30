@@ -1,5 +1,7 @@
 iot\
     app\
+        angular\
+            dist\
         api\
             resources\
                 __init__.py

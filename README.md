@@ -22,23 +22,25 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
 	```
 3. Configuration
     
-    1. Create a ```py.conf``` file in configuration folder
-    ```
+    - Create a ```py.conf``` file in configuration folder
+    ```ini
     [admin]
-    username=
-    password=
-    email=
+    #info about your account
+    username=example
+    password=example
+    email=hello@example.com
 
     [mqtt]
-    id=test_server
-    username=
-    password=
+    #I current use broker.shiftr.io
+    id=mqtt client id
+    username=broker username
+    password=broker password
     url=broker.shiftr.io
     port=8883
     ```
-    2. Init database
+    - Init database
     ```
-    export FLASK_APP=hello.py(set FLASK_APP=hello.py on Windows)
+    export FLASK_APP=run.py(set FLASK_APP=run.py on Windows)
     flask db init
     flask db migrate -m "init db"
     flask db upgrade

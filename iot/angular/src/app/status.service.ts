@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -9,14 +9,16 @@ import { Status } from './status';
 
 @Injectable()
 export class StatusService {
+  API_URL = 'api/status';
 
-  private statusUrl = 'api/status';  // URL to web api
+  constructor(private http: HttpClient) { }
 
-  constructor(
-    private http: HttpClient) { }
+  setRelayState(id: number, input: string) {
+    return this.http.put(this.API_URL, {'id' : id, 'status' : input});
+  }
 
-  getStatus (): Observable<Status> {
-    return this.http.get<Status>(this.statusUrl)
+  currentData(): Observable<Status> {
+    return this.http.get<Status>(this.API_URL)
     .pipe(
       catchError(this.handleError<Status>('getStatus'))
     );

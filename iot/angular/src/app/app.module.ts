@@ -1,58 +1,48 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { HttpClientModule } from '@angular/common/http';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material/card';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonModule } from '@angular/material/button';
-
-import { NgModule } from '@angular/core';
-
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppComponent } from './app.component';
-
-import { environment } from '../environments/environment';
-
-import { StatusService } from './status.service';
-import { HistoryService } from './history.service';
-
+import { HomeComponent } from './home/home.component';
 import { StatusComponent } from './status/status.component';
-import { AppRoutingModule } from './/app-routing.module';
 import { HistoryComponent } from './history/history.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { HomeComponent } from './home/home.component';
+
+import { AppRoutingModule } from './/app-routing.module';
+
+import { HistoryService } from './history.service';
+import { StatusService } from './status.service';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     StatusComponent,
     HistoryComponent,
     NotfoundComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+>>>>>>> 6c60934... Add Service Worker
+=======
+>>>>>>> c05af55... Disable Service Worker
+
+    FormsModule,
+    AppRoutingModule,
     HttpClientModule,
 
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    AppRoutingModule,
+    MDBBootstrapModule.forRoot(),
   ],
+  schemas: [ NO_ERRORS_SCHEMA ],
   providers: [
-    StatusService,
     HistoryService,
+    StatusService,
   ],
   bootstrap: [AppComponent]
 })

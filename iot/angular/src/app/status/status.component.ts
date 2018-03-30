@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Status } from '../status';
 import { StatusService } from '../status.service';
@@ -6,28 +6,48 @@ import { StatusService } from '../status.service';
 @Component({
   selector: 'app-status',
   templateUrl: './status.component.html',
-  styleUrls: ['./status.component.css']
+  styleUrls: ['./status.component.scss']
 })
-export class StatusComponent implements OnInit {
+export class StatusComponent implements OnInit, OnDestroy {
   @Input() status: Status;
+  interval: any;
+  relay1 = 'OFF';
+  relay2 = 'OFF';
 
-  constructor(
-    private statusService: StatusService
-  ) { }
+  constructor(private statusService: StatusService) { }
 
-  ngOnInit(): void {
-    this.getStatus();
+  getCurrentData() {
+    this.statusService.currentData()
+      .subscribe(status => {
+        this.status = status;
+        if (this.status) {
+          this.relay1 = this.status.relay1Status ? 'ON' : 'OFF';
+          this.relay2 = this.status.relay2Status ? 'ON' : 'OFF';
+        }
+      });
   }
 
-  getRelayText(relay: boolean): string {
-    if (relay) {
-      return 'ON';
-    }
-    return 'OFF';
+  ngOnInit() {
+    this.getCurrentData();
+    this.interval = setInterval(() => {
+      this.getCurrentData();
+      }, 10000);
   }
 
-  getStatus(): void {
-    this.statusService.getStatus()
-      .subscribe(status => this.status = status);
+  ngOnDestroy() {
+    clearInterval(this.interval);
+  }
+
+  changeRelay1() {
+    this.statusService.setRelayState(1, this.relay1)
+      .subscribe(result =>
+        console.log(result)
+      );
+  }
+  changeRelay2() {
+    this.statusService.setRelayState(2, this.relay2)
+    .subscribe(result =>
+      console.log(result)
+    );
   }
 }

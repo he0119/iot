@@ -1,21 +1,26 @@
-<mat-toolbar color="primary">
-    <button mat-button routerLink="/">IOT</button>
-    <button mat-button routerLink="/status">Status</button>
-    <button mat-button routerLink="/history">History</button>
-    <!-- <span class="fill-remaining-space"></span>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>cached</mat-icon>
-          <span>Refresh</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          <span>Admin</span>
-        </button>
-      </mat-menu> -->
-</mat-toolbar>
-
-<router-outlet></router-outlet>
+<mdb-navbar SideClass="navbar navbar-expand-md navbar-dark bg-blue ie-nav" [containerInside]="false">
+  <logo>
+    <a class="logo navbar-brand" href="#">
+      <strong>IOT</strong>
+    </a>
+  </logo>
+  <links>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item waves-light" mdbRippleRadius>
+        <a class="nav-link" routerLink="/">Home</a>
+      </li>
+      <li class="nav-item waves-light" mdbRippleRadius>
+        <a class="nav-link" routerLink="status">Status</a>
+      </li>
+      <li class="nav-item waves-light" mdbRippleRadius>
+        <a class="nav-link" routerLink="history">History</a>
+      </li>
+    </ul>
+  </links>
+</mdb-navbar>
+<!-- Main -->
+<main>
+  <div class="text-center pt-2">
+    <router-outlet></router-outlet>
+  </div>
+</main>

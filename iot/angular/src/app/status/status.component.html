@@ -1,27 +1,57 @@
-<mat-list>
-  <mat-list-item>
-    <span class="label">Time:</span>
+<!-- <p>
+  <span class="label">Time:</span>
+  <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
+</p>
+<p>
+  <span class="label">Temperature:</span>
+  <span class="data">{{status?.temperature}}</span>
+</p>
+<p>
+  <span class="label">Relative Humidity:</span>
+  <span class="data">{{status?.relativeHumidity}}</span>
+</p>
+<p>
+  <span class="label">Relay1 Status:</span>
+  <span>{{status?.relay1Status ? 'ON' : 'OFF'}}</span>
+</p>
+<p>
+  <span class="label">Relay2 Status:</span>
+  <span>{{status?.relay2Status ? 'ON' : 'OFF'}}</span>
+</p> -->
+
+<div class="d-flex flex-column">
+  <div class="p-2">
+    <span class="h5">Time:&nbsp;</span>
     <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
-  </mat-list-item>
-  <mat-list-item>
-    <span class="label">Temperature:</span>
+  </div>
+  <div class="p-2">
+    <span class="h5">Temperature:&nbsp;</span>
     <span class="data">{{status?.temperature}}</span>
-  </mat-list-item>
-  <mat-list-item>
-    <span class="label">Relative Humidity:</span>
+  </div>
+  <div class="p-2">
+    <span class="h5">Relative Humidity:&nbsp;</span>
     <span class="data">{{status?.relativeHumidity}}</span>
-  </mat-list-item>
-  <mat-list-item>
-    <span class="label">Relay1 Status:</span>
-    <mat-slide-toggle color="primary" [checked]="status?.relay1Status">
-      {{getRelayText(status?.relay1Status)}}
-    </mat-slide-toggle>
-  </mat-list-item>
-  <mat-list-item>
-    <span class="label">Relay2 Status:</span>
-    <mat-slide-toggle color="primary"
-    [checked]="status?.relay2Status">
-      {{getRelayText(status?.relay2Status)}}
-    </mat-slide-toggle>
-  </mat-list-item>
-</mat-list>
+  </div>
+  <div class="p-2">
+    <span class="h5">Relay1 Status:&nbsp;</span>
+    <div class="btn-group" (click)="changeRelay1()">
+      <label class="btn btn-primary waves-light btn-sm" [(ngModel)]="relay1" mdbRadio="ON" mdbRippleRadius>
+          ON
+      </label>
+      <label class="btn btn-primary waves-light btn-sm" [(ngModel)]="relay1" mdbRadio="OFF" mdbRippleRadius>
+          OFF
+      </label>
+    </div>
+  </div>
+  <div class="p-2">
+    <span class="h5">Relay2 Status:&nbsp;</span>
+    <div class="btn-group" (click)="changeRelay2()">
+      <label class="btn btn-primary waves-light btn-sm" [(ngModel)]="relay2" mdbRadio="ON" mdbRippleRadius>
+          ON
+      </label>
+      <label class="btn btn-primary waves-light btn-sm" [(ngModel)]="relay2" mdbRadio="OFF" mdbRippleRadius>
+          OFF
+      </label>
+    </div>
+  </div>
+</div>

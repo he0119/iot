@@ -5,13 +5,13 @@ import { Chart } from 'chart.js';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
 
   chart = [];
 
-  constructor(private _history: HistoryService) { }
+  constructor(private historyService: HistoryService) { }
 
   ngOnInit() {
     const start = new Date();
@@ -21,7 +21,7 @@ export class HistoryComponent implements OnInit {
     const start_ep = Math.floor((start.getTime() + start.getTimezoneOffset() * 60 * 1000) / 1000);
     const end_ep = Math.floor((end.getTime() + end.getTimezoneOffset() * 60 * 1000) / 1000);
 
-    this._history.historyData(start_ep, end_ep, interval)
+    this.historyService.historyData(start_ep, end_ep, interval)
       .subscribe(res => {
         const temperature = res['list'].map(temp => temp.temperature);
         const relativeHumidity = res['list'].map(temp => temp.relative_humidity);

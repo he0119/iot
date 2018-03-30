@@ -36,8 +36,8 @@ def handle_mqtt_message(client, userdata, msg):
     try:
         res = requests.post(Config.API_URL,
                             data=json_data,
-                            auth=requests.auth.HTTPBasicAuth(Config.SERVER_USERNAME,
-                                                             Config.SERVER_PASSWORD))
+                            auth=requests.auth.HTTPBasicAuth(Config.ADMIN_USERNAME,
+                                                             Config.ADMIN_PASSWORD))
         if res.json()['message'] == 'failed':
             print('failed')
         if res.json()['message'] == 'already exist':

@@ -25,13 +25,6 @@ import { StatusService } from './status.service';
   ],
   imports: [
     BrowserModule,
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
->>>>>>> 6c60934... Add Service Worker
-=======
->>>>>>> c05af55... Disable Service Worker
 
     FormsModule,
     AppRoutingModule,

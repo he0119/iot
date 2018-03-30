@@ -66,4 +66,5 @@ target/
 node_modules/
 Sample/
 
+migrations/
 py.conf

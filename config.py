@@ -35,8 +35,10 @@ class Config(object):
     # get ca from server
     MQTT_TLS_CA_CERTS = None
 
-    SERVER_USERNAME = get_config('server', 'username')
+    ADMIN_USERNAME = get_config('admin', 'username')
 
-    SERVER_PASSWORD = get_config('server', 'password')
+    ADMIN_PASSWORD = get_config('admin', 'password')
+
+    ADMIN_EMAIL = get_config('admin', 'email')
 
     API_URL = 'http://127.0.0.1:5000/api/status'

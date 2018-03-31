@@ -1,6 +1,4 @@
 '''Flask App'''
-import sys
-
 import click
 
 from config import Config
@@ -13,13 +11,16 @@ app = create_app(Config)
 def createaccount():
     with app.app_context():
         if db.session.query(User).filter(User.username == Config.ADMIN_USERNAME).first():
-            print('You have already created a user')
+            click.echo('You have already created a user')
         else:
-            new_user = User(username=Config.ADMIN_USERNAME, email=Config.ADMIN_EMAIL)
-            new_user.set_password(Config.ADMIN_PASSWORD)
-            db.session.add(new_user)
-            db.session.commit()
-            print('Account Created')
+            if  db.session.query(User).filter(User.email == Config.ADMIN_EMAIL).first():
+                click.echo('This Email has been used, please change')
+            else:
+                new_user = User(username=Config.ADMIN_USERNAME, email=Config.ADMIN_EMAIL)
+                new_user.set_password(Config.ADMIN_PASSWORD)
+                db.session.add(new_user)
+                db.session.commit()
+                click.echo('Account Created')
 
 if __name__ == '__main__':
     app.run(threaded=True) #Fix Slow Requests on Local Flask Server

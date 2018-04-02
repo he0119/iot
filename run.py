@@ -9,6 +9,7 @@ app = create_app(Config)
 
 @app.cli.command()
 def createaccount():
+    '''create a new account'''
     with app.app_context():
         if db.session.query(User).filter(User.username == Config.ADMIN_USERNAME).first():
             click.echo('You have already created a user')

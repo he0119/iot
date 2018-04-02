@@ -34,13 +34,13 @@ def handle_mqtt_message(client, userdata, msg):
                             'time' : device_data[5]})
 
     try:
+        headers = {'Content-Type': 'application/json'}
         res = requests.post(Config.API_URL,
+                            headers=headers,
                             data=json_data,
                             auth=requests.auth.HTTPBasicAuth(Config.ADMIN_USERNAME,
                                                              Config.ADMIN_PASSWORD))
-        if res.json()['message'] == 'failed':
-            print('failed')
-        if res.json()['message'] == 'already exist':
-            print('already exist')
+        if res.status_code == 400:
+            print(res.json())
     except requests.exceptions.ConnectionError:
         print('iot server offline')

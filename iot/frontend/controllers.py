@@ -28,7 +28,6 @@ def angular_page():
 
 def angular_src(path):
     '''angular static files'''
-    print(path)
     if path.split('.')[-1] == 'js':
         return send_from_directory('angular/dist', path, mimetype='text/javascript')
     return send_from_directory('angular/dist', path)

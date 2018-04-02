@@ -18,8 +18,6 @@ def create_app(Config):
     migrate.init_app(app, db)
     mqtt.init_app(app)
 
-    import iot.common.mqtt
-
     from iot.api.api import api_bp
     from iot.frontend.controllers import frontend_bp
 

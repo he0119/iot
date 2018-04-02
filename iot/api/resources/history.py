@@ -29,6 +29,9 @@ class History(Resource):
             history data json list
         '''
         args = self.parser.parse_args()
+        if args['start'] is None or args['end'] is None or args['interval'] is None:
+            return {'error': 'Missing arguments'}, 400
+        
         json_data = [] #Empty list
         days_start = datetime.fromtimestamp(args['start'])
         days_end = datetime.fromtimestamp(args['end'])
@@ -56,4 +59,4 @@ class History(Resource):
                 history['relative_humidity'] = data['relative_humidity']
                 json_data.append(history)
 
-        return jsonify({'list': json_data})
+        return {'list': json_data}

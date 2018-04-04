@@ -13,8 +13,7 @@ def get_config(section, key):
 
 class Config(object):
     '''config'''
-    SECRET_KEY = os.environ.get('SECRET_KEY') or \
-        'the quick brown fox jumps over the lazy dog'
+    SECRET_KEY = get_config('database', 'secret_key')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(BASEDIR, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -42,3 +41,7 @@ class Config(object):
     ADMIN_EMAIL = get_config('admin', 'email')
 
     API_URL = 'http://127.0.0.1:5000/api/status'
+
+    SWAGGER_URL = get_config('swagger', 'url')
+
+    SWAGGER_API_URL = get_config('swagger', 'json')

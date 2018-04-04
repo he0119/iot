@@ -25,7 +25,16 @@ class Status(Resource):
 
     @staticmethod
     def get():
-        '''return json data(time, temperature, relative_humidity, relay1, relay2)'''
+        '''
+        return json data(time, temperature, relative_humidity, relay1, relay2)
+        ---
+        tags:
+          - status
+        responses:
+          200:
+            schema:
+              id: Status
+        '''
         json_data = {} #empty list
         max_id = db.session.query(DeviceData).with_entities(db.func.max(DeviceData.id)).scalar()
         latest = db.session.query(DeviceData).get(max_id)
@@ -43,10 +52,33 @@ class Status(Resource):
     @staticmethod
     @auth.login_required
     def put():
-        '''chage status'''
+        '''
+        chage status
+        ---
+        tags:
+          - status
+        parameters:
+          - in: body
+            name: body
+            schema:
+              required:
+                -id
+                -status
+              properties:
+                id:
+                  type: string
+                  format: password
+                  description: id for relay
+                status:
+                  type: string
+                  description: status for relay
+        responses:
+          201:
+            description: User info upfated
+        '''
         parser = reqparse.RequestParser()
-        parser.add_argument('status', required=True)
-        parser.add_argument('id', required=True)
+        parser.add_argument('status', required=True, location='json')
+        parser.add_argument('id', required=True, location='json')
         args = parser.parse_args()
 
         if args['status'] == 'ON':
@@ -61,16 +93,57 @@ class Status(Resource):
     @auth.login_required
     def post():
         '''
-        recive json data save it to database
-        return message:(succeed or failed)
+        Add data to database
+        ---
+        tags:
+          - status
+        parameters:
+          - in: body
+            name: body
+            schema:
+              id: Status
+              required:
+                - time
+                - temperature
+                - relative_humidity
+                - relay1
+                - relay2
+              properties:
+                code:
+                  type: integer
+                  description: code
+                time:
+                  type: string
+                  description: time
+                temperature:
+                  type: number
+                  description: temperature
+                relative_humidity:
+                  type: number
+                  description: relative_humidity
+                relay1:
+                  type: boolean
+                  description: relay1
+                relay2:
+                  type: boolean
+                  description: relay2
+        responses:
+          201:
+            description: Data added
+          400:
+            description: Data already exist
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('time', required=True)
-        parser.add_argument('temperature', type=float, required=True)
-        parser.add_argument('relative_humidity', type=float, required=True)
-        parser.add_argument('relay1', type=bool, required=True)
-        parser.add_argument('relay2', type=bool, required=True)
-        parser.add_argument('code', type=int, required=True)
+        parser.add_argument('time', required=True, location='json')
+        parser.add_argument('temperature', type=float,
+                            required=True, location='json')
+        parser.add_argument('relative_humidity', type=float,
+                            required=True, location='json')
+        parser.add_argument('relay1', type=bool,
+                            required=True, location='json')
+        parser.add_argument('relay2', type=bool,
+                            required=True, location='json')
+        parser.add_argument('code', type=int, required=True, location='json')
         args = parser.parse_args()
 
         new_data = DeviceData()
@@ -86,6 +159,6 @@ class Status(Resource):
                 db.session.add(new_data)
                 db.session.commit()
                 return {'message': 'data added'}, 201
-            return {'error': 'data already exist'}, 400
+            return {'message': 'data already exist'}, 400
         g.data = args  # if code is not 0, save current status to g.data
         return {'message': 'succeed'}, 201

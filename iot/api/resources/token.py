@@ -13,6 +13,18 @@ class Token(Resource):
     @staticmethod
     @auth.login_required
     def get():
-        '''get token'''
+        '''
+        get token
+        ---
+        tags:
+          - token
+        responses:
+          200:
+            schema:
+              properties:
+                token:
+                  type: string
+                  description: Token for current user
+        '''
         token = g.user.generate_auth_token()
         return {'token': token.decode('ascii')}

@@ -3,7 +3,6 @@ History Resource
 '''
 from datetime import datetime, timedelta
 
-from flask import jsonify
 from flask_restful import Resource, reqparse
 from sqlalchemy.sql.expression import and_
 
@@ -22,16 +21,31 @@ class History(Resource):
         self.parser.add_argument('interval', type=int)
 
     def get(self):
-        '''Get history data
-        Args:
-            start, end, interval
-        Return:
-            history data json list
+        '''
+        Get history data
+        ---
+        tags:
+          - history
+        parameters:
+          - in: query
+            name: start
+            type: integer
+          - in: query
+            name: end
+            type: integer
+          - in: query
+            name: interval
+            type: integer
+        responses:
+          200:
+            description: List of data
+          400:
+            description: Missing arguments
         '''
         args = self.parser.parse_args()
         if args['start'] is None or args['end'] is None or args['interval'] is None:
-            return {'error': 'Missing arguments'}, 400
-        
+            return {'message': 'Missing arguments'}, 400
+
         json_data = [] #Empty list
         days_start = datetime.fromtimestamp(args['start'])
         days_end = datetime.fromtimestamp(args['end'])

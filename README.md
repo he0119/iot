@@ -13,7 +13,6 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
     pip install -r requirements.txt
     ```
 2. Setup angular environment
-	
 	```bash
     cd iot\angular
     npm install -g @angular/cli
@@ -21,7 +20,7 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
     ng build --prod
 	```
 3. Configuration
-    
+
     - Create a ```py.conf``` file in configuration folder
     ```ini
     [admin]
@@ -30,6 +29,9 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
     password=example
     email=hello@example.com
 
+    [database]
+    secret_key=your key
+
     [mqtt]
     #I currently use shiftr.io
     id=mqtt client id
@@ -37,6 +39,11 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
     password=broker password
     url=broker.shiftr.io
     port=8883
+
+    [swagger]
+    #swagger settings
+    url=/api/docs
+    json=http://127.0.0.1:5000/api/swagger.json
     ```
     - Init database
     ```bash

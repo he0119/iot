@@ -5,6 +5,7 @@ from flask import Blueprint, current_app, jsonify
 from flask_restful import Api
 from flask_swagger import swagger
 
+from iot.api.resources.devices import Devices
 from iot.api.resources.history import History
 from iot.api.resources.status import Status
 from iot.api.resources.token import Token
@@ -17,7 +18,7 @@ api = Api(api_bp)
 def spec():
     '''swagger'''
     swag = swagger(current_app)
-    swag['info']['version'] = "0.1.0"
+    swag['info']['version'] = "0.2.0"
     swag['info']['title'] = "My API"
     return jsonify(swag)
 
@@ -25,3 +26,4 @@ api.add_resource(Token, '/token')
 api.add_resource(Status, '/status')
 api.add_resource(History, '/history')
 api.add_resource(Users, '/users')
+api.add_resource(Devices, '/devices')

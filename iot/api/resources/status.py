@@ -9,7 +9,7 @@ from flask_restful import Resource, reqparse
 from iot.common.auth import auth
 from iot.common.db import db
 from iot.common.mqtt import mqtt
-from iot.models.device import DeviceData
+from iot.models.devicedata import DeviceData
 
 
 class Status(Resource):

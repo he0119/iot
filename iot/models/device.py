@@ -1,23 +1,28 @@
 '''
 Device Model
 '''
+from datetime import datetime
+
 from iot.common.db import db
 
-class DeviceData(db.Model):
-    '''Device Data(id, time, temperature, relative_humidity, relay1_status, relay2_status)'''
-    id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.DateTime, index=True)
-    temperature = db.Column(db.Float)
-    relative_humidity = db.Column(db.Float)
-    relay1_status = db.Column(db.Boolean)
-    relay2_status = db.Column(db.Boolean)
 
-    def set_data(self, temperature, relative_humidity, relay1_status, relay2_status, time):
-        self.time = time
-        self.temperature = temperature
-        self.relative_humidity = relative_humidity
-        self.relay1_status = relay1_status
-        self.relay2_status = relay2_status
+class Device(db.Model):
+    '''device model(id, name, schema)'''
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True, unique=True)
+    schema = db.Column(db.PickleType)
+    create_on = db.Column(db.DateTime, default=datetime.utcnow())
+    last_connect_on = db.Column(db.DateTime)
+    offline_on = db.Column(db.DateTime)
+    online_status = db.Column(db.Boolean)
+
+    def change_status(self, status):
+        '''Change online status'''
+        self.online_status = status
+        if status:
+            self.last_connect_on = datetime.utcnow()
+        else:
+            self.offline_on = datetime.utcnow()
 
     def __repr__(self):
-        return '<DeviceData {}>'.format(self.time)
+        return '<Device %r>' % self.name

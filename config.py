@@ -19,7 +19,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MQTT_CLIENT_ID = get_config('mqtt', 'id')
-    # use the free broker from HIVEMQ
+    # use the free broker
     MQTT_BROKER_URL = get_config('mqtt', 'url')
     # default port for non-tls connection
     MQTT_BROKER_PORT = int(get_config('mqtt', 'port'))
@@ -27,21 +27,16 @@ class Config(object):
     MQTT_USERNAME = get_config('mqtt', 'username')
     # set the password here if the broker demands authentication
     MQTT_PASSWORD = get_config('mqtt', 'password')
-    # set the time interval for sending a ping to the broker to 5 seconds
-    MQTT_KEEPALIVE = 5
     # set TLS to disabled for testing purposes
     MQTT_TLS_ENABLED = True
-    # get ca from server
+    # get CA from server
     MQTT_TLS_CA_CERTS = None
 
     ADMIN_USERNAME = get_config('admin', 'username')
-
     ADMIN_PASSWORD = get_config('admin', 'password')
-
     ADMIN_EMAIL = get_config('admin', 'email')
 
     API_URL = 'http://127.0.0.1:5000/api/status'
 
     SWAGGER_URL = get_config('swagger', 'url')
-
     SWAGGER_API_URL = get_config('swagger', 'json')

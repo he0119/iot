@@ -1,7 +1,7 @@
 '''
 Status Resource
 '''
-from datetime import datetime, timezone
+from datetime import datetime
 
 from flask import g
 from flask_restful import Resource, reqparse
@@ -9,6 +9,7 @@ from flask_restful import Resource, reqparse
 from iot.common.auth import auth
 from iot.common.db import db
 from iot.common.mqtt import mqtt
+from iot.common.utils import datetime2iso
 from iot.models.devicedata import DeviceData
 
 
@@ -39,10 +40,7 @@ class Status(Resource):
         max_id = db.session.query(DeviceData).with_entities(db.func.max(DeviceData.id)).scalar()
         latest = db.session.query(DeviceData).get(max_id)
 
-        #Set time zone because database don't have timezone info
-        utc = latest.time.replace(tzinfo=timezone.utc)
-
-        json_data = {'time': utc.isoformat(),  # Use ISO 8601
+        json_data = {'time': datetime2iso(latest.time),  # Use ISO 8601
                      'temperature': latest.temperature,
                      'relativeHumidity': latest.relative_humidity,
                      'relay1Status': latest.relay1_status,

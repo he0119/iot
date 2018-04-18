@@ -1,11 +1,13 @@
-//MQTT&WIFI
+//MQTT&WIFI&OTA
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
+#include <ArduinoOTA.h>
 
 //config
 const char *ssid = "";
 const char *password = "";
+const char *mqtt_clientname = "";
 const char *mqtt_server = "";
 const char *mqtt_username = "";
 const char *mqtt_password = "";
@@ -56,17 +58,27 @@ void setup()
 
   client.setServer(mqtt_server, 8883);
   client.setCallback(callback); //设置MQTT服务
+
+  //OTA设置
+  // Port defaults to 8266
+  ArduinoOTA.setPort(8266);
+  // Hostname defaults to esp8266-[ChipID]
+  ArduinoOTA.setHostname("esp8266");
+  // No authentication by default
+  //  ArduinoOTA.setPassword("admin");
+  ArduinoOTA.begin();
 }
 
 void setup_wifi()
 {
   delay(10);
+  WiFi.mode(WIFI_STA);
   // We start by connecting to a WiFi network
   WiFi.begin(ssid, password);
-
-  while (WiFi.status() != WL_CONNECTED)
+  while (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
-    delay(500);
+    delay(5000);
+    ESP.restart();
   }
 }
 
@@ -111,7 +123,7 @@ void reconnect()
   while (!client.connected())
   {
     // Attempt to connect
-    if (client.connect("arduino", mqtt_username, mqtt_password))
+    if (client.connect(mqtt_clientname, mqtt_username, mqtt_password))
     {
       // Once connected, publish an announcement...
       client.publish("MQTT", "hello world");
@@ -171,12 +183,15 @@ void upload(String method)
 
 void loop()
 {
+  ArduinoOTA.handle(); //OTA
+
   if (!client.connected())
   { //检查MQTT服务器状态，自动重连
     reconnect();
   }
+
   timeClient.update(); //更新NTP时间
-  client.loop();
+  client.loop();       //MQTT loop
 
   if (millis() - lastMillis > 10000)
   {

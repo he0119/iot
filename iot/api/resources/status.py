@@ -137,23 +137,19 @@ class Status(Resource):
                             required=True, location='json')
         parser.add_argument('relative_humidity', type=float,
                             required=True, location='json')
-        parser.add_argument('relay1', type=bool,
+        parser.add_argument('relay1_status', type=bool,
                             required=True, location='json')
-        parser.add_argument('relay2', type=bool,
+        parser.add_argument('relay2_status', type=bool,
                             required=True, location='json')
         parser.add_argument('code', type=int, required=True, location='json')
         args = parser.parse_args()
 
         new_data = DeviceData()
-        time = datetime.strptime(args['time'], '%Y-%m-%d %H:%M:%S')
+        args['time'] = datetime.strptime(args['time'], '%Y-%m-%d %H:%M:%S')
         if args['code'] == 0:
             if not db.session.query(DeviceData.time).filter(
-                    DeviceData.time == time).all():
-                new_data.set_data(args['temperature'],
-                                  args['relative_humidity'],
-                                  args['relay1'],
-                                  args['relay2'],
-                                  time)
+                    DeviceData.time == args['time']).all():
+                new_data.set_data(args)
                 db.session.add(new_data)
                 db.session.commit()
                 return {'message': 'data added'}, 201

@@ -1,38 +1,30 @@
-<!-- <p>
-  <span class="label">Time:</span>
-  <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
-</p>
-<p>
-  <span class="label">Temperature:</span>
-  <span class="data">{{status?.temperature}}</span>
-</p>
-<p>
-  <span class="label">Relative Humidity:</span>
-  <span class="data">{{status?.relativeHumidity}}</span>
-</p>
-<p>
-  <span class="label">Relay1 Status:</span>
-  <span>{{status?.relay1Status ? 'ON' : 'OFF'}}</span>
-</p>
-<p>
-  <span class="label">Relay2 Status:</span>
-  <span>{{status?.relay2Status ? 'ON' : 'OFF'}}</span>
-</p> -->
-
-<div class="d-flex flex-column">
-  <div class="p-2">
+<mat-list>
+  <mat-list-item>
     <span class="h5">Time:&nbsp;</span>
     <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
-  </div>
-  <div class="p-2">
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
     <span class="h5">Temperature:&nbsp;</span>
     <span class="data">{{status?.temperature}}</span>
-  </div>
-  <div class="p-2">
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
     <span class="h5">Relative Humidity:&nbsp;</span>
     <span class="data">{{status?.relativeHumidity}}</span>
-  </div>
-  <div class="p-2">
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <span class="h5">Relay1 Status:&nbsp;</span>
+    <span class="data">{{status?.relay1Status}}</span>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <span class="h5">Relay2 Status:&nbsp;</span>
+    <span class="data">{{status?.relay2Status}}</span>
+  </mat-list-item>
+</mat-list>
+<!-- <div class="p-2">
     <span class="h5">Relay1 Status:&nbsp;</span>
     <div class="btn-group" (click)="changeRelay1()">
       <label class="btn btn-primary waves-light btn-sm" [(ngModel)]="relay1" mdbRadio="ON" mdbRippleRadius>
@@ -53,5 +45,4 @@
           OFF
       </label>
     </div>
-  </div>
-</div>
+  </div> -->

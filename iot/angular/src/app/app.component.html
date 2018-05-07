@@ -1,26 +1,25 @@
-<mdb-navbar SideClass="navbar navbar-expand-md navbar-dark bg-blue ie-nav" [containerInside]="false">
-  <logo>
-    <a class="logo navbar-brand" href="#">
-      <strong>IOT</strong>
-    </a>
-  </logo>
-  <links>
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link" routerLink="/">Home</a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link" routerLink="status">Status</a>
-      </li>
-      <li class="nav-item waves-light" mdbRippleRadius>
-        <a class="nav-link" routerLink="history">History</a>
-      </li>
-    </ul>
-  </links>
-</mdb-navbar>
-<!-- Main -->
-<main>
-  <div class="text-center pt-2">
-    <router-outlet></router-outlet>
-  </div>
-</main>
+<div class="container" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="app-name">IOT</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list>
+          <mat-list-item>
+              <a class="nav-link" routerLink="status">Status</a>
+          </mat-list-item>
+          <mat-list-item>
+              <a class="nav-link" routerLink="history">History</a>
+          </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

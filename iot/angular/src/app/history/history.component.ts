@@ -5,7 +5,7 @@ import { Chart } from 'chart.js';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
 

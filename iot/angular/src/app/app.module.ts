@@ -1,42 +1,50 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { StatusComponent } from './status/status.component';
 import { HistoryComponent } from './history/history.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { StatusComponent } from './status/status.component';
 
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HistoryService } from './history.service';
-import { StatusService } from './status.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    StatusComponent,
     HistoryComponent,
+    HomeComponent,
+    LoginComponent,
     NotfoundComponent,
+    StatusComponent,
   ],
   imports: [
     BrowserModule,
-
     FormsModule,
-    AppRoutingModule,
     HttpClientModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
 
-    MDBBootstrapModule.forRoot(),
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatButtonModule,
+    MatDividerModule,
   ],
-  schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [
-    HistoryService,
-    StatusService,
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

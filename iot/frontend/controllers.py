@@ -6,6 +6,7 @@ import re
 from flask import Blueprint, jsonify, make_response, send_from_directory
 
 frontend_bp = Blueprint('frontend_bp', __name__)
+angular_dir = 'angular/dist/angular'
 
 @frontend_bp.route('/', defaults={'path': ''})
 @frontend_bp.route('/<path:path>')
@@ -24,10 +25,10 @@ def catch_all(path):
 
 def angular_page():
     '''index.html'''
-    return send_from_directory('angular/dist', 'index.html')
+    return send_from_directory(angular_dir, 'index.html')
 
 def angular_src(path):
     '''angular static files'''
     if path.split('.')[-1] == 'js':
-        return send_from_directory('angular/dist', path, mimetype='text/javascript')
-    return send_from_directory('angular/dist', path)
+        return send_from_directory(angular_dir, path, mimetype='text/javascript')
+    return send_from_directory(angular_dir, path)

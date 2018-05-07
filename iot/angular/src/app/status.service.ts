@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Status } from './status';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class StatusService {
   API_URL = 'api/status';
 

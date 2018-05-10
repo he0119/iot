@@ -3,7 +3,7 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
 
 ## Requirements
 * Python 3.6.5
-* Node.js 8.10.0
+* Node.js 8.11.1
 
 ## Getting Started
 1. Setup python environment
@@ -16,7 +16,7 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
 	```bash
     cd iot\angular
     npm install -g @angular/cli
-	npm install
+	  npm install
     ng build --prod
 	```
 3. Configuration

@@ -7,7 +7,6 @@ import {ChangeDetectorRef, Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
   mobileQuery: MediaQueryList;
 
   private _mobileQueryListener: () => void;

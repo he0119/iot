@@ -145,7 +145,8 @@ class Status(Resource):
         args = parser.parse_args()
 
         new_data = DeviceData()
-        args['time'] = datetime.strptime(args['time'], '%Y-%m-%d %H:%M:%S')
+
+        args['time'] = datetime.utcfromtimestamp(int(args['time']))
         if args['code'] == 0:
             if not db.session.query(DeviceData.time).filter(
                     DeviceData.time == args['time']).all():

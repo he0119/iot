@@ -4,13 +4,17 @@
 #include <WiFiClientSecure.h>
 #include <ArduinoOTA.h>
 
-//config
-const char *ssid = "";
-const char *password = "";
-const char *mqtt_clientname = "";
-const char *mqtt_server = "";
-const char *mqtt_username = "";
-const char *mqtt_password = "";
+//Config
+//const char *ssid = "";
+//const char *password = "";
+
+//const char *mqtt_clientname = "";
+//const char *mqtt_server = "";
+//const char *mqtt_username = "";
+//const char *mqtt_password = "";
+
+//const char *arduino_ota_name = "";
+#include "config.h"
 
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
@@ -63,9 +67,9 @@ void setup()
   // Port defaults to 8266
   ArduinoOTA.setPort(8266);
   // Hostname defaults to esp8266-[ChipID]
-  ArduinoOTA.setHostname("esp8266");
+  ArduinoOTA.setHostname(arduino_ota_name);
   // No authentication by default
-  //  ArduinoOTA.setPassword("admin");
+  // ArduinoOTA.setPassword("admin");
   ArduinoOTA.begin();
 }
 
@@ -162,7 +166,7 @@ void read_data()
     relative_humidity = String(event.relative_humidity);
   }
 
-  data_readtime = timeClient.getFormattedDate() + " " + timeClient.getFormattedTime(); //读取数据的时间
+  data_readtime = timeClient.getEpochTime(); //读取数据的时间
 }
 
 void upload(String method)

@@ -5,15 +5,6 @@
 #include <ArduinoOTA.h>
 
 //Config
-//const char *ssid = "";
-//const char *password = "";
-
-//const char *mqtt_clientname = "";
-//const char *mqtt_server = "";
-//const char *mqtt_username = "";
-//const char *mqtt_password = "";
-
-//const char *arduino_ota_name = "";
 #include "config.h"
 
 WiFiClientSecure espClient;
@@ -30,7 +21,7 @@ NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
-#define DHTPIN D4     // Pin which is connected to the DHT sensor.
+#define DHTPIN D4     //连接到DHT传感器的端口
 #define DHTTYPE DHT22 // DHT 22
 DHT_Unified dht(DHTPIN, DHTTYPE);
 
@@ -42,7 +33,7 @@ String relay1_status = "OFF";
 String relay2_status = "OFF";
 String data_readtime = "";
 #define RELAY1_PIN D1
-#define RELAY2_PIN D2 // Pin which is connected to the RELAY.
+#define RELAY2_PIN D2 //连接继电器的端口
 
 void setup()
 {
@@ -182,7 +173,7 @@ void upload(String method)
   }
 
   payload.toCharArray(msg, 50);
-  client.publish("status", msg);
+  client.publish(mqtt_upload_topic, msg);
 }
 
 void loop()
@@ -195,7 +186,7 @@ void loop()
   }
 
   timeClient.update(); //更新NTP时间
-  client.loop();       //MQTT loop
+  client.loop();       // MQTT loop
 
   if (millis() - lastMillis > 10000)
   {

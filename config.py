@@ -19,18 +19,20 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MQTT_CLIENT_ID = get_config('mqtt', 'id')
-    # use the free broker
+    # Use the free broker
     MQTT_BROKER_URL = get_config('mqtt', 'url')
-    # default port for non-tls connection
+    # Default port for non-tls connection
     MQTT_BROKER_PORT = int(get_config('mqtt', 'port'))
-    # set the username here if you need authentication for the broker
+    # Set the username here if you need authentication for the broker
     MQTT_USERNAME = get_config('mqtt', 'username')
-    # set the password here if the broker demands authentication
+    # Set the password here if the broker demands authentication
     MQTT_PASSWORD = get_config('mqtt', 'password')
-    # set TLS to disabled for testing purposes
+    # Set TLS to disabled for testing purposes
     MQTT_TLS_ENABLED = True
-    # get CA from server
+    # Get CA from server
     MQTT_TLS_CA_CERTS = None
+    # Get topic name for receving data
+    MQTT_TOPIC = get_config('mqtt', 'topic')
 
     ADMIN_USERNAME = get_config('admin', 'username')
     ADMIN_PASSWORD = get_config('admin', 'password')

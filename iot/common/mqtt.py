@@ -13,7 +13,7 @@ def handle_connect(client, userdata, flags, rc):
     # Subscribing in on_connect() means that if we lose the connection and
     client.publish('MQTT', 'hello world')
     # reconnect then subscriptions will be renewed.
-    client.subscribe('status')
+    client.subscribe(Config.MQTT_TOPIC)
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, msg):

@@ -1,0 +1,28 @@
+<!-- TODO: figure out if the <nav> should go inside of a <header> element. -->
+<nav class="navbar-header">
+  <a mat-button class="button" routerLink="/" aria-label="IOT">
+    <span>IOT</span>
+  </a>
+  <a mat-button class="navbar-hide-small button"
+      *ngFor="let key of sectionKeys"
+      [routerLink]="key">{{sections[key]}}</a>
+  <div class="flex-spacer"></div>
+  <a mat-button class="button navbar-hide-small" href="https://github.com/he0119/iot"
+      aria-label="GitHub Repository">
+    <img class="angular-logo"
+          src="../../../assets/img/homepage/github-circle-white-transparent.svg"
+          alt="iot">
+    GitHub
+  </a>
+  <a mat-icon-button class="button navbar-show-small"
+      href="https://github.com/he0119/iot" aria-label="GitHub Repository">
+    <img class="angular-logo"
+          src="../../../assets/img/homepage/github-circle-white-transparent.svg"
+          alt="iot">
+  </a>
+</nav>
+<nav class="navbar navbar-show-small">
+  <a mat-button class="navbar-link"
+    *ngFor="let key of sectionKeys"
+    [routerLink]="key">{{sections[key]}}</a>
+</nav>

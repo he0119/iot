@@ -1,3 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import './app/shared/navbar/navbar-theme';
+// Define the light theme.
+$primary: mat-palette($mat-indigo);
+$accent:  mat-palette($mat-pink, A200, A100, A400);
 
-body { margin: 0; }
+$theme: mat-light-theme($primary, $accent);
+@include nav-bar-theme($theme);

@@ -1,28 +1,27 @@
-<!-- TODO: figure out if the <nav> should go inside of a <header> element. -->
-<mat-toolbar class="navbar-header" color="primary">
-  <a mat-button class="button" routerLink="/" aria-label="IOT">
+<nav class="navbar-header" color="primary">
+  <a mat-button routerLink="/" aria-label="IOT">
     <span class="header-text">IOT</span>
   </a>
-  <a mat-button class="navbar-hide-small button"
+  <a mat-button class="navbar-hide-small"
       *ngFor="let key of sectionKeys"
       [routerLink]="key">{{sections[key]}}</a>
   <div class="flex-spacer"></div>
-  <a mat-button class="button navbar-hide-small" href="https://github.com/he0119/iot"
+  <a mat-button class="navbar-hide-small" href="https://github.com/he0119/iot"
       aria-label="GitHub Repository">
-    <img class="angular-logo"
+    <img class="github-logo"
           src="../../../assets/img/homepage/github-circle-white-transparent.svg"
           alt="iot">
     GitHub
   </a>
-  <a mat-icon-button class="button navbar-show-small"
+  <a mat-icon-button class="navbar-show-small"
       href="https://github.com/he0119/iot" aria-label="GitHub Repository">
-    <img class="angular-logo"
+    <img class="navbar-github-logo"
           src="../../../assets/img/homepage/github-circle-white-transparent.svg"
           alt="iot">
   </a>
-</mat-toolbar>
-<mat-toolbar class="navbar navbar-show-small" color="primary">
+</nav>
+<nav class="navbar navbar-show-small" color="primary">
   <a mat-button class="navbar-link"
     *ngFor="let key of sectionKeys"
     [routerLink]="key">{{sections[key]}}</a>
-</mat-toolbar>
+</nav>

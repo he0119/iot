@@ -18,19 +18,16 @@ WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
 
 //DHT
-#include <Adafruit_Sensor.h>
-#include <DHT.h>
-#include <DHT_U.h>
-#define DHTPIN D4     //连接到DHT传感器的端口
-#define DHTTYPE DHT22 // DHT 22
-DHT_Unified dht(DHTPIN, DHTTYPE);
+#include <dht.h>
+#define DHT11_PIN D4  //连接到DHT传感器的端口
+dht DHT;
 
 //Status
 unsigned long lastMillis = 0;
 String temperature = "";
 String relative_humidity = "";
-String relay1_status = "OFF";
-String relay2_status = "OFF";
+String relay1_status = "0";
+String relay2_status = "0";
 String data_readtime = "";
 #define RELAY1_PIN D1
 #define RELAY2_PIN D2 //连接继电器的端口
@@ -43,9 +40,6 @@ void setup()
   digitalWrite(BUILTIN_LED, HIGH); //初始为关闭状态
   digitalWrite(RELAY1_PIN, LOW);
   digitalWrite(RELAY2_PIN, LOW);
-
-  dht.begin(); //DHT温湿度传感器启动
-  delay(200);
 
   setup_wifi(); //配置WIFI
 
@@ -79,6 +73,8 @@ void setup_wifi()
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
+  data_readtime = timeClient.getEpochTime(); //修改数据的时间
+
   if ((char)payload[0] == '0')
   {
     upload("1"); //直接上传当前状态
@@ -89,26 +85,28 @@ void callback(char *topic, byte *payload, unsigned int length)
     if ((char)payload[1] == '1')
     {
       digitalWrite(RELAY1_PIN, HIGH); // Turn the RELAY on
-      relay1_status = "ON";
+      relay1_status = "1";
     }
     else
     {
       digitalWrite(RELAY1_PIN, LOW); // Turn the RELAY off by making the voltage LOW
-      relay1_status = "OFF";
+      relay1_status = "0";
     }
+    upload("0");
   }
   if ((char)payload[0] == '2')
   {
     if ((char)payload[1] == '1')
     {
       digitalWrite(RELAY2_PIN, HIGH); // Turn the RELAY on
-      relay2_status = "ON";
+      relay2_status = "1";
     }
     else
     {
       digitalWrite(RELAY2_PIN, LOW); // Turn the RELAY off by making the voltage LOW
-      relay2_status = "OFF";
+      relay2_status = "0";
     }
+    upload("0");
   }
 }
 
@@ -135,28 +133,18 @@ void reconnect()
 
 void read_data()
 {
-  // Get temperature event.
-  sensors_event_t event;
-  dht.temperature().getEvent(&event);
-  if (isnan(event.temperature))
+  int chk = DHT.read11(DHT11_PIN);
+  switch (chk)
   {
+    case DHTLIB_OK:
+		relative_humidity = String(DHT.humidity);
+    temperature = String(DHT.temperature);
+		break;
+    default:
+		relative_humidity = "Error";
     temperature = "Error";
+		break;
   }
-  else
-  {
-    temperature = String(event.temperature);
-  }
-  // Get humidity event.
-  dht.humidity().getEvent(&event);
-  if (isnan(event.relative_humidity))
-  {
-    relative_humidity = "Error";
-  }
-  else
-  {
-    relative_humidity = String(event.relative_humidity);
-  }
-
   data_readtime = timeClient.getEpochTime(); //读取数据的时间
 }
 
@@ -174,6 +162,7 @@ void upload(String method)
 
   payload.toCharArray(msg, 50);
   client.publish(mqtt_upload_topic, msg);
+  lastMillis = millis();
 }
 
 void loop()
@@ -190,7 +179,6 @@ void loop()
 
   if (millis() - lastMillis > 10000)
   {
-    lastMillis = millis();
     read_data();
     upload("0"); //每10秒上传一次数据
   }

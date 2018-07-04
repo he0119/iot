@@ -14,8 +14,8 @@ export class StatusService {
 
   constructor(private http: HttpClient) { }
 
-  setRelayState(id: number, input: string) {
-    return this.http.put(this.API_URL, {'id' : id, 'status' : input});
+  setRelayState(id: number, input: boolean) {
+    return this.http.put(this.API_URL, {'id' : id, 'status' : input ? '1' : '0'});
   }
 
   currentData(): Observable<Status> {

@@ -79,7 +79,7 @@ class Status(Resource):
         parser.add_argument('id', required=True, location='json')
         args = parser.parse_args()
 
-        if args['status'] == 'ON':
+        if args['status'] == '1':
             payload = str(args['id']) + '1'
         else:
             payload = str(args['id']) + '0'

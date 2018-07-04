@@ -11,6 +11,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule, MatMenuModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { HistoryComponent } from './pages/history/history.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -36,7 +37,8 @@ import { StatusComponent } from './pages/status/status.component';
     MatListModule,
     MatButtonModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

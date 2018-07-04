@@ -11,8 +11,8 @@ import { StatusService } from '../../status.service';
 export class StatusComponent implements OnInit, OnDestroy {
   @Input() status: Status;
   interval: any;
-  relay1 = 'OFF';
-  relay2 = 'OFF';
+  relay1 = false;
+  relay2 = false;
 
   constructor(private statusService: StatusService) { }
 
@@ -21,8 +21,8 @@ export class StatusComponent implements OnInit, OnDestroy {
       .subscribe(status => {
         this.status = status;
         if (this.status) {
-          this.relay1 = this.status.relay1Status ? 'ON' : 'OFF';
-          this.relay2 = this.status.relay2Status ? 'ON' : 'OFF';
+          this.relay1 = this.status.relay1Status;
+          this.relay2 = this.status.relay2Status;
         }
       });
   }
@@ -39,13 +39,13 @@ export class StatusComponent implements OnInit, OnDestroy {
   }
 
   changeRelay1() {
-    this.statusService.setRelayState(1, this.relay1)
+    this.statusService.setRelayState(1, !this.relay1)
       .subscribe(result =>
         console.log(result)
       );
   }
   changeRelay2() {
-    this.statusService.setRelayState(2, this.relay2)
+    this.statusService.setRelayState(2, !this.relay2)
     .subscribe(result =>
       console.log(result)
     );

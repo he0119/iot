@@ -29,8 +29,8 @@ def handle_mqtt_message(client, userdata, msg):
     json_data = json.dumps({'code' : int(device_data[0]),
                             'temperature' : float(device_data[1]) if device_data[1] else None,
                             'relative_humidity': float(device_data[2]) if device_data[2] else None,
-                            'relay1_status': True if device_data[3] == 'ON' else False,
-                            'relay2_status': True if device_data[4] == 'ON' else False,
+                            'relay1_status': True if device_data[3] == '1' else False,
+                            'relay2_status': True if device_data[4] == '1' else False,
                             'time' : device_data[5]})
 
     try:

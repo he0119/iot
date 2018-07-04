@@ -19,7 +19,7 @@ NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
 
 //DHT
 #include <dht.h>
-#define DHT11_PIN D4  //连接到DHT传感器的端口
+#define DHT22_PIN D4  //连接到DHT传感器的端口
 dht DHT;
 
 //Status
@@ -133,7 +133,7 @@ void reconnect()
 
 void read_data()
 {
-  int chk = DHT.read11(DHT11_PIN);
+  int chk = DHT.read22(DHT22_PIN);
   switch (chk)
   {
     case DHTLIB_OK:

@@ -1,33 +1,15 @@
-iot\
-    app\
-        angular\
-            dist\
-        api\
-            resources\
-                __init__.py
-                token.py
-                user.py
-                device.py
-            __init__.py
-            api.py
-        common\
-            __init__.py
-            auth.py
-            db.py
-        models\
-            __init__.py
-            user.py
-            device.py
-        static\
-        frontend\
-            __init__.py
-            controllers.py
-        __init__.py
-        app.py
-    arduino\
-    migration\
-    configurations\
-    iot.py
-    mqtt.py
-    config.py
-    app.db
+├─arduino
+│  └─esp8266
+├─configuration
+├─iot
+│  ├─angular
+│  │  └─iot
+│  │      └─dist
+│  │         └─iot
+│  ├─api
+│  │  └─resources
+│  ├─common
+│  ├─frontend
+│  ├─models
+│  └─static
+└─migrations

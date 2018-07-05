@@ -21,30 +21,7 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
 	```
 3. Configuration
 
-    - Create a ```py.conf``` file in configuration folder
-    ```ini
-    [admin]
-    #info about your account
-    username=example
-    password=example
-    email=hello@example.com
-
-    [database]
-    secret_key=your key
-
-    [mqtt]
-    #I currently use shiftr.io
-    id=mqtt client id
-    username=broker username
-    password=broker password
-    url=broker.shiftr.io
-    port=8883
-
-    [swagger]
-    #swagger settings
-    url=/api/docs
-    json=http://127.0.0.1:5000/api/swagger.json
-    ```
+    - Rename ```py.example.conf``` to ```py.conf``` in configuration folder and finish configuration
     - Init database
     ```bash
     export FLASK_APP=run.py(set FLASK_APP=run.py on Windows)

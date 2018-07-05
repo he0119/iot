@@ -9,7 +9,6 @@ from config import Config
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
     '''The callback for when the client receives a CONNACK response from the server.'''
-    print('MQTT : Connected with result code ' + str(rc))
     # Subscribing in on_connect() means that if we lose the connection and
     client.publish('MQTT', 'hello world')
     # reconnect then subscriptions will be renewed.

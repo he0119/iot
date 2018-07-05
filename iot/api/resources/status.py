@@ -85,7 +85,7 @@ class Status(Resource):
             payload = str(args['id']) + '0'
 
         res = mqtt.publish('control', payload=payload, qos=2, retain=False)
-        return {'rc': res.rc}, 201
+        return {'rc': res}, 201
 
     @staticmethod
     @auth.login_required

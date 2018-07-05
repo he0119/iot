@@ -36,7 +36,6 @@ class Devices(Resource):
         device_list = []
         devices = db.session.query(Device).all()
         for device in devices:
-
             device_list.append({'name': device.name,
                                 'schema': device.schema,
                                 'createOn': datetime2iso(device.create_on),
@@ -85,7 +84,7 @@ class Devices(Resource):
         device = Device(name=args['name'], schema=args['schema'])
         db.session.add(device)
         db.session.commit()
-        return {'name': device.name, 'message': 'Account Created'}, 201
+        return {'name': device.name, 'message': 'Device Created'}, 201
 
     @staticmethod
     @auth.login_required

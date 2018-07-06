@@ -33,6 +33,8 @@ class Config(object):
     MQTT_TLS_CA_CERTS = None
     # Get topic name for receving data
     MQTT_TOPIC = get_config('mqtt', 'topic')
+    # Get topic name for controling device
+    MQTT_CONTROL_TOPIC = get_config('mqtt', 'control_topic')
 
     ADMIN_USERNAME = get_config('admin', 'username')
     ADMIN_PASSWORD = get_config('admin', 'password')

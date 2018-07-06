@@ -3,7 +3,7 @@ Status Resource
 '''
 from datetime import datetime
 
-from flask import g
+from flask import current_app
 from flask_restful import Resource, reqparse
 
 from iot.common.auth import auth
@@ -84,7 +84,8 @@ class Status(Resource):
         else:
             payload = str(args['id']) + '0'
 
-        res = mqtt.publish('control', payload=payload, qos=2, retain=False)
+        res = mqtt.publish(current_app.config.get('MQTT_CONTROL_TOPIC'),
+                           payload=payload, qos=2, retain=False)
         return {'rc': res}, 201
 
     @staticmethod

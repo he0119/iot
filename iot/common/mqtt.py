@@ -18,19 +18,14 @@ def handle_connect(client, userdata, flags, rc):
 def handle_mqtt_message(client, userdata, msg):
     '''The callback for when a PUBLISH message is received from the server.'''
     # print(msg.topic + ' ' + msg.payload.decode())
-    device_data = msg.payload.decode().split(',')
-
-    if device_data[1] == 'Error' or device_data[2] == 'Error':
-        device_data[1] = None
-        device_data[2] = None
+    device_data = msg.payload.decode().split('|')
+    time, name = device_data[0].split(',')
+    data = device_data[1]
 
     #post mqtt status data to server using json
-    json_data = json.dumps({'code' : int(device_data[0]),
-                            'temperature' : float(device_data[1]) if device_data[1] else None,
-                            'relative_humidity': float(device_data[2]) if device_data[2] else None,
-                            'relay1_status': True if device_data[3] == '1' else False,
-                            'relay2_status': True if device_data[4] == '1' else False,
-                            'time' : device_data[5]})
+    json_data = json.dumps({'time': time,
+                            'name': name,
+                            'data': data})
 
     try:
         headers = {'Content-Type': 'application/json'}

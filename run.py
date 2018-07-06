@@ -11,17 +11,18 @@ app = create_app(Config)
 def createaccount():
     '''create a new account'''
     with app.app_context():
-        if db.session.query(User).filter(User.username == Config.ADMIN_USERNAME).first():
+        if db.session.query(User).filter(User.username == app.config.get('ADMIN_USERNAME')).first():
             click.echo('You have already created a user')
         else:
-            if  db.session.query(User).filter(User.email == Config.ADMIN_EMAIL).first():
+            if db.session.query(User).filter(User.email == app.config.get('ADMIN_EMAIL')).first():
                 click.echo('This Email has been used, please change')
             else:
-                new_user = User(username=Config.ADMIN_USERNAME, email=Config.ADMIN_EMAIL)
-                new_user.set_password(Config.ADMIN_PASSWORD)
+                new_user = User(username=app.config.get('ADMIN_USERNAME'),
+                                email=app.config.get('ADMIN_EMAIL'))
+                new_user.set_password(app.config.get('ADMIN_PASSWORD'))
                 db.session.add(new_user)
                 db.session.commit()
                 click.echo('Account Created')
 
 if __name__ == '__main__':
-    app.run(threaded=True) #Fix Slow Requests on Local Flask Server
+    app.run()

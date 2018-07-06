@@ -7,5 +7,8 @@ const char *mqtt_server = "broker.shiftr.io"; //MQTT服务器地址
 const char *mqtt_username = ""; //MQTT服务器用户名
 const char *mqtt_password = ""; //MQTT服务器密码
 const char *mqtt_upload_topic = "status"; //MQTT上传主题
+const char *mqtt_control_topic = "control"; //MQTT控制主题
 
 const char *arduino_ota_name = "esp8266"; //OTA名称
+
+const char *device_name = ""; // 设备名称，与服务器一致

@@ -10,8 +10,7 @@ from iot.common.auth import auth
 from iot.common.db import db
 from iot.common.mqtt import mqtt
 from iot.common.utils import datetime2iso
-from iot.models.devicedata import DeviceData
-
+from iot.models.device import Device, DeviceData
 
 class Status(Resource):
     '''
@@ -36,15 +35,16 @@ class Status(Resource):
             schema:
               id: Status
         '''
-        json_data = {} #empty list
-        max_id = db.session.query(DeviceData).with_entities(db.func.max(DeviceData.id)).scalar()
-        latest = db.session.query(DeviceData).get(max_id)
-
-        json_data = {'time': datetime2iso(latest.time),  # Use ISO 8601
-                     'temperature': latest.temperature,
-                     'relativeHumidity': latest.relative_humidity,
-                     'relay1Status': latest.relay1_status,
-                     'relay2Status': latest.relay2_status}
+        json_data = [] #empty list
+        devices = db.session.query(Device).all()
+        for device in devices:
+            if device.data.all():
+                latest = device.data.all()[-1]
+                data = latest.get_data()
+                json_data.append(data)
+            else:
+                json_data.append({'name': device.name,
+                                  'data': None})
         return json_data
 
     @staticmethod
@@ -101,30 +101,19 @@ class Status(Resource):
             schema:
               id: Status
               required:
+                - name
                 - time
-                - temperature
-                - relative_humidity
-                - relay1
-                - relay2
+                - data
               properties:
-                code:
-                  type: integer
-                  description: code
+                name:
+                  type: string
+                  description: device name
                 time:
                   type: string
                   description: time
-                temperature:
-                  type: number
-                  description: temperature
-                relative_humidity:
-                  type: number
-                  description: relative_humidity
-                relay1:
-                  type: boolean
-                  description: relay1
-                relay2:
-                  type: boolean
-                  description: relay2
+                data:
+                  type: string
+                  description: data
         responses:
           201:
             description: Data added
@@ -132,28 +121,20 @@ class Status(Resource):
             description: Data already exist
         '''
         parser = reqparse.RequestParser()
+        parser.add_argument('name', required=True, location='json')
         parser.add_argument('time', required=True, location='json')
-        parser.add_argument('temperature', type=float,
-                            required=True, location='json')
-        parser.add_argument('relative_humidity', type=float,
-                            required=True, location='json')
-        parser.add_argument('relay1_status', type=bool,
-                            required=True, location='json')
-        parser.add_argument('relay2_status', type=bool,
-                            required=True, location='json')
-        parser.add_argument('code', type=int, required=True, location='json')
+        parser.add_argument('data', required=True, location='json')
         args = parser.parse_args()
 
-        new_data = DeviceData()
+        device = db.session.query(Device).filter_by(name=args.name).first()
+        if not device:
+            return {'message': 'device do not exist'}, 400
 
         args['time'] = datetime.utcfromtimestamp(int(args['time']))
-        if args['code'] == 0:
-            if not db.session.query(DeviceData.time).filter(
-                    DeviceData.time == args['time']).all():
-                new_data.set_data(args)
-                db.session.add(new_data)
-                db.session.commit()
-                return {'message': 'data added'}, 201
-            return {'message': 'data already exist'}, 400
-        g.data = args  # if code is not 0, save current status to g.data
-        return {'message': 'succeed'}, 201
+
+        if not device.data.filter(DeviceData.time == args['time']).all():
+            new_data = DeviceData(time=args['time'], data=args['data'], device=device)
+            db.session.add(new_data)
+            db.session.commit()
+            return {'message': 'data added'}, 201
+        return {'message': 'data already exist'}, 400

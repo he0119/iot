@@ -19,7 +19,7 @@ NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
 
 //DHT
 #include <dht.h>
-#define DHT22_PIN D4  //连接到DHT传感器的端口
+#define DHT11_PIN D4  //连接到DHT传感器的端口
 dht DHT;
 
 //Status
@@ -77,7 +77,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
   if ((char)payload[0] == '0')
   {
-    upload("1"); //直接上传当前状态
+    upload(); //直接上传当前状态
   }
 
   if ((char)payload[0] == '1')
@@ -92,7 +92,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       digitalWrite(RELAY1_PIN, LOW); // Turn the RELAY off by making the voltage LOW
       relay1_status = "0";
     }
-    upload("0");
+    upload();
   }
   if ((char)payload[0] == '2')
   {
@@ -106,7 +106,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       digitalWrite(RELAY2_PIN, LOW); // Turn the RELAY off by making the voltage LOW
       relay2_status = "0";
     }
-    upload("0");
+    upload();
   }
 }
 
@@ -121,7 +121,7 @@ void reconnect()
       // Once connected, publish an announcement...
       client.publish("MQTT", "hello world");
       // ... and resubscribe
-      client.subscribe("control");
+      client.subscribe(mqtt_control_topic);
     }
     else
     {
@@ -133,7 +133,7 @@ void reconnect()
 
 void read_data()
 {
-  int chk = DHT.read22(DHT22_PIN);
+  int chk = DHT.read11(DHT11_PIN);
   switch (chk)
   {
     case DHTLIB_OK:
@@ -148,17 +148,14 @@ void read_data()
   data_readtime = timeClient.getEpochTime(); //读取数据的时间
 }
 
-void upload(String method)
+void upload()
 {
-  String payload = method;
-  payload += "," + temperature;
+  String payload = data_readtime;
+  payload += "," + String(device_name);
+  payload += "|" + temperature;
   payload += "," + relative_humidity;
   payload += "," + relay1_status;
   payload += "," + relay2_status;
-  if (method == "0")
-  {
-    payload += "," + data_readtime; //只有当定时上传时才上传数据读取时间
-  }
 
   payload.toCharArray(msg, 50);
   client.publish(mqtt_upload_topic, msg);
@@ -180,6 +177,6 @@ void loop()
   if (millis() - lastMillis > 10000)
   {
     read_data();
-    upload("0"); //每10秒上传一次数据
+    upload(); //每10秒上传一次数据
   }
 }

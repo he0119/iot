@@ -7,7 +7,6 @@ flask_migrate==2.2.1
 flask_mqtt==1.0.4
 flask_restful==0.3.6
 flask_sqlalchemy==2.3.2
-flask_swagger==0.2.13
 flask_swagger_ui==3.6.0
 itsdangerous==0.24
 SQLAlchemy==1.2.9

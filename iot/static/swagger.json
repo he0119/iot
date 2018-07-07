@@ -1,0 +1,165 @@
+{
+  "swagger": "2.0",
+  "info":
+    {
+      "title": "IOT",
+      "description": "This is a simple IOT server.",
+      "version": "0.2.0",
+      "contact":
+        {
+          "name": "hemengyang",
+          "email": "hmy0119@gmail.com",
+          "url": "https://github.com/he0119/iot"
+        },
+      "license":
+        {
+          "name": "MIT",
+          "url": "https://mit-license.org/"
+        }
+    },
+  "basePath": "/api",
+  "definitions": {
+    "status": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "paths":
+    {
+    "/status": {
+      "post": {
+        "tags": [
+          "status"
+        ],
+        "description": "Add data to database",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "name",
+                "time",
+                "data"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Device name",
+                  "type": "string"
+                },
+                "time": {
+                  "description": "Upload time",
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "Device data",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "esp-test",
+                "time": 1530933538,
+                "data": "27.70,95.00,0,0"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Data added."
+          },
+          "400": {
+            "description": "Missing required parameter."
+          },
+          "404": {
+            "description": "Device do not exist"
+          },
+          "409": {
+            "description": "Data already exist"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "status"
+        ],
+        "description": "Change status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "name",
+                "data"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Device name",
+                  "type": "string"
+                },
+                "data": {
+                  "description": "Device data",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "esp-test",
+                "data": {
+                  "relay1_status": true,
+                  "relay2_status": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Data added."
+          },
+          "400": {
+            "description": "Missing required parameter."
+          },
+          "404": {
+            "description": "Device do not exist"
+          },
+          "409": {
+            "description": "Data already exist"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "description": "Get device latest status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of devicedata.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/status"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,8 +9,8 @@ from flask_restful import Resource, reqparse
 from iot.common.auth import auth
 from iot.common.db import db
 from iot.common.mqtt import mqtt
-from iot.common.utils import datetime2iso
 from iot.models.device import Device, DeviceData
+
 
 class Status(Resource):
     '''
@@ -26,20 +26,13 @@ class Status(Resource):
     @staticmethod
     def get():
         '''
-        return json data(time, temperature, relative_humidity, relay1, relay2)
-        ---
-        tags:
-          - status
-        responses:
-          200:
-            schema:
-              id: Status
+        Get device latest status
         '''
         json_data = [] #empty list
         devices = db.session.query(Device).all()
         for device in devices:
-            if device.data.all():
-                latest = device.data.all()[-1]
+            latest = device.data.order_by(DeviceData.id.desc()).first()
+            if latest:
                 data = latest.get_data()
                 json_data.append(data)
             else:
@@ -51,38 +44,24 @@ class Status(Resource):
     @auth.login_required
     def put():
         '''
-        chage status
-        ---
-        tags:
-          - status
-        parameters:
-          - in: body
-            name: body
-            schema:
-              required:
-                -id
-                -status
-              properties:
-                id:
-                  type: string
-                  format: password
-                  description: id for relay
-                status:
-                  type: string
-                  description: status for relay
-        responses:
-          201:
-            description: User info upfated
+        Change status
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('status', required=True, location='json')
-        parser.add_argument('id', required=True, location='json')
+        parser.add_argument('name', required=True, location='json')
+        parser.add_argument('data', type=dict, required=True, location='json')
         args = parser.parse_args()
 
-        if args['status'] == '1':
-            payload = str(args['id']) + '1'
-        else:
-            payload = str(args['id']) + '0'
+        device = db.session.query(Device).filter_by(name=args.name).first()
+        if not device:
+            return {'message': 'device do not exist'}, 404
+
+        payload = ''
+        for field in device.schema:
+            if field in args.data:
+                payload = payload + str(args.data[field]) + ','
+            else:
+                payload = payload + ','
+        payload = payload[:-1]
 
         res = mqtt.publish(current_app.config.get('MQTT_CONTROL_TOPIC'),
                            payload=payload, qos=2, retain=False)
@@ -93,49 +72,22 @@ class Status(Resource):
     def post():
         '''
         Add data to database
-        ---
-        tags:
-          - status
-        parameters:
-          - in: body
-            name: body
-            schema:
-              id: Status
-              required:
-                - name
-                - time
-                - data
-              properties:
-                name:
-                  type: string
-                  description: device name
-                time:
-                  type: string
-                  description: time
-                data:
-                  type: string
-                  description: data
-        responses:
-          201:
-            description: Data added
-          400:
-            description: Data already exist
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True, location='json')
-        parser.add_argument('time', required=True, location='json')
+        parser.add_argument('time', required=True, type=int, location='json')
         parser.add_argument('data', required=True, location='json')
         args = parser.parse_args()
 
         device = db.session.query(Device).filter_by(name=args.name).first()
         if not device:
-            return {'message': 'device do not exist'}, 400
+            return {'message': 'device do not exist'}, 404
 
-        args['time'] = datetime.utcfromtimestamp(int(args['time']))
+        args.time = datetime.utcfromtimestamp(args.time)
 
-        if not device.data.filter(DeviceData.time == args['time']).all():
-            new_data = DeviceData(time=args['time'], data=args['data'], device=device)
+        if not device.data.filter(DeviceData.time == args.time).all():
+            new_data = DeviceData(time=args.time, data=args.data, device=device)
             db.session.add(new_data)
             db.session.commit()
             return {'message': 'data added'}, 201
-        return {'message': 'data already exist'}, 400
+        return {'message': 'data already exist'}, 409

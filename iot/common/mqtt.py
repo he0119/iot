@@ -34,7 +34,5 @@ def handle_mqtt_message(client, userdata, msg):
                             data=json_data,
                             auth=requests.auth.HTTPBasicAuth(Config.ADMIN_USERNAME,
                                                              Config.ADMIN_PASSWORD))
-        if res.status_code == 400:
-            print(res.json())
     except requests.exceptions.ConnectionError:
         print('iot server offline')

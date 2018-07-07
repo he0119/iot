@@ -1,7 +1,6 @@
 {
   "swagger": "2.0",
-  "info":
-    {
+  "info": {
       "title": "IOT",
       "description": "This is a simple IOT server.",
       "version": "0.2.0",
@@ -16,7 +15,7 @@
           "name": "MIT",
           "url": "https://mit-license.org/"
         }
-    },
+  },
   "basePath": "/api",
   "definitions": {
     "status": {
@@ -30,8 +29,7 @@
       }
     }
   },
-  "paths":
-    {
+  "paths": {
     "/status": {
       "post": {
         "tags": [
@@ -157,6 +155,62 @@
                 "$ref": "#/definitions/status"
               }
             }
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "description": "Get device history data",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string",
+            "example": "test-esp"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "example": 1530932538
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "example": 1530933538
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of data."
+          },
+          "400": {
+            "description": "Missing required parameter."
+          },
+          "404": {
+            "description": "Device do not exist"
           }
         }
       }

@@ -67,5 +67,5 @@ node_modules/
 Sample/
 
 migrations/
-py.conf
 config.h
+.env

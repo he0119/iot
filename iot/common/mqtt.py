@@ -29,7 +29,7 @@ def handle_mqtt_message(client, userdata, msg):
 
     try:
         headers = {'Content-Type': 'application/json'}
-        res = requests.post(Config.API_URL,
+        res = requests.post(Config.MQTT_POST_URL,
                             headers=headers,
                             data=json_data,
                             auth=requests.auth.HTTPBasicAuth(Config.ADMIN_USERNAME,

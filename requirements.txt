@@ -11,3 +11,4 @@ flask_swagger_ui==3.6.0
 itsdangerous==0.24
 SQLAlchemy==1.2.9
 Werkzeug==0.14.1
+python_dotenv==0.8.2

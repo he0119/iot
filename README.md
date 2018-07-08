@@ -2,8 +2,8 @@
 Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
 
 ## Requirements
-* Python 3.6.5
-* Node.js 8.11.1
+* Python 3.7.0
+* Node.js 8.11.3
 
 ## Getting Started
 1. Setup python environment
@@ -21,10 +21,9 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
 	```
 3. Configuration
 
-    - Rename ```py.example.conf``` to ```py.conf``` in configuration folder and finish configuration
+    - Rename ```.env.example``` to ```.env``` in root folder and finish configuration
     - Init database
     ```bash
-    export FLASK_APP=run.py(set FLASK_APP=run.py on Windows)
     flask db init
     flask db migrate -m "init db"
     flask db upgrade

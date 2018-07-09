@@ -54,13 +54,13 @@ class Status(Resource):
         if not device:
             return {'message': 'device do not exist'}, 404
 
-        payload = f'{args.name},'
+        payload = {'name': args.name, 'data': {}}
         for field in device.schema:
             if field in args.data:
-                payload = payload + str(args.data[field]) + ','
+                payload['data'][field] = str(args.data[field])
             else:
-                payload = payload + ','
-        payload = payload[:-1]
+                payload['data'][field] = None
+
         socketio.emit('control', payload)
         return {'message': 'Succeed'}, 201
 
@@ -89,10 +89,25 @@ class Status(Resource):
             return {'message': 'data added'}, 201
         return {'message': 'data already exist'}, 409
 
-@socketio.on('message')
-def handle_my_custom_event(json):
-    print('received json: ' + str(json))
+@socketio.on('device status')
+def handle_status_event(msg):
+    '''Handle status data from IOT devices'''
+    print(f'device status:{msg["data"]}')
+    device_data = msg['data'].split('|')
+    time, name = device_data[0].split(',')
+    data = device_data[1]
 
-@socketio.on('status')
-def handle_data_event(json):
-    socketio.emit('control', json['data'])
+    device = db.session.query(Device).filter_by(name=name).first()
+    if not device:
+        pass
+    else:
+        time = datetime.utcfromtimestamp(int(time))
+        if not device.data.filter(DeviceData.time == time).all():
+            new_data = DeviceData(time=time, data=data, device=device)
+            db.session.add(new_data)
+            db.session.commit()
+            socketio.emit('control', new_data.get_data())
+
+@socketio.on('message')
+def print_control(msg):
+    print(str(msg))

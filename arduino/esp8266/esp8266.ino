@@ -33,7 +33,7 @@ SocketIoClient webSocket;
 
 void event(const char *payload, size_t length)
 {
-  Serial.printf("got message: %s\n", payload);
+
 }
 
 void setup_wifi()
@@ -80,15 +80,11 @@ void upload()
   payload.toCharArray(msg, 50);
   lastMillis = millis();
 
-  webSocket.emit("status", msg);
+  webSocket.emit("device status", msg);
 }
 
 void setup()
 {
-  Serial.begin(115200);
-  //Serial.setDebugOutput(true);
-  Serial.setDebugOutput(true);
-
   pinMode(BUILTIN_LED, OUTPUT);
   pinMode(RELAY1_PIN, OUTPUT);
   pinMode(RELAY2_PIN, OUTPUT);
@@ -111,6 +107,7 @@ void setup()
 
   //webSocket设置
   webSocket.on("control", event);
+  // webSocket.setAuthorization(username, password);
   webSocket.begin("192.168.31.12", 5000, "/socket.io/?transport=websocket");
 }
 
@@ -119,7 +116,7 @@ void loop()
   ArduinoOTA.handle(); //OTA
 
   timeClient.update(); //更新NTP时间
-  webSocket.loop();
+  webSocket.loop(); //websocket loop
 
   if (millis() - lastMillis > 10000)
   {

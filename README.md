@@ -1,15 +1,15 @@
 # IOT
-Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
+Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 
 ## Requirements
-* Python 3.7.0
+* Python 3.6.6
 * Node.js 8.11.3
 
 ## Getting Started
 1. Setup python environment
     ```bash
     virtualenv --no-site-packages venv
-    source venv/bin/activite(venv\Scripts\activate on Windows)
+    . venv/bin/activite(venv\Scripts\activate on Windows)
     pip install -r requirements.txt
     ```
 2. Setup angular environment
@@ -31,6 +31,6 @@ Simple try for home automation using Python, Flask, Angular, MQTT, Arduino
     ```
 4. Start server
     ```bash
-    python run.py
+    flask run
     ```
 Now you can go to http://127.0.0.1:5000/

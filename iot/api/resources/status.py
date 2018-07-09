@@ -3,12 +3,11 @@ Status Resource
 '''
 from datetime import datetime
 
-from flask import current_app
 from flask_restful import Resource, reqparse
 
+from iot import socketio
 from iot.common.auth import auth
 from iot.common.db import db
-from iot.common.mqtt import mqtt
 from iot.models.device import Device, DeviceData
 
 
@@ -55,17 +54,15 @@ class Status(Resource):
         if not device:
             return {'message': 'device do not exist'}, 404
 
-        payload = ''
+        payload = f'{args.name},'
         for field in device.schema:
             if field in args.data:
                 payload = payload + str(args.data[field]) + ','
             else:
                 payload = payload + ','
         payload = payload[:-1]
-
-        res = mqtt.publish(current_app.config.get('MQTT_CONTROL_TOPIC'),
-                           payload=payload, qos=2, retain=False)
-        return {'rc': res}, 201
+        socketio.emit('control', payload)
+        return {'message': 'Succeed'}, 201
 
     @staticmethod
     @auth.login_required
@@ -91,3 +88,11 @@ class Status(Resource):
             db.session.commit()
             return {'message': 'data added'}, 201
         return {'message': 'data already exist'}, 409
+
+@socketio.on('message')
+def handle_my_custom_event(json):
+    print('received json: ' + str(json))
+
+@socketio.on('status')
+def handle_data_event(json):
+    socketio.emit('control', json['data'])

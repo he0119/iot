@@ -2,7 +2,7 @@
 import click
 
 from config import Config
-from iot import create_app, db
+from iot import create_app, db, socketio
 from iot.models.user import User
 
 app = create_app(Config)
@@ -25,4 +25,5 @@ def createaccount():
                 click.echo('Account Created')
 
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    socketio.run(app)

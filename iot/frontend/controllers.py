@@ -11,7 +11,8 @@ angular_dir = 'angular/iot/dist/iot'
 @frontend_bp.route('/', defaults={'path': ''})
 @frontend_bp.route('/<path:path>')
 def catch_all(path):
-    #except api/*
+    '''catch all path'''
+    # except api/*
     is_angular_page = re.match(r'^((?!api\/)\w\/?)+$', path)
     if is_angular_page or not path:
         return angular_page()

@@ -1,7 +1,6 @@
 '''
 Status Resource
 '''
-import json
 from datetime import datetime
 
 from flask_login import login_required
@@ -92,7 +91,7 @@ class Status(Resource):
         return {'message': 'data already exist'}, 409
 
 @socketio.on('device status')
-@authenticated_only
+# @authenticated_only
 def handle_status_event(msg):
     '''Handle status data from IOT devices'''
     print(f'device status:{msg["data"]}')
@@ -105,11 +104,11 @@ def handle_status_event(msg):
         pass
     else:
         time = datetime.utcfromtimestamp(int(time))
+        new_data = DeviceData(time=time, data=data, device=device)
         if not device.data.filter(DeviceData.time == time).all():
-            new_data = DeviceData(time=time, data=data, device=device)
             db.session.add(new_data)
             db.session.commit()
-            socketio.emit('data', new_data.get_data())
+        socketio.emit('data', new_data.get_data())
 
 @socketio.on('test')
 def print_control(msg):

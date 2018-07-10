@@ -128,7 +128,7 @@ void setup()
   ArduinoOTA.begin();
 
   //webSocket设置
-  webSocket.begin("192.168.31.12", 5000, "/socket.io/?transport=websocket");
+  webSocket.begin("192.168.31.13", 5000, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
   webSocket.on(device_name, event);
 

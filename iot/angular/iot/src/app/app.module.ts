@@ -12,11 +12,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule, MatMenuModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 
 import { HistoryComponent } from './pages/history/history.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { StatusComponent } from './pages/status/status.component';
+import { KeysPipe } from './keys.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { StatusComponent } from './pages/status/status.component';
     HistoryComponent,
     HomeComponent,
     NotfoundComponent,
-    StatusComponent
+    StatusComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { StatusComponent } from './pages/status/status.component';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,4 @@
+<!--
 <mat-list>
   <mat-list-item>
     <span class="h5">Time:&nbsp;</span>
@@ -18,9 +19,8 @@
     <span class="h5">Relay1 Status:&nbsp;</span>
     <mat-slide-toggle
       color="primary"
-      [(ngModel)]="relay1"
       (click)="changeRelay1()">
-    {{relay1}}
+    {{status?.relay1Status}}
     </mat-slide-toggle>
   </mat-list-item>
   <mat-divider></mat-divider>
@@ -28,9 +28,19 @@
     <span class="h5">Relay2 Status:&nbsp;</span>
     <mat-slide-toggle
         color="primary"
-        [(ngModel)]="relay2"
         (click)="changeRelay2()">
-      {{relay2}}
+      {{status?.relay2Status}}
     </mat-slide-toggle>
   </mat-list-item>
-</mat-list>
+</mat-list> -->
+
+
+
+<mat-card *ngFor="let device of status">
+  <a>{{device["name"]}}</a>
+  <mat-list>
+    <mat-list-item *ngFor="let key of device.data | keys">
+      {{key.key}}:{{key.value}}
+    </mat-list-item>
+  </mat-list>
+</mat-card>

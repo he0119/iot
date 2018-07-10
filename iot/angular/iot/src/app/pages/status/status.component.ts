@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import { Status } from '../../status';
-import { StatusService } from '../../status.service';
+import { WebsocketService } from '../../websocket.service';
 
 @Component({
   selector: 'app-status',
@@ -9,45 +8,28 @@ import { StatusService } from '../../status.service';
   styleUrls: ['./status.component.scss']
 })
 export class StatusComponent implements OnInit, OnDestroy {
-  @Input() status: Status;
-  interval: any;
-  relay1 = false;
-  relay2 = false;
+  status: Array<any> = [];
 
-  constructor(private statusService: StatusService) { }
-
-  getCurrentData() {
-    this.statusService.currentData()
-      .subscribe(status => {
-        this.status = status;
-        if (this.status) {
-          this.relay1 = this.status.relay1Status;
-          this.relay2 = this.status.relay2Status;
-        }
-      });
-  }
+  constructor(private websocketService: WebsocketService) {}
 
   ngOnInit() {
-    this.getCurrentData();
-    this.interval = setInterval(() => {
-      this.getCurrentData();
-      }, 10000);
+    this.websocketService.onNewMessage().subscribe(msg => {
+      console.log(msg);
+      let needAdd = true;
+      for (const device of this.status) {
+        if (device['name'] === msg['name']) {
+          needAdd = false;
+          device['data'] = msg['data'];
+        }
+      }
+      if (needAdd) {
+        this.status.push(msg);
+      }
+    });
   }
 
-  ngOnDestroy() {
-    clearInterval(this.interval);
-  }
+  ngOnDestroy() {}
 
-  changeRelay1() {
-    this.statusService.setRelayState(1, !this.relay1)
-      .subscribe(result =>
-        console.log(result)
-      );
-  }
-  changeRelay2() {
-    this.statusService.setRelayState(2, !this.relay2)
-    .subscribe(result =>
-      console.log(result)
-    );
-  }
+  changeRelay1() {}
+  changeRelay2() {}
 }

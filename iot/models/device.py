@@ -51,7 +51,7 @@ class DeviceData(db.Model):
             elif schema[name] == 'float':
                 converted_data['data'][name] = float(raw_data[i])
             elif schema[name] == 'boolean':
-                converted_data['data'][name] = bool(raw_data[i])
+                converted_data['data'][name] = bool(int(raw_data[i]))
             elif schema[name] == 'string':
                 converted_data['data'][name] = str(raw_data[i])
             i += 1

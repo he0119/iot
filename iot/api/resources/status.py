@@ -1,6 +1,7 @@
 '''
 Status Resource
 '''
+import json
 from datetime import datetime
 
 from flask_login import login_required
@@ -55,12 +56,12 @@ class Status(Resource):
         if not device:
             return {'message': 'device do not exist'}, 404
 
-        payload = {'name': args.name, 'data': {}}
+        payload = {'name': args.name}
         for field in device.schema:
             if field in args.data:
-                payload['data'][field] = str(args.data[field])
+                payload[field] = args.data[field]
             else:
-                payload['data'][field] = None
+                payload[field] = None
 
         socketio.emit('control', payload)
         return {'message': 'Succeed'}, 201
@@ -108,7 +109,7 @@ def handle_status_event(msg):
             new_data = DeviceData(time=time, data=data, device=device)
             db.session.add(new_data)
             db.session.commit()
-            socketio.emit('control', new_data.get_data())
+            socketio.emit('data', new_data.get_data())
 
 @socketio.on('message')
 def print_control(msg):

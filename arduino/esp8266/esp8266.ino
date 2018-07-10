@@ -21,11 +21,14 @@ char msg[50];
 unsigned long lastMillis = 0;
 String temperature = "";
 String relative_humidity = "";
-String relay1_status = "0";
-String relay2_status = "0";
+bool relay1_status = false;
+bool relay2_status = false;
 String data_readtime = "";
 #define RELAY1_PIN D1
 #define RELAY2_PIN D2 //连接继电器的端口
+
+//Json
+#include <ArduinoJson.h>
 
 //Socket
 #include <SocketIoClient.h>
@@ -33,7 +36,27 @@ SocketIoClient webSocket;
 
 void event(const char *payload, size_t length)
 {
+  StaticJsonBuffer<300> jsonBuffer;
+  JsonObject &root = jsonBuffer.parseObject(payload);
+  // Test if parsing succeeds.
+  if (!root.success())
+  {
+    return;
+  }
+  if (device_name == root["name"])
+  {
+    relay1_status = root["relay1_status"];
+    relay2_status = root["relay2_status"];
+    event_set();
+    upload();
+  }
+}
 
+void event_set()
+{
+  digitalWrite(RELAY1_PIN, relay1_status);
+  digitalWrite(RELAY2_PIN, relay2_status);
+  data_readtime = timeClient.getEpochTime();
 }
 
 void setup_wifi()
@@ -73,8 +96,8 @@ void upload()
   payload += "," + String(device_name);
   payload += "|" + temperature;
   payload += "," + relative_humidity;
-  payload += "," + relay1_status;
-  payload += "," + relay2_status;
+  payload += "," + String(relay1_status);
+  payload += "," + String(relay2_status);
   payload += "\"}";
 
   payload.toCharArray(msg, 50);
@@ -85,9 +108,6 @@ void upload()
 
 void setup()
 {
-  Serial.begin(115200);
-  Serial.setDebugOutput(true);
-
   pinMode(BUILTIN_LED, OUTPUT);
   pinMode(RELAY1_PIN, OUTPUT);
   pinMode(RELAY2_PIN, OUTPUT);
@@ -119,7 +139,7 @@ void loop()
   ArduinoOTA.handle(); //OTA
 
   timeClient.update(); //更新NTP时间
-  webSocket.loop(); //websocket loop
+  webSocket.loop();    //websocket loop
 
   if (millis() - lastMillis > 10000)
   {

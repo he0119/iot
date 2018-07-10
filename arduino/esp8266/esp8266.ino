@@ -85,6 +85,9 @@ void upload()
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial.setDebugOutput(true);
+
   pinMode(BUILTIN_LED, OUTPUT);
   pinMode(RELAY1_PIN, OUTPUT);
   pinMode(RELAY2_PIN, OUTPUT);
@@ -106,9 +109,9 @@ void setup()
   ArduinoOTA.begin();
 
   //webSocket设置
-  webSocket.on("control", event);
-  // webSocket.setAuthorization(username, password);
   webSocket.begin("192.168.31.12", 5000, "/socket.io/?transport=websocket");
+  webSocket.setAuthorization(admin_name, admin_password);
+  webSocket.on("control", event);
 }
 
 void loop()

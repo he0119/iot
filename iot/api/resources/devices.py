@@ -3,9 +3,9 @@ TODO:
     Add New Device
     Get Device Info
 '''
+from flask_login import login_required
 from flask_restful import Resource, reqparse
 
-from iot.common.auth import auth
 from iot.common.db import db
 from iot.common.utils import datetime2iso
 from iot.models.device import Device
@@ -23,7 +23,7 @@ class Devices(Resource):
     '''
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def get():
         '''
         return json data
@@ -45,7 +45,7 @@ class Devices(Resource):
         return device_list
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def post():
         '''
         create device
@@ -87,7 +87,7 @@ class Devices(Resource):
         return {'name': device.name, 'message': 'Device Created'}, 201
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def put():
         '''
         Modify device info
@@ -128,7 +128,7 @@ class Devices(Resource):
         return {'message': 'Device info updated'}, 201
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def delete():
         '''
         Delete device

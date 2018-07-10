@@ -1,11 +1,9 @@
 '''
 User Resource
 '''
-
-from flask import g
+from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 
-from iot.common.auth import auth
 from iot.common.db import db
 from iot.models.user import User
 
@@ -13,16 +11,16 @@ from iot.models.user import User
 class Users(Resource):
     '''Users Resource'''
     @staticmethod
-    @auth.login_required
+    @login_required
     def get():
         '''
         Get login user info
         '''
-        return {'username' : g.user.username,
-                'email' : g.user.email}
+        return {'username' : current_user.username,
+                'email' : current_user.email}
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def post():
         '''
         Create a new user
@@ -49,7 +47,7 @@ class Users(Resource):
         return {'username': user.username, 'message': 'Account Created'}, 201
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def put():
         '''
         Modify user info
@@ -60,9 +58,9 @@ class Users(Resource):
         args = parser.parse_args()
 
         user = db.session.query(User).filter(
-            User.username == g.user.username).first()
+            User.username == current_user.username).first()
         if args.email:
-            if args.email == g.user.email:
+            if args.email == current_user.email:
                 return {'message': 'You have used this email'}, 400
             if db.session.query(User).filter(User.email == args.email).first():
                 return {'message': 'This Email has been used, please change'}, 400
@@ -74,7 +72,7 @@ class Users(Resource):
         return {'message': 'User info updated'}, 201
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def delete():
         '''
         Delete user

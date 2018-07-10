@@ -3,10 +3,11 @@ Status Resource
 '''
 from datetime import datetime
 
+from flask_login import login_required
 from flask_restful import Resource, reqparse
 
 from iot import socketio
-from iot.common.auth import auth
+from iot.common.auth import authenticated_only
 from iot.common.db import db
 from iot.models.device import Device, DeviceData
 
@@ -40,7 +41,7 @@ class Status(Resource):
         return json_data
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def put():
         '''
         Change status
@@ -65,7 +66,7 @@ class Status(Resource):
         return {'message': 'Succeed'}, 201
 
     @staticmethod
-    @auth.login_required
+    @login_required
     def post():
         '''
         Add data to database
@@ -90,6 +91,7 @@ class Status(Resource):
         return {'message': 'data already exist'}, 409
 
 @socketio.on('device status')
+@authenticated_only
 def handle_status_event(msg):
     '''Handle status data from IOT devices'''
     print(f'device status:{msg["data"]}')

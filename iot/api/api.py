@@ -2,6 +2,7 @@
 RESTful API
 '''
 from flask import Blueprint
+from flask_login import logout_user
 from flask_restful import Api
 
 from iot.api.resources.devices import Devices
@@ -18,3 +19,8 @@ api.add_resource(Status, '/status')
 api.add_resource(History, '/history')
 api.add_resource(Users, '/users')
 api.add_resource(Devices, '/devices')
+
+@api_bp.route('/logout')
+def logout():
+    logout_user()
+    return "logout"

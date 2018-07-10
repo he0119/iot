@@ -43,13 +43,12 @@ void event(const char *payload, size_t length)
   {
     return;
   }
-  if (device_name == root["name"])
-  {
+  if (root["relay1_status"] != "null")
     relay1_status = root["relay1_status"];
+  if (root["relay2_status"] != "null")
     relay2_status = root["relay2_status"];
-    event_set();
-    upload();
-  }
+  event_set();
+  upload();
 }
 
 void event_set()
@@ -131,7 +130,9 @@ void setup()
   //webSocket设置
   webSocket.begin("192.168.31.12", 5000, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
-  webSocket.on("control", event);
+  webSocket.on(device_name, event);
+
+  webSocket.emit("message", "{\"message\":\"Hello server!\"}");
 }
 
 void loop()

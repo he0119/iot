@@ -56,14 +56,14 @@ class Status(Resource):
         if not device:
             return {'message': 'device do not exist'}, 404
 
-        payload = {'name': args.name}
+        payload = {}
         for field in device.schema:
             if field in args.data:
                 payload[field] = args.data[field]
             else:
-                payload[field] = None
+                payload[field] = "null"
 
-        socketio.emit('control', payload)
+        socketio.emit(args.name, payload)
         return {'message': 'Succeed'}, 201
 
     @staticmethod
@@ -111,6 +111,10 @@ def handle_status_event(msg):
             db.session.commit()
             socketio.emit('data', new_data.get_data())
 
-@socketio.on('message')
+@socketio.on('test')
 def print_control(msg):
     print(str(msg))
+
+@socketio.on('message')
+def message_event(msg):
+    print(msg)

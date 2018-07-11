@@ -131,8 +131,6 @@ void setup()
   webSocket.begin("192.168.31.13", 5000, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
   webSocket.on(device_name, event);
-
-  webSocket.emit("message", "{\"message\":\"Hello server!\"}");
 }
 
 void loop()

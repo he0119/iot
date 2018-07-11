@@ -13,11 +13,15 @@ export class StatusComponent implements OnInit, OnDestroy {
   constructor(private websocketService: WebsocketService) {}
 
   ngOnInit() {
+    this.websocketService.send('request', 'hello, server!');
+
     this.websocketService.onNewMessage().subscribe(msg => {
       console.log(msg);
       let needAdd = true;
       for (const device of this.status) {
-        if (device['name'] === msg['name']) {
+        if (device['data'] === null) {
+          device['data'] = {data: 'not exist'};
+        } else if (device['name'] === msg['name']) {
           needAdd = false;
           device['data'] = msg['data'];
         }

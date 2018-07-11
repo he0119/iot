@@ -11,6 +11,9 @@ from iot.api.resources.status import Status
 from iot.api.resources.token import Token
 from iot.api.resources.users import Users
 
+import iot.api.socketio.device
+import iot.api.socketio.website
+
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 

@@ -9,20 +9,22 @@ export class WebsocketService {
   private socket: SocketIOClient.Socket;
 
   constructor() {
-    this.socket = io('http://192.168.31.12:5000');
+    this.socket = io();
   }
-  // EMITTER
-  sendMessage(msg: string) {
-    this.socket.emit('control', { message: msg });
+  // Message to server
+  send(type: string, msg: any) {
+    this.socket.emit('website', {
+      type: type,
+      data: msg
+    });
   }
 
   // HANDLER
   onNewMessage() {
     return Observable.create(observer => {
-      this.socket.on('data', msg => {
+      this.socket.on('status', msg => {
         observer.next(msg);
       });
     });
   }
-
 }

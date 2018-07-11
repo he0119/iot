@@ -9,8 +9,9 @@ export class HistoryService {
 
   constructor(private http: HttpClient) { }
 
-  historyData(start, end, interval) {
+  historyData(name, start, end, interval) {
     const params = new HttpParams()
+    .set('name', name)
     .set('start', start)
     .set('end', end)
     .set('interval', interval);

@@ -30,13 +30,7 @@ class Status(Resource):
         json_data = [] #empty list
         devices = db.session.query(Device).all()
         for device in devices:
-            latest = device.data.order_by(DeviceData.id.desc()).first()
-            if latest:
-                data = latest.get_data()
-                json_data.append(data)
-            else:
-                json_data.append({'name': device.name,
-                                  'data': None})
+            json_data.append(device.get_latest_data())
         return json_data
 
     @staticmethod

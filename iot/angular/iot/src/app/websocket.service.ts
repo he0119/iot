@@ -8,9 +8,7 @@ import { Observable } from 'rxjs';
 export class WebsocketService {
   private socket: SocketIOClient.Socket;
 
-  constructor() {
-    this.socket = io();
-  }
+  constructor() {}
   // Message to server
   send(type: string, msg: any) {
     this.socket.emit('website', {
@@ -21,10 +19,15 @@ export class WebsocketService {
 
   // HANDLER
   onNewMessage() {
-    return Observable.create(observer => {
-      this.socket.on('status', msg => {
-        observer.next(msg);
+    const observable = new Observable(observer => {
+      this.socket = io();
+      this.socket.on('status', (data) => {
+        observer.next(data);
       });
+      return () => {
+        this.socket.disconnect();
+      };
     });
+    return observable;
   }
 }

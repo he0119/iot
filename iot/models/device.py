@@ -25,6 +25,16 @@ class Device(db.Model):
         else:
             self.offline_on = datetime.utcnow()
 
+    def get_latest_data(self):
+        '''Get device's latest data'''
+        latest = self.data.order_by(DeviceData.id.desc()).first()
+        if latest:
+            data = latest.get_data()
+            return data
+        return {'name': self.name,
+                'time': None,
+                'data': None}
+
     def history_data(self, start, end):
         pass
 
@@ -42,18 +52,19 @@ class DeviceData(db.Model):
         schema = self.device.schema
         raw_data = self.data.split(',')
         converted_data = {'name': self.device.name,
-                          'data': {'time': datetime2iso(self.time)}}
+                          'time': datetime2iso(self.time),
+                          'data': {}}
 
         i = 0
         for name in schema:
             if schema[name] == 'int':
-                converted_data['data'][name] = int(raw_data[i])
+                converted_data['data'][name] = [int(raw_data[i]), 'int']
             elif schema[name] == 'float':
-                converted_data['data'][name] = float(raw_data[i])
+                converted_data['data'][name] = [float(raw_data[i]), 'float']
             elif schema[name] == 'boolean':
-                converted_data['data'][name] = bool(int(raw_data[i]))
+                converted_data['data'][name] = [bool(int(raw_data[i])), 'boolean']
             elif schema[name] == 'string':
-                converted_data['data'][name] = str(raw_data[i])
+                converted_data['data'][name] = [str(raw_data[i]), 'string']
             i += 1
         return converted_data
 

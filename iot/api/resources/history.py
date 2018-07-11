@@ -43,16 +43,10 @@ class History(Resource):
             number += 1
             if number >= interval:
                 number = 0
-                history = {}
-                #'Sat, 24 Feb 2018 02:41:56 GMT'
                 data = status.get_data()
-
                 if data['data']['temperature'] == 'Error' or \
                    data['data']['relative_humidity'] == 'Error':
                     continue #Skip None
-                history['time'] = data['data']['time'] #24-02-2018 02:41:56
-                history['temperature'] = data['data']['temperature']
-                history['relative_humidity'] = data['data']['relative_humidity']
-                json_data.append(history)
+                json_data.append(data)
 
-        return {'list': json_data}
+        return json_data

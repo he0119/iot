@@ -24,7 +24,7 @@ def handle_status_event(msg):
     else:
         time = datetime.utcfromtimestamp(int(time))
         new_data = DeviceData(time=time, data=data, device=device)
-        if not device.data.filter(DeviceData.time == time).all():
+        if len(device.data.filter(DeviceData.time == time).all()) < 2:
             db.session.add(new_data)
             db.session.commit()
         socketio.emit('status', new_data.get_data())

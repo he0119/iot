@@ -9,7 +9,7 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "cn.pool.ntp.org", 0, 60000);
+NTPClient timeClient(ntpUDP, "cn.ntp.org.cn", 0, 60000);
 
 //DHT
 #include <dht.h>
@@ -128,7 +128,7 @@ void setup()
   ArduinoOTA.begin();
 
   //webSocket设置
-  webSocket.begin("192.168.31.13", 5000, "/socket.io/?transport=websocket");
+  webSocket.begin(websocket_url, websocket_port, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
   webSocket.on(device_name, event);
 }

@@ -1,11 +1,12 @@
 '''User Model'''
 from flask import current_app
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_login import UserMixin
 from itsdangerous import BadSignature, SignatureExpired
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from iot.common.db import db
-from flask_login import UserMixin
+
 
 class User(db.Model, UserMixin):
     '''User Data(id, username, password_hash)'''

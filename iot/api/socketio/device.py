@@ -10,7 +10,7 @@ from iot.models.device import Device, DeviceData
 
 
 @socketio.on('device status')
-# @authenticated_only
+@authenticated_only
 def handle_status_event(msg):
     '''Handle status data from IOT devices'''
     print(f'device status:{msg["data"]}')
@@ -21,7 +21,7 @@ def handle_status_event(msg):
     device = db.session.query(Device).filter_by(name=name).first()
     if not device:
         pass
-    else:
+    elif int(time) > 1500000000: #确认时间是正确的(2017/7/14 10:40:0)
         time = datetime.utcfromtimestamp(int(time))
         new_data = DeviceData(time=time, data=data, device=device)
         if len(device.data.filter(DeviceData.time == time).all()) < 2:

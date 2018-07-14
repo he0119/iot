@@ -4,7 +4,7 @@ User Resource
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 
-from iot.common.db import db
+from iot import db
 from iot.models.user import User
 
 
@@ -16,8 +16,8 @@ class Users(Resource):
         '''
         Get login user info
         '''
-        return {'username' : current_user.username,
-                'email' : current_user.email}
+        return {'username': current_user.username,
+                'email': current_user.email}
 
     @staticmethod
     @login_required

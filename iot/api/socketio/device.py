@@ -1,11 +1,10 @@
 '''
-deivce
+Deivce
 '''
 from datetime import datetime
 
-from iot import socketio
+from iot import db, socketio
 from iot.common.auth import authenticated_only
-from iot.common.db import db
 from iot.models.device import Device, DeviceData
 
 
@@ -21,7 +20,7 @@ def handle_status_event(msg):
     device = db.session.query(Device).filter_by(name=name).first()
     if not device:
         pass
-    elif int(time) > 1500000000: #确认时间是正确的(2017/7/14 10:40:0)
+    elif int(time) > 1500000000:  # 确认时间是正确的(2017/7/14 10:40:0)
         time = datetime.utcfromtimestamp(int(time))
         new_data = DeviceData(time=time, data=data, device=device)
         if len(device.data.filter(DeviceData.time == time).all()) < 2:

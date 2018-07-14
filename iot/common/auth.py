@@ -11,7 +11,7 @@ from iot import login_manager
 from iot.models.user import User
 
 
-## From https://flask-socketio.readthedocs.org/en/latest/
+# From https://flask-socketio.readthedocs.org/en/latest/
 def authenticated_only(f):
     @functools.wraps(f)
     def wrapped(*args, **kwargs):
@@ -20,6 +20,7 @@ def authenticated_only(f):
         else:
             return f(*args, **kwargs)
     return wrapped
+
 
 @login_manager.request_loader
 def load_user_from_request(request):
@@ -34,6 +35,7 @@ def load_user_from_request(request):
             return user
     # finally, return None if both methods did not login the user
     return None
+
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():

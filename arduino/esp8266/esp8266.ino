@@ -1,4 +1,4 @@
-//MQTT&WIFI&OTA
+//WIFI&OTA
 #include <ESP8266WiFi.h>
 #include <ArduinoOTA.h>
 
@@ -10,6 +10,13 @@
 #include <WiFiUdp.h>
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "cn.ntp.org.cn", 0, 60000);
+
+//Json
+#include <ArduinoJson.h>
+
+//Socket
+#include <SocketIoClient.h>
+SocketIoClient webSocket;
 
 //DHT
 #include <dht.h>
@@ -26,13 +33,6 @@ bool relay2_status = false;
 String data_readtime = "";
 #define RELAY1_PIN D1
 #define RELAY2_PIN D2 //连接继电器的端口
-
-//Json
-#include <ArduinoJson.h>
-
-//Socket
-#include <SocketIoClient.h>
-SocketIoClient webSocket;
 
 void event(const char *payload, size_t length)
 {
@@ -62,7 +62,7 @@ void setup_wifi()
 {
   delay(10);
   WiFi.mode(WIFI_STA);
-  // We start by connecting to a WiFi network
+  //We start by connecting to a WiFi network
   WiFi.begin(ssid, password);
   while (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
@@ -73,7 +73,7 @@ void setup_wifi()
 
 void read_data()
 {
-  int chk = DHT.read11(DHT11_PIN);
+  int chk = DHT.read11(DHT11_PIN); //读取传感器数据
   switch (chk)
   {
   case DHTLIB_OK:
@@ -100,9 +100,9 @@ void upload()
   payload += "\"}";
 
   payload.toCharArray(msg, 50);
-  lastMillis = millis();
-
   webSocket.emit("device status", msg);
+
+  lastMillis = millis(); //重置上传计时
 }
 
 void setup()
@@ -119,15 +119,15 @@ void setup()
   timeClient.begin(); //NTC服务启动
 
   //OTA设置
-  // Port defaults to 8266
+  //Port defaults to 8266
   ArduinoOTA.setPort(8266);
-  // Hostname defaults to esp8266-[ChipID]
+  //Hostname defaults to esp8266-[ChipID]
   ArduinoOTA.setHostname(arduino_ota_name);
-  // No authentication by default
-  // ArduinoOTA.setPassword("admin");
+  //No authentication by default
+  //ArduinoOTA.setPassword("admin");
   ArduinoOTA.begin();
 
-  //webSocket设置
+  //WebSocket设置
   webSocket.begin(websocket_url, websocket_port, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
   webSocket.on(device_name, event);
@@ -136,9 +136,8 @@ void setup()
 void loop()
 {
   ArduinoOTA.handle(); //OTA
-
   timeClient.update(); //更新NTP时间
-  webSocket.loop();    //websocket loop
+  webSocket.loop();    //Websocket loop
 
   if (millis() - lastMillis > 10000)
   {

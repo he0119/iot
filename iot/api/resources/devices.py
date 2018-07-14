@@ -1,12 +1,10 @@
 '''
-TODO:
-    Add New Device
-    Get Device Info
+Devices Resource
 '''
 from flask_login import login_required
 from flask_restful import Resource, reqparse
 
-from iot.common.db import db
+from iot import db
 from iot.common.utils import datetime2iso
 from iot.models.device import Device
 

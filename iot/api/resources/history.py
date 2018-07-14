@@ -6,8 +6,9 @@ from datetime import datetime
 from flask_restful import Resource, reqparse
 from sqlalchemy.sql.expression import and_
 
-from iot.common.db import db
+from iot import db
 from iot.models.device import Device, DeviceData
+
 
 class History(Resource):
     '''
@@ -30,7 +31,7 @@ class History(Resource):
         if not device:
             return {'message': '{} do not exist'.format(args.name)}, 404
 
-        json_data = [] #Empty list
+        json_data = []  # Empty list
         days_start = datetime.utcfromtimestamp(args.start)
         days_end = datetime.utcfromtimestamp(args.end)
         interval = args.interval
@@ -38,7 +39,7 @@ class History(Resource):
         history_data = device.data.filter(
             and_(DeviceData.time >= days_start, DeviceData.time <= days_end)).all()
 
-        number = interval - (len(history_data) % interval)#初始取值，使最后一个为最新数据
+        number = interval - (len(history_data) % interval)  # 初始取值，使最后一个为最新数据
         for status in history_data:
             number += 1
             if number >= interval:
@@ -46,7 +47,7 @@ class History(Resource):
                 data = status.get_data()
                 if data['data']['temperature'] == 'Error' or \
                    data['data']['relative_humidity'] == 'Error':
-                    continue #Skip None
+                    continue  # Skip None
                 json_data.append(data)
 
         return json_data

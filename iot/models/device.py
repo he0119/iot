@@ -3,8 +3,9 @@ Device and DeviceData Model
 '''
 from datetime import datetime
 
-from iot.common.db import db
+from iot import db
 from iot.common.utils import datetime2iso
+
 
 class Device(db.Model):
     '''device model'''
@@ -41,6 +42,7 @@ class Device(db.Model):
     def __repr__(self):
         return '<Device %r>' % self.name
 
+
 class DeviceData(db.Model):
     '''device data model'''
     id = db.Column(db.Integer, primary_key=True)
@@ -62,7 +64,8 @@ class DeviceData(db.Model):
             elif schema[name] == 'float':
                 converted_data['data'][name] = [float(raw_data[i]), 'float']
             elif schema[name] == 'boolean':
-                converted_data['data'][name] = [bool(int(raw_data[i])), 'boolean']
+                converted_data['data'][name] = [
+                    bool(int(raw_data[i])), 'boolean']
             elif schema[name] == 'string':
                 converted_data['data'][name] = [str(raw_data[i]), 'string']
             i += 1

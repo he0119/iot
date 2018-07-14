@@ -6,8 +6,7 @@ from datetime import datetime
 from flask_login import login_required
 from flask_restful import Resource, reqparse
 
-from iot import socketio
-from iot.common.db import db
+from iot import db, socketio
 from iot.models.device import Device, DeviceData
 
 
@@ -27,7 +26,7 @@ class Status(Resource):
         '''
         Get device latest status
         '''
-        json_data = [] #empty list
+        json_data = []  # empty list
         devices = db.session.query(Device).all()
         for device in devices:
             json_data.append(device.get_latest_data())
@@ -77,7 +76,8 @@ class Status(Resource):
         args.time = datetime.utcfromtimestamp(args.time)
 
         if not device.data.filter(DeviceData.time == args.time).all():
-            new_data = DeviceData(time=args.time, data=args.data, device=device)
+            new_data = DeviceData(
+                time=args.time, data=args.data, device=device)
             db.session.add(new_data)
             db.session.commit()
             return {'message': 'data added'}, 201

@@ -1,9 +1,7 @@
 '''
-website
+Website
 '''
-from iot import socketio
-from iot.common.auth import authenticated_only
-from iot.common.db import db
+from iot import db, socketio
 from iot.models.device import Device
 
 

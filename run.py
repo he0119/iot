@@ -7,6 +7,7 @@ from iot.models.user import User
 
 app = create_app(Config)
 
+
 @app.cli.command()
 def createaccount():
     '''create a new account'''
@@ -24,5 +25,6 @@ def createaccount():
                 db.session.commit()
                 click.echo('Account Created')
 
+
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0', log_output=True)

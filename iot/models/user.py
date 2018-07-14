@@ -1,11 +1,13 @@
-'''User Model'''
+'''
+User Model
+'''
 from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from iot.common.db import db
+from iot import db
 
 
 class User(db.Model, UserMixin):
@@ -34,9 +36,9 @@ class User(db.Model, UserMixin):
         try:
             data = s.loads(token)
         except SignatureExpired:
-            return None # valid token, but expired
+            return None  # valid token, but expired
         except BadSignature:
-            return None # invalid token
+            return None  # invalid token
         user = User.query.get(data['id'])
         return user
 

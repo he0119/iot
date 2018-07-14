@@ -1,5 +1,5 @@
 '''
-RESTful API
+RESTful API&SocketIO
 '''
 from flask import Blueprint
 from flask_login import logout_user
@@ -22,6 +22,7 @@ api.add_resource(Status, '/status')
 api.add_resource(History, '/history')
 api.add_resource(Users, '/users')
 api.add_resource(Devices, '/devices')
+
 
 @api_bp.route('/logout')
 def logout():

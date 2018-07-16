@@ -24,13 +24,8 @@ class Devices(Resource):
     @login_required
     def get():
         '''
-        return json data
-        ---
-        tags:
-          - devices
+        Get devices info
         '''
-        # print(db.session.execute('SELECT * FROM user').fetchall())
-        # print(Device)
         device_list = []
         devices = db.session.query(Device).all()
         for device in devices:
@@ -46,29 +41,7 @@ class Devices(Resource):
     @login_required
     def post():
         '''
-        create device
-        ---
-        tags:
-          - devices
-        parameters:
-          - in: body
-            name: body
-            schema:
-              required:
-                - name
-                - schema
-              properties:
-                name:
-                  type: string
-                  description: name for device
-                schema:
-                  type: string
-                  description: schema for device
-        responses:
-          201:
-            description: User created
-          400:
-            description: Username or Email already exist
+        Create a new device
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True, location='json')
@@ -89,25 +62,6 @@ class Devices(Resource):
     def put():
         '''
         Modify device info
-        ---
-        tags:
-          - devices
-        parameters:
-          - in: body
-            name: body
-            schema:
-              properties:
-                name:
-                  type: string
-                  description: name for device
-                schema:
-                  type: string
-                  description: schema for device
-        responses:
-          201:
-            description: Device info upfated
-          400:
-            description: Device do not exist
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True, location='json')
@@ -130,21 +84,6 @@ class Devices(Resource):
     def delete():
         '''
         Delete device
-        ---
-        tags:
-          - devices
-        parameters:
-          - in: body
-            name: body
-            schema:
-              required:
-                - name
-              properties:
-                name:
-                  type: string
-        responses:
-          204:
-            description: User deleted
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True, location='json')
@@ -153,7 +92,7 @@ class Devices(Resource):
         device = db.session.query(Device).filter(
             Device.name == args['name']).first()
         if not device:
-            return {'message': '{} do not exist'.format(args['name'])}, 400
+            return {'message': '{} do not exist'.format(args['name'])}, 404
         db.session.delete(device)
         db.session.commit()
         return {}, 204

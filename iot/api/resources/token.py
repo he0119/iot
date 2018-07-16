@@ -12,17 +12,7 @@ class Token(Resource):
     @login_required
     def get():
         '''
-        get token
-        ---
-        tags:
-          - token
-        responses:
-          200:
-            schema:
-              properties:
-                token:
-                  type: string
-                  description: Token for current user
+        Get token
         '''
         token = current_user.generate_auth_token()
         return {'token': token.decode('ascii')}

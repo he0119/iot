@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
-import { WebsocketService } from '../../websocket.service';
+import { WebsocketService } from '../../shared/websocket.service';
 
 @Component({
   selector: 'app-status',

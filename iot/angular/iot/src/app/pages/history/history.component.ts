@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoryService } from '../../history.service';
+import { HistoryService } from '../../shared/history.service';
 import { Chart } from 'chart.js';
 
 @Component({

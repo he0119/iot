@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule, MatMenuModule } from '@angular/material';
@@ -18,7 +18,7 @@ import { HistoryComponent } from './pages/history/history.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { StatusComponent } from './pages/status/status.component';
-import { KeysPipe } from './keys.pipe';
+import { KeysPipe } from './shared/keys.pipe';
 
 @NgModule({
   declarations: [

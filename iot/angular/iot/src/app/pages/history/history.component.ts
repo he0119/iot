@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoryService } from '../../shared/history.service';
 import { Chart } from 'chart.js';
+import { DeviceData } from '../../shared/documentation-items';
 
 @Component({
   selector: 'app-history',
@@ -12,21 +13,28 @@ export class HistoryComponent implements OnInit {
   chart = [];
 
   constructor(private historyService: HistoryService) { }
-
+  //TODO: Add support for multidevice
   ngOnInit() {
     const name = 'test';
     const start = new Date();
     const end = new Date();
     const interval = 18;
     start.setTime(start.getTime() - 24 * 60 * 60 * 1000);
-    const start_ep = Math.floor((start.getTime() + start.getTimezoneOffset() * 60 * 1000) / 1000);
-    const end_ep = Math.floor((end.getTime() + end.getTimezoneOffset() * 60 * 1000) / 1000);
+    const start_ep = Math.floor(start.getTime() / 1000);
+    const end_ep = Math.floor(end.getTime() / 1000);
 
     this.historyService.historyData(name, start_ep, end_ep, interval)
-      .subscribe(res => {
-        const temperature = res['list'].map(temp => temp.temperature);
-        const relativeHumidity = res['list'].map(temp => temp.relative_humidity);
-        const time = res['list'].map(temp => temp.time.split(' ')[1]);
+      .subscribe((res: DeviceData[]) => {
+        const temperature = [];
+        const relativeHumidity = [];
+        const time = [];
+
+        for (const entry of res) {
+          temperature.push(entry.data["temperature"]);
+          relativeHumidity.push(entry.data["relative_humidity"]);
+          time.push(new Date(entry.time));
+        };
+
         this.chart = new Chart('canvas', {
           type: 'line',
           data: {
@@ -58,8 +66,18 @@ export class HistoryComponent implements OnInit {
                 radius: 0,
               },
             },
-          },
+            scales: {
+              xAxes: [{
+                type: 'time',
+                time: {
+                  displayFormats: {
+                    quarter: 'MMM D h:mm a'
+                  }
+                }
+              }],
+            }
+          }
         });
-      });
+      })
   }
 }

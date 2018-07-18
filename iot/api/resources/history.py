@@ -45,8 +45,8 @@ class History(Resource):
             if number >= interval:
                 number = 0
                 data = status.get_data()
-                if data['data']['temperature'] == 'Error' or \
-                   data['data']['relative_humidity'] == 'Error':
+                if data['data']['temperature'] is None or \
+                   data['data']['relative_humidity'] is None:
                     continue  # Skip None
                 json_data.append(data)
 

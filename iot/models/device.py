@@ -60,14 +60,17 @@ class DeviceData(db.Model):
         i = 0
         for name in schema:
             if schema[name] == 'int':
-                converted_data['data'][name] = [int(raw_data[i]), 'int']
+                converted_data['data'][name] = int(raw_data[i])
             elif schema[name] == 'float':
-                converted_data['data'][name] = [float(raw_data[i]), 'float']
+                if raw_data[i] == 'Error':
+                    converted_data['data'][name] = None
+                else:
+                    converted_data['data'][name] = float(raw_data[i])
+                #TODO: Use more beautiful way
             elif schema[name] == 'boolean':
-                converted_data['data'][name] = [
-                    bool(int(raw_data[i])), 'boolean']
+                converted_data['data'][name] = bool(int(raw_data[i]))
             elif schema[name] == 'string':
-                converted_data['data'][name] = [str(raw_data[i]), 'string']
+                converted_data['data'][name] = str(raw_data[i])
             i += 1
         return converted_data
 

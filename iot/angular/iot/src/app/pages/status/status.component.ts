@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { WebsocketService } from '../../shared/websocket.service';
+import { DeviceData } from '../../shared/documentation-items';
+
 
 @Component({
   selector: 'app-status',
@@ -8,35 +10,37 @@ import { WebsocketService } from '../../shared/websocket.service';
   styleUrls: ['./status.component.scss']
 })
 export class StatusComponent implements OnInit, OnDestroy {
-  status: Array<any> = [];
   connection;
 
-  constructor(private websocketService: WebsocketService) {}
+  status: DeviceData[] = [];
+
+  constructor(private websocketService: WebsocketService) { }
 
   ngOnInit() {
-    this.connection = this.websocketService.onNewMessage().subscribe(msg => {
+    this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
       console.log(msg);
       let needAdd = true;
       for (const device of this.status) {
-        if (device['data'] === null) {
-          device['data'] = {data: 'not exist'};
-        } else if (device['name'] === msg['name']) {
+        if (device.name === msg.name) {
           needAdd = false;
-          device['data'] = msg['data'];
-          device['time'] = msg['time'];
+          device.data = msg.data;
+          device.time = msg.time;
         }
       }
       if (needAdd) {
-        this.status.push(msg);
-      }
-    });
+        if (msg.time == null) {
+          msg.time = Date();
+          msg.data = { data: 'not exist' };
+        }
+      this.status.push(msg);
+    }
+  });
     this.websocketService.send('request', 'hello, server!');
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
+ngOnDestroy() {
+  this.connection.unsubscribe();
+}
 
-  changeRelay1() {}
-  changeRelay2() {}
+changeStatus() { }
 }

@@ -3,7 +3,7 @@ import { HistoryService } from '../../shared/history.service';
 import { Chart } from 'chart.js';
 import { Device, DeviceData } from '../../shared/documentation-items';
 import { DeviceService } from '../../shared/device.service';
-
+//#FIXME: ERROR RangeError: Maximum call stack size exceeded
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',

@@ -42,8 +42,10 @@
     <mat-list-item>
       time: {{device.time | date: 'medium':'+0800'}}
     </mat-list-item>
-    <mat-list-item *ngFor="let key of device.data | keys">
-      {{key.key}}:{{key.value}}
-    </mat-list-item>
+    <a *ngIf="device.data">
+      <mat-list-item *ngFor="let key of device.data | keys">
+        {{key.key}}:{{key.value}}
+      </mat-list-item>
+    </a>
   </mat-list>
 </mat-card>

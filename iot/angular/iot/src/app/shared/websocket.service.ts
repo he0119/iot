@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { DeviceData } from './documentation-items';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 export class WebsocketService {
   private socket: SocketIOClient.Socket;
 
-  constructor() {}
+  constructor() { }
   // Message to server
   send(type: string, msg: any) {
     this.socket.emit('website', {
@@ -21,7 +22,7 @@ export class WebsocketService {
   onNewMessage() {
     const observable = new Observable(observer => {
       this.socket = io();
-      this.socket.on('status', (data) => {
+      this.socket.on('status', (data: DeviceData) => {
         observer.next(data);
       });
       return () => {

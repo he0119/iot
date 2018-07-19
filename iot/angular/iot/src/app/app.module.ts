@@ -8,17 +8,21 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule, MatMenuModule } from '@angular/material';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatCardModule } from '@angular/material/card';
-
 import { HistoryComponent } from './pages/history/history.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { StatusComponent } from './pages/status/status.component';
 import { KeysPipe } from './shared/keys.pipe';
+
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule, MatMenuModule, MatNativeDateModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -42,9 +46,14 @@ import { KeysPipe } from './shared/keys.pipe';
     MatMenuModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatSelectModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

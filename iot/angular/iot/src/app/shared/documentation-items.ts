@@ -9,6 +9,15 @@ export const SECTIONS = {
 
 export interface DeviceData {
   name: string;
-  time: Date;
+  time: string;
   data: object;
+}
+
+export interface Device {
+  name: string;
+  schema: object;
+  createOn: string;
+  lastConnectOn: string;
+  offlineOn: string;
+  onlineStatus: string;
 }

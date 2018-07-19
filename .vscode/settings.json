@@ -1,5 +1,5 @@
 {
     "todo-tree.flat": true,
     "todo-tree.expanded": true,
-    "todo-tree.grouped": true
+    "todo-tree.grouped": false
 }

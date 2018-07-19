@@ -179,9 +179,21 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "example": "test-esp"
+          }],
         "responses": {
           "200": {
             "description": "Devices info"
+          },
+          "404": {
+            "description": "Device not found"
           }
         }
       },

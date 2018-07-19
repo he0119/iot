@@ -3,6 +3,8 @@ Device and DeviceData Model
 '''
 from datetime import datetime
 
+from sqlalchemy.sql.expression import and_
+
 from iot import db
 from iot.common.utils import datetime2iso
 
@@ -26,6 +28,15 @@ class Device(db.Model):
         else:
             self.offline_on = datetime.utcnow()
 
+    def get_device_info(self):
+        '''Get device info'''
+        return {'name': self.name,
+                'schema': self.schema,
+                'createOn': datetime2iso(self.create_on),
+                'lastConnectOn': datetime2iso(self.last_connect_on),
+                'offlineOn': datetime2iso(self.offline_on),
+                'onlineStatus': self.online_status}
+
     def get_latest_data(self):
         '''Get device's latest data'''
         latest = self.data.order_by(DeviceData.id.desc()).first()
@@ -37,7 +48,9 @@ class Device(db.Model):
                 'data': None}
 
     def history_data(self, start, end):
-        pass
+        '''Get history data'''
+        return self.data.filter(
+            and_(DeviceData.time >= start, DeviceData.time <= end)).all()
 
     def __repr__(self):
         return '<Device %r>' % self.name
@@ -66,7 +79,7 @@ class DeviceData(db.Model):
                     converted_data['data'][name] = None
                 else:
                     converted_data['data'][name] = float(raw_data[i])
-                #TODO: Use more beautiful way
+                # TODO: Use more beautiful way
             elif schema[name] == 'boolean':
                 converted_data['data'][name] = bool(int(raw_data[i]))
             elif schema[name] == 'string':

@@ -4,10 +4,9 @@ History Resource
 from datetime import datetime
 
 from flask_restful import Resource, reqparse
-from sqlalchemy.sql.expression import and_
 
 from iot import db
-from iot.models.device import Device, DeviceData
+from iot.models.device import Device
 
 
 class History(Resource):
@@ -36,8 +35,7 @@ class History(Resource):
         days_end = datetime.utcfromtimestamp(args.end)
         interval = args.interval
 
-        history_data = device.data.filter(
-            and_(DeviceData.time >= days_start, DeviceData.time <= days_end)).all()
+        history_data = device.history_data(days_start, days_end)
 
         number = interval - (len(history_data) % interval)  # 初始取值，使最后一个为最新数据
         for status in history_data:

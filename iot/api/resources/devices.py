@@ -26,15 +26,20 @@ class Devices(Resource):
         '''
         Get devices info
         '''
+        parser = reqparse.RequestParser()
+        parser.add_argument('name')
+        args = parser.parse_args()
+
+        if args.name:
+            device = db.session.query(Device).filter(Device.name == args['name']).first()
+            if device:
+                return device.get_device_info()
+            return {'message': 'Device not found'}, 404
+
         device_list = []
         devices = db.session.query(Device).all()
         for device in devices:
-            device_list.append({'name': device.name,
-                                'schema': device.schema,
-                                'createOn': datetime2iso(device.create_on),
-                                'lastConnectOn': datetime2iso(device.last_connect_on),
-                                'offlineOn': datetime2iso(device.offline_on),
-                                'onlineStatus': device.online_status})
+            device_list.append(device.get_device_info())
         return device_list
 
     @staticmethod

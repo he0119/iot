@@ -20,4 +20,4 @@ class Config(object):
     ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 
     SWAGGER_URL = '/api/docs'
-    SWAGGER_API_URL = 'http://127.0.0.1:5000/static/swagger.json'
+    SWAGGER_API_URL = os.getenv('SWAGGER_API_URL')

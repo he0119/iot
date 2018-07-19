@@ -21,7 +21,6 @@ class Devices(Resource):
     '''
 
     @staticmethod
-    @login_required
     def get():
         '''
         Get devices info
@@ -31,7 +30,8 @@ class Devices(Resource):
         args = parser.parse_args()
 
         if args.name:
-            device = db.session.query(Device).filter(Device.name == args['name']).first()
+            device = db.session.query(Device).filter(
+                Device.name == args.name).first()
             if device:
                 return device.get_device_info()
             return {'message': 'Device not found'}, 404
@@ -54,13 +54,13 @@ class Devices(Resource):
                             required=True, location='json')
         args = parser.parse_args()
 
-        if db.session.query(Device).filter(Device.name == args['name']).first():
+        if db.session.query(Device).filter(Device.name == args.name).first():
             return {'message': 'Name already exist'}, 400
 
-        device = Device(name=args['name'], schema=args['schema'])
+        device = Device(name=args.name, schema=args.schema)
         db.session.add(device)
         db.session.commit()
-        return {'name': device.name, 'message': 'Device Created'}, 201
+        return {'name': device.name, 'message': 'Device created'}, 201
 
     @staticmethod
     @login_required
@@ -75,11 +75,11 @@ class Devices(Resource):
         args = parser.parse_args()
 
         device = db.session.query(Device).filter(
-            Device.name == args['name']).first()
+            Device.name == args.name).first()
         if not device:
-            return {'message': '{} do not exist'.format(args['name'])}, 400
+            return {'message': f'{args.name} do not exist'}, 400
 
-        device.schema = args['schema']
+        device.schema = args.schema
         db.session.add(device)
         db.session.commit()
         return {'message': 'Device info updated'}, 201
@@ -95,9 +95,9 @@ class Devices(Resource):
         args = parser.parse_args()
 
         device = db.session.query(Device).filter(
-            Device.name == args['name']).first()
+            Device.name == args.name).first()
         if not device:
-            return {'message': '{} do not exist'.format(args['name'])}, 404
+            return {'message': f'{args.name} do not exist'}, 404
         db.session.delete(device)
         db.session.commit()
         return {}, 204

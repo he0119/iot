@@ -45,7 +45,7 @@ class Status(Resource):
 
         device = db.session.query(Device).filter_by(name=args.name).first()
         if not device:
-            return {'message': 'device do not exist'}, 404
+            return {'message': 'Device do not exist'}, 404
 
         payload = {}
         for field in device.schema:
@@ -71,7 +71,7 @@ class Status(Resource):
 
         device = db.session.query(Device).filter_by(name=args.name).first()
         if not device:
-            return {'message': 'device do not exist'}, 404
+            return {'message': 'Device do not exist'}, 404
 
         args.time = datetime.utcfromtimestamp(args.time)
 
@@ -80,5 +80,5 @@ class Status(Resource):
                 time=args.time, data=args.data, device=device)
             db.session.add(new_data)
             db.session.commit()
-            return {'message': 'data added'}, 201
-        return {'message': 'data already exist'}, 409
+            return {'message': 'Data added'}, 201
+        return {'message': 'Data already exist'}, 409

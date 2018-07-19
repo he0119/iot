@@ -28,7 +28,7 @@ class History(Resource):
         device = db.session.query(Device).filter(
             Device.name == args.name).first()
         if not device:
-            return {'message': '{} do not exist'.format(args.name)}, 404
+            return {'message': f'{args.name} do not exist'}, 404
 
         json_data = []  # Empty list
         days_start = datetime.utcfromtimestamp(args.start)

@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { WebsocketService } from '../../shared/websocket.service';
-import { DeviceData } from '../../shared/documentation-items';
-
+import { DeviceData, Device } from '../../shared/documentation-items';
+import { DeviceService } from '../../shared/device.service';
 
 @Component({
   selector: 'app-status',
@@ -11,36 +11,44 @@ import { DeviceData } from '../../shared/documentation-items';
 })
 export class StatusComponent implements OnInit, OnDestroy {
   connection;
-
+  devices: Device[];
   status: DeviceData[] = [];
 
-  constructor(private websocketService: WebsocketService) { }
+  constructor(private websocketService: WebsocketService, private deviceService: DeviceService) { }
 
   ngOnInit() {
-    this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
-      console.log(msg);
-      let needAdd = true;
-      for (const device of this.status) {
-        if (device.name === msg.name) {
-          needAdd = false;
-          device.data = msg.data;
-          device.time = msg.time;
-        }
+    this.deviceService.devicesInfo().subscribe((res: Device[]) => {
+      console.log(res);
+      this.devices = res;
+      for (const device of this.devices) {
+        this.status.push({
+          name: device.name,
+          time: null,
+          data: null
+        });
       }
-      if (needAdd) {
-        if (msg.time == null) {
-          msg.time = Date();
-          msg.data = { data: 'not exist' };
+      // console.log(this.status);
+      this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
+        console.log(msg);
+        for (const device of this.status) {
+          if (device.name === msg.name) {
+            if (msg.time == null) {
+              device.time = Date();
+              device.data = { data: 'not exist' };
+            } else {
+              device.time = msg.time;
+              device.data = msg.data;
+            }
+          }
         }
-      this.status.push(msg);
-    }
-  });
-    this.websocketService.send('request', 'hello, server!');
+      });
+      this.websocketService.send('request', 'hello, server!');
+    });
   }
 
-ngOnDestroy() {
-  this.connection.unsubscribe();
-}
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+  }
 
-changeStatus() { }
+  changeStatus() { }
 }

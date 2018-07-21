@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { LocalStorageService } from 'angular-web-storage';
 import { Device } from './documentation-items';
 
 @Injectable({
@@ -8,7 +11,7 @@ import { Device } from './documentation-items';
 export class DeviceService {
   API_URL = 'api/devices';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private local: LocalStorageService) { }
 
   deviceInfo(name) {
     const params = new HttpParams()
@@ -18,6 +21,15 @@ export class DeviceService {
   }
 
   devicesInfo() {
-    return this.http.get<Device[]>(this.API_URL);
+    const value = this.local.get('devicesInfo');
+    if (value) {
+      return of(value);
+    }
+    return this.http.get<Device[]>(this.API_URL).pipe(
+      map(res => {
+        this.local.set('devicesInfo', res, 1, 'h');
+        return res;
+      })
+    );
   }
 }

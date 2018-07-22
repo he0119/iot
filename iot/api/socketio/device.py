@@ -12,6 +12,7 @@ from iot.models.device import Device, DeviceData
 @authenticated_only
 def handle_status_event(msg):
     '''Handle status data from IOT devices'''
+    print(f'device data: {msg["data"]}')
     device_data = msg['data'].split('|')
     time, name = device_data[0].split(',')
     data = device_data[1]

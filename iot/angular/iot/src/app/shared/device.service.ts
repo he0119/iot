@@ -27,7 +27,7 @@ export class DeviceService {
     }
     return this.http.get<Device[]>(this.API_URL).pipe(
       map(res => {
-        this.local.set('devicesInfo', res, 1, 'h');
+        this.local.set('devicesInfo', res, 1, 'w');
         return res;
       })
     );

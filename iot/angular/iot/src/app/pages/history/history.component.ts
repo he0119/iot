@@ -43,11 +43,11 @@ export class HistoryComponent implements OnInit {
         const relativeHumidity = [];
         const time = [];
 
-        for (const entry of res) {
+        res.forEach(entry => {
           temperature.push(entry.data["temperature"]);
           relativeHumidity.push(entry.data["relative_humidity"]);
           time.push(new Date(entry.time));
-        };
+        })
 
         if (this.chart) this.chart.destroy(); // Destroy exist chart first
         this.chart = new Chart('canvas', {

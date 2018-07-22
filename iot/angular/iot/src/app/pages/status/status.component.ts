@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { WebsocketService } from '../../shared/websocket.service';
-import { DeviceData, Device } from '../../shared/documentation-items';
 import { DeviceService } from '../../shared/device.service';
+import { DeviceData, Device } from '../../shared/documentation-items';
 
 @Component({
   selector: 'app-status',
@@ -18,19 +18,18 @@ export class StatusComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
-      console.log(res);
       this.devices = res;
-      for (const device of this.devices) {
+      this.devices.forEach(device => {
         this.status.push({
           name: device.name,
           time: null,
           data: null
         });
-      }
+      })
       // console.log(this.status);
       this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
         console.log(msg);
-        for (const device of this.status) {
+        this.status.forEach(device => {
           if (device.name === msg.name) {
             if (msg.time == null) {
               device.time = Date();
@@ -40,7 +39,7 @@ export class StatusComponent implements OnInit, OnDestroy {
               device.data = msg.data;
             }
           }
-        }
+        })
       });
       this.websocketService.send('request', 'hello, server!');
     });

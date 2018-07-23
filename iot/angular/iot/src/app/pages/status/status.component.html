@@ -8,7 +8,7 @@
       </mat-list-item>
       <mat-list-item *ngIf="key.value=='boolean'">
           <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
-        <mat-slide-toggle color="primary" (click)="changeStatus(device.name, key.key)">
+        <mat-slide-toggle color="primary" (click)="changeStatus(device.name, key.key)" [checked]="status[device.name]['data'][key.key]">
         </mat-slide-toggle>
         {{status[device.name]["data"][key.key]}}
       </mat-list-item>

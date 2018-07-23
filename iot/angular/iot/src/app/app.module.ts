@@ -6,18 +6,26 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './/app-routing.module';
-
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule, MatMenuModule } from '@angular/material';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AppRoutingModule } from './app-routing.module';
 
 import { HistoryComponent } from './pages/history/history.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { StatusComponent } from './pages/status/status.component';
+import { KeysPipe } from './shared/keys.pipe';
 
+import { AngularWebStorageModule } from 'angular-web-storage';
+
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule, MatMenuModule, MatNativeDateModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+//TODO: Rearrange the stuctrue
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +33,8 @@ import { StatusComponent } from './pages/status/status.component';
     HistoryComponent,
     HomeComponent,
     NotfoundComponent,
-    StatusComponent
+    StatusComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
@@ -34,13 +43,21 @@ import { StatusComponent } from './pages/status/status.component';
     AppRoutingModule,
     HttpClientModule,
 
+    AngularWebStorageModule,
+
     MatListModule,
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatSelectModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

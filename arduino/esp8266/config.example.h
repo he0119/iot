@@ -2,10 +2,11 @@
 const char *ssid = ""; //WiFi名称
 const char *password = ""; //WiFi密码
 
-const char *mqtt_clientname = ""; //MQTT客户端名称
-const char *mqtt_server = ""; //MQTT服务器地址
-const char *mqtt_username = ""; //MQTT服务器用户名
-const char *mqtt_password = ""; //MQTT服务器密码
-const char *mqtt_upload_topic = ""; //MQTT上传主题
+const char *arduino_ota_name = "esp8266"; //OTA名称
 
-const char *arduino_ota_name = ""; //OTA名称
+const char *websocket_url = "127.0.0.1"; //服务器地址
+const int websocket_port = 5000; //服务器端口
+const char *device_name = ""; //设备名称，与服务器一致
+
+const char *username = ""; //网页管理员账户
+const char *password = "";

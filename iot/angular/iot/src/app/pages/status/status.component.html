@@ -1,36 +1,17 @@
-<mat-list>
-  <mat-list-item>
-    <span class="h5">Time:&nbsp;</span>
-    <span class="data">{{status?.time | date: 'medium':'+0800'}}</span>
-  </mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item>
-    <span class="h5">Temperature:&nbsp;</span>
-    <span class="data">{{status?.temperature}}</span>
-  </mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item>
-    <span class="h5">Relative Humidity:&nbsp;</span>
-    <span class="data">{{status?.relativeHumidity}}</span>
-  </mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item>
-    <span class="h5">Relay1 Status:&nbsp;</span>
-    <mat-slide-toggle
-      color="primary"
-      [(ngModel)]="relay1"
-      (click)="changeRelay1()">
-    {{relay1}}
-    </mat-slide-toggle>
-  </mat-list-item>
-  <mat-divider></mat-divider>
-  <mat-list-item>
-    <span class="h5">Relay2 Status:&nbsp;</span>
-    <mat-slide-toggle
-        color="primary"
-        [(ngModel)]="relay2"
-        (click)="changeRelay2()">
-      {{relay2}}
-    </mat-slide-toggle>
-  </mat-list-item>
-</mat-list>
+<mat-card *ngFor="let device of devices">
+  <a *ngIf="status[device.name]['data']">{{device["name"] | titlecase}}</a>
+  <mat-list *ngIf="status[device.name]['data']">
+    <mat-list-item *ngFor="let key of device.schema | keys">
+      <mat-list-item *ngIf="key.value=='int' || key.value=='float' || key.value=='string' ">
+          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+         {{status[device.name]["data"][key.key]}}
+      </mat-list-item>
+      <mat-list-item *ngIf="key.value=='boolean'">
+          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+        <mat-slide-toggle color="primary" (click)="changeStatus(device.name, key.key)" [checked]="status[device.name]['data'][key.key]">
+        </mat-slide-toggle>
+        {{status[device.name]["data"][key.key]}}
+      </mat-list-item>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

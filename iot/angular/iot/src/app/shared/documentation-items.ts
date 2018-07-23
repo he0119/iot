@@ -6,3 +6,18 @@ export const SECTIONS = {
   [STATUS]: 'Status',
   [HISTORY]: 'History',
 };
+
+export interface DeviceData {
+  name: string;
+  time: string;
+  data: object;
+}
+
+export interface Device {
+  name: string;
+  schema: object;
+  createOn: string;
+  lastConnectOn: string;
+  offlineOn: string;
+  onlineStatus: string;
+}

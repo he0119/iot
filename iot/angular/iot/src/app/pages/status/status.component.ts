@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Status } from '../../status';
-import { StatusService } from '../../status.service';
+import { WebsocketService } from '../../shared/websocket.service';
+import { DeviceService } from '../../shared/device.service';
+import { StatusService } from '../../shared/status.service';
+import { DeviceData, Device } from '../../shared/documentation-items';
 
 @Component({
   selector: 'app-status',
@@ -9,44 +11,44 @@ import { StatusService } from '../../status.service';
   styleUrls: ['./status.component.scss']
 })
 export class StatusComponent implements OnInit, OnDestroy {
-  @Input() status: Status;
-  interval: any;
-  relay1 = false;
-  relay2 = false;
+  connection;
+  devices: Device[];
+  status = {};
 
-  constructor(private statusService: StatusService) { }
-
-  getCurrentData() {
-    this.statusService.currentData()
-      .subscribe(status => {
-        this.status = status;
-        if (this.status) {
-          this.relay1 = this.status.relay1Status;
-          this.relay2 = this.status.relay2Status;
-        }
-      });
-  }
+  constructor(private websocketService: WebsocketService, private deviceService: DeviceService, private statusService: StatusService) { }
 
   ngOnInit() {
-    this.getCurrentData();
-    this.interval = setInterval(() => {
-      this.getCurrentData();
-      }, 10000);
+    this.deviceService.devicesInfo().subscribe((res: Device[]) => {
+      this.devices = res;
+      this.devices.forEach(device => {
+        this.status[device.name] = {
+          time: null,
+          data: null
+        }
+      })
+      // console.log(this.status);
+      this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
+        console.log(msg);
+        if (this.status[msg.name]) {
+          if (msg.time == null) {
+            this.status[msg.name].time = Date();
+            this.status[msg.name].data = { data: 'not exist' };
+          } else {
+            this.status[msg.name].time = msg.time;
+            this.status[msg.name].data = msg.data;
+          }
+        }
+      });
+      this.websocketService.send('request', 'hello, server!');
+    });
   }
 
   ngOnDestroy() {
-    clearInterval(this.interval);
+    this.connection.unsubscribe();
   }
 
-  changeRelay1() {
-    this.statusService.setRelayState(1, !this.relay1)
-      .subscribe(result =>
-        console.log(result)
-      );
-  }
-  changeRelay2() {
-    this.statusService.setRelayState(2, !this.relay2)
-    .subscribe(result =>
+  changeStatus(name, key) {
+    this.statusService.setDeviceStatus(name, key, !this.status[name]['data'][key]).subscribe(result =>
       console.log(result)
     );
   }

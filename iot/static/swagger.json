@@ -1,0 +1,519 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "title": "IOT",
+      "description": "This is a simple IOT server.",
+      "version": "0.2.0",
+      "contact":
+        {
+          "name": "hemengyang",
+          "email": "hmy0119@gmail.com",
+          "url": "https://hemengyang.tk"
+        },
+      "license":
+        {
+          "name": "MIT",
+          "url": "https://mit-license.org/"
+        }
+  },
+  "basePath": "/api",
+  "definitions": {
+    "status": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Get login user info",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User info"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create a new user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "username",
+                "password",
+                "email"
+              ],
+              "properties": {
+                "username": {
+                  "description": "Username",
+                  "type": "string"
+                },
+                "password": {
+                  "description": "Password",
+                  "type": "string",
+                  "format": "password"
+                },
+                "email": {
+                  "description": "Email",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "username": "example",
+                "password": "example",
+                "email": "example@example.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User info"
+          },
+          "400": {
+            "description": "Username or Email already exist"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "Modify user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "password": {
+                  "description": "Password",
+                  "type": "string",
+                  "format": "password"
+                },
+                "email": {
+                  "description": "Email",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "password": "example",
+                "email": "example@example.com"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User info updated"
+          },
+          "400": {
+            "description": "Email already exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "description": "Delete user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "description": "Username",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "username": "example"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted"
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Get devices info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "example": "test-esp"
+          }],
+        "responses": {
+          "200": {
+            "description": "Devices info"
+          },
+          "404": {
+            "description": "Device not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Create a new device",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "name",
+                "schema"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of device",
+                  "type": "string"
+                },
+                "schema": {
+                  "description": "Schema of device",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "example",
+                "schema": "example"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Device created"
+          },
+          "400": {
+            "description": "Arguments invalid"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Modify device info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "name": {
+                  "description": "Name of device",
+                  "type": "string"
+                },
+                "schema": {
+                  "description": "Schema of device",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "example",
+                "schema": "example"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Device info updated"
+          },
+          "400": {
+            "description": "Arguments invalid"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Delete device",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of device",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "username": "example"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Device deleted"
+          },
+          "404": {
+            "description": "Device do not exist"
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "description": "Get device latest status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of devicedata.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/status"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "status"
+        ],
+        "description": "Add data to database",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "name",
+                "time",
+                "data"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Device name",
+                  "type": "string"
+                },
+                "time": {
+                  "description": "Upload time",
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "Device data",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "esp-test",
+                "time": 1530933538,
+                "data": "27.70,95.00,0,0"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Data added."
+          },
+          "400": {
+            "description": "Missing required parameter."
+          },
+          "404": {
+            "description": "Device do not exist"
+          },
+          "409": {
+            "description": "Data already exist"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "status"
+        ],
+        "description": "Change status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "required": [
+                "name",
+                "data"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Device name",
+                  "type": "string"
+                },
+                "data": {
+                  "description": "Device data",
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "esp-test",
+                "data": {
+                  "relay1_status": true,
+                  "relay2_status": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Status modified."
+          },
+          "400": {
+            "description": "Missing required parameter."
+          },
+          "404": {
+            "description": "Device do not exist"
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "description": "Get device history data",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string",
+            "example": "test-esp"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "example": 1530932538
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "example": 1530933538
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "integer",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of data."
+          },
+          "400": {
+            "description": "Missing required parameter."
+          },
+          "404": {
+            "description": "Device do not exist"
+          }
+        }
+      }
+    },
+    "/token": {
+      "get": {
+        "tags": [
+          "token"
+        ],
+        "description": "Get token",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Token for current user"
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,14 +2,16 @@
 All Flask extensions are created here
 '''
 from flask import Flask
-from flask_mqtt import Mqtt
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_socketio import SocketIO
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 migrate = Migrate()
-mqtt = Mqtt()
+socketio = SocketIO()
+login_manager = LoginManager()
 
 def create_app(Config):
     app = Flask(__name__)
@@ -17,7 +19,8 @@ def create_app(Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
-    mqtt.init_app(app)
+    socketio.init_app(app)
+    login_manager.init_app(app)
 
     swaggerui_blueprint = get_swaggerui_blueprint(
         app.config.get('SWAGGER_URL'),

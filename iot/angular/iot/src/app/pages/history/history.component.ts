@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoryService } from '../../history.service';
+import { HistoryService } from '../../shared/history.service';
 import { Chart } from 'chart.js';
+import { Device, DeviceData } from '../../shared/documentation-items';
+import { DeviceService } from '../../shared/device.service';
 
 @Component({
   selector: 'app-history',
@@ -8,24 +10,46 @@ import { Chart } from 'chart.js';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
+  chart: Chart;
+  devices: Device[];
 
-  chart = [];
+  name = '';
+  start = new Date();
+  end = new Date();
+  interval = 18;
 
-  constructor(private historyService: HistoryService) { }
+  constructor(private historyService: HistoryService, private deviceService: DeviceService) { }
 
   ngOnInit() {
-    const start = new Date();
-    const end = new Date();
-    const interval = 18;
-    start.setTime(start.getTime() - 24 * 60 * 60 * 1000);
-    const start_ep = Math.floor((start.getTime() + start.getTimezoneOffset() * 60 * 1000) / 1000);
-    const end_ep = Math.floor((end.getTime() + end.getTimezoneOffset() * 60 * 1000) / 1000);
+    this.deviceService.devicesInfo().subscribe((res: Device[]) => {
+      this.devices = res;
+      this.name = res[0].name;
+      this.start.setTime(this.start.getTime() - 24 * 60 * 60 * 1000);
+      this.drawChart(this.name, this.start, this.end, this.interval);
+    })
+  }
 
-    this.historyService.historyData(start_ep, end_ep, interval)
-      .subscribe(res => {
-        const temperature = res['list'].map(temp => temp.temperature);
-        const relativeHumidity = res['list'].map(temp => temp.relative_humidity);
-        const time = res['list'].map(temp => temp.time.split(' ')[1]);
+  onClick() {
+    this.drawChart(this.name, this.start, this.end, this.interval);
+  }
+
+  drawChart(name: string, start: Date, end: Date, interval: number) {
+    const start_ep = Math.floor(start.getTime() / 1000);
+    const end_ep = Math.floor(end.getTime() / 1000);
+
+    this.historyService.historyData(name, start_ep, end_ep, interval)
+      .subscribe((res: DeviceData[]) => {
+        const temperature = [];
+        const relativeHumidity = [];
+        const time = [];
+
+        res.forEach(entry => {
+          temperature.push(entry.data["temperature"]);
+          relativeHumidity.push(entry.data["relative_humidity"]);
+          time.push(new Date(entry.time));
+        })
+
+        if (this.chart) this.chart.destroy(); // Destroy exist chart first
         this.chart = new Chart('canvas', {
           type: 'line',
           data: {
@@ -57,8 +81,14 @@ export class HistoryComponent implements OnInit {
                 radius: 0,
               },
             },
-          },
+            scales: {
+              xAxes: [{
+                type: 'time',
+                distribution: 'linear'
+              }],
+            }
+          }
         });
-      });
+      })
   }
 }

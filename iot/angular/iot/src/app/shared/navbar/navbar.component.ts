@@ -9,6 +9,7 @@ const SECTIONS_KEYS = Object.keys(SECTIONS);
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+
   get sections() {
     return SECTIONS;
   }

@@ -34,3 +34,6 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
     flask run
     ```
 Now you can go to http://127.0.0.1:5000/
+## ChangeLog
+### v0.2.1
+* Fixed missing time field in status page

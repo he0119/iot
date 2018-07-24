@@ -1,17 +1,21 @@
 <mat-card *ngFor="let device of devices">
   <a *ngIf="status[device.name]['data']">{{device["name"] | titlecase}}</a>
   <mat-list *ngIf="status[device.name]['data']">
-    <mat-list-item *ngFor="let key of device.schema | keys">
+    <mat-list-item>
+      <span class="h5">Time:&nbsp;</span>
+      {{status[device.name]["time"] | date: 'medium':'+0800'}}
+    </mat-list-item>
+    <div *ngFor="let key of device.schema | keys">
       <mat-list-item *ngIf="key.value=='int' || key.value=='float' || key.value=='string' ">
-          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
-         {{status[device.name]["data"][key.key]}}
+        <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+        {{status[device.name]["data"][key.key]}}
       </mat-list-item>
       <mat-list-item *ngIf="key.value=='boolean'">
-          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+        <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
         <mat-slide-toggle color="primary" (click)="changeStatus(device.name, key.key)" [checked]="status[device.name]['data'][key.key]">
         </mat-slide-toggle>
         {{status[device.name]["data"][key.key]}}
       </mat-list-item>
-    </mat-list-item>
+    </div>
   </mat-list>
 </mat-card>

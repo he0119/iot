@@ -32,7 +32,7 @@ export class StatusComponent implements OnInit, OnDestroy {
         if (this.status[msg.name]) {
           if (msg.time == null) {
             this.status[msg.name].time = Date();
-            this.status[msg.name].data = { data: 'not exist' };
+            this.status[msg.name].data = null;
           } else {
             this.status[msg.name].time = msg.time;
             this.status[msg.name].data = msg.data;

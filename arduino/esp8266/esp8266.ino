@@ -16,11 +16,21 @@ NTPClient timeClient(ntpUDP, "cn.ntp.org.cn", 0, 60000);
 
 //Socket
 #include <SocketIoClient.h>
+#if ENABLE_SSL
+  #define beginwebsocket beginSSL
+#else
+  #define beginwebsocket begin
+#endif
 SocketIoClient webSocket;
 
 //DHT
 #include <dht.h>
-#define DHT11_PIN D4 //连接到DHT传感器的端口
+#if DHT_VER == 11
+  #define readdht read11
+#elif DHT_VER == 22
+  #define readdht read22
+#endif
+#define DHT_PIN D4 //连接到DHT传感器的端口
 dht DHT;
 
 //Status
@@ -73,7 +83,7 @@ void setup_wifi()
 
 void read_data()
 {
-  int chk = DHT.read11(DHT11_PIN); //读取传感器数据
+  int chk = DHT.readdht(DHT_PIN); //读取传感器数据
   switch (chk)
   {
   case DHTLIB_OK:
@@ -128,7 +138,7 @@ void setup()
   ArduinoOTA.begin();
 
   //WebSocket设置
-  webSocket.begin(websocket_url, websocket_port, "/socket.io/?transport=websocket");
+  webSocket.beginwebsocket(websocket_url, websocket_port, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
   webSocket.on(device_name, event);
 }

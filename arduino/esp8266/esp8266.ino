@@ -9,7 +9,7 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "cn.ntp.org.cn", 0, 60000);
+NTPClient timeClient(ntpUDP, "ntp.aliyun.com", 0, 60000);
 
 //Json
 #include <ArduinoJson.h>

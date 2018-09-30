@@ -16,15 +16,15 @@ systemctl status crond //状态
 systemctl start crond//启动
 
 //crontab -e 配置
-0 6 * * * python3 /usr/tieba/tiebasign.py
-0 8 * * * python3 /usr/tieba/tiebasign.py
+0 6 * * * python3 /root/tieba/tiebasign.py
+0 8 * * * python3 /root/tieba/tiebasign.py
 //每天0点12点执行，每次等待随机0-3600秒后续期
 0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew
 
 //设置时区
 timedatectl set-timezone Asia/Shanghai
 //设置语言
-vim /etc/locale.conf 
+vim /etc/locale.conf
 LANG='zh_CN.UTF-8'
 
 //安装Xshell需要的插件
@@ -36,9 +36,9 @@ yum -y install net-tools
 //配置python3
 yum -y install zlib-devel openssl openssl-devel
 
-wget --no-check-certificate https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
-tar -xzvf Python-3.6.4.tgz
-cd Python-3.6.4
+wget --no-check-certificate https://www.python.org/ftp/python/3.6.4/Python-3.6.6.tgz
+tar -xzvf Python-3.6.6.tgz
+cd Python-3.6.6
 ./configure --prefix=/usr/local/python3
 make && make install
 ln -s /usr/local/python3/bin/python3 /usr/bin/python3

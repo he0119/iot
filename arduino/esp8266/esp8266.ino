@@ -10,6 +10,7 @@
 #include <WiFiUdp.h>
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "ntp.aliyun.com", 0, 60000);
+//FIXME:莫名奇妙会无法与NTP服务器同步时间。(猜测是和路由器有关)
 
 //Json
 #include <ArduinoJson.h>

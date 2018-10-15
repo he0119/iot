@@ -1,5 +1,6 @@
 {
     "todo-tree.flat": true,
     "todo-tree.expanded": true,
-    "todo-tree.grouped": false
+    "todo-tree.grouped": false,
+    "python.pythonPath": "venv\\Scripts\\python.exe"
 }

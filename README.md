@@ -3,18 +3,18 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 
 ## Requirements
 * Python 3.6.6
-* Node.js 8.11.3
+* Node.js 8.12.0
 
 ## Getting Started
 1. Setup python environment
     ```bash
-    virtualenv --no-site-packages venv
+    virtualenv --no-site-packages --python=python3.6 venv 
     . venv/bin/activite(venv\Scripts\activate on Windows)
     pip install -r requirements.txt
     ```
 2. Setup angular environment
 	```bash
-    cd iot\angular
+    cd iot/angular/iot
     npm install -g @angular/cli
     npm install
     ng build --prod

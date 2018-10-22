@@ -14,8 +14,6 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { StatusComponent } from './pages/status/status.component';
 import { KeysPipe } from './shared/keys.pipe';
 
-import { AngularWebStorageModule } from 'angular-web-storage';
-
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule, MatMenuModule, MatNativeDateModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,8 +40,6 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-
-    AngularWebStorageModule,
 
     MatListModule,
     MatButtonModule,

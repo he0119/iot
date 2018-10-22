@@ -1,8 +1,7 @@
 # Tips
 ## 生成requirements.txt
-目录下运行
-pipreqs ./ --encoding UTF-8 --ignore iot/angular,migrations --print
-可以得到requirements.txt
+目录下运行`pipreqs ./ --encoding UTF-8 --ignore iot/angular,migrations`
+即可以得到requirements.txt
 
 ## 启用Gzip(nginx)
 使用Gzip压缩JS或者JSON文件[参考](https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/)  

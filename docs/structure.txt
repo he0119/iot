@@ -1,6 +1,6 @@
 ├─arduino
 │  └─esp8266
-├─configuration
+├─docs
 ├─iot
 │  ├─angular
 │  │  └─iot

@@ -1,12 +1,13 @@
+# Tips
+## 生成requirements.txt
 目录下运行
 pipreqs ./ --encoding UTF-8 --ignore iot/angular,migrations --print
 可以得到requirements.txt
 
-用这个指令，能避免RangeError: Maximum call stack size exceeded这个错误。
-ng build --prod --build-optimizer=false
-
-使用Gzip压缩js或者json文件(https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/)
-/etc/nginx/nginx.conf
+## 启用Gzip(nginx)
+使用Gzip压缩JS或者JSON文件[参考](https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/)  
+编辑文件`/etc/nginx/nginx.conf`
+```conf
 http {
   # 开启gzip
   gzip on;
@@ -27,3 +28,4 @@ http {
   # 禁用IE 6 gzip
   gzip_disable "MSIE [1-6]\.";
 }
+```

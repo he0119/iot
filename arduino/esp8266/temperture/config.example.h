@@ -11,6 +11,6 @@ const char *websocket_url = "127.0.0.1"; //服务器地址
 const int websocket_port = 5000; //服务器端口
 const char *device_name = ""; //设备名称，与服务器一致
 
-const char *username = ""; //网页管理员账户
-const char *password = "";
+const char *admin_name = ""; //网页管理员账户
+const char *admin_password = "";
 //TODO: 以后使用TOKEN与服务器进行认证

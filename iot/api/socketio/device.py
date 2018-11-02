@@ -14,10 +14,10 @@ def handle_status_event(msg):
     '''Handle status data from IOT devices'''
     print(f'device data: {msg["data"]}')
     device_data = msg['data'].split('|')
-    time, name = device_data[0].split(',')
+    time, device_id = device_data[0].split(',')
     data = device_data[1]
 
-    device = db.session.query(Device).filter_by(name=name).first()
+    device = db.session.query(Device).filter_by(id=device_id).first()
     if not device:
         pass
     elif int(time) > 1500000000:  # 确认时间是正确的(2017/7/14 10:40:0)

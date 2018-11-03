@@ -160,7 +160,7 @@ void setup()
   //Port defaults to 8266
   ArduinoOTA.setPort(8266);
   //Hostname defaults to esp8266-[ChipID]
-  ArduinoOTA.setHostname(arduino_ota_name);
+  ArduinoOTA.setHostname(device_name);
   //No authentication by default
   //ArduinoOTA.setPassword("admin");
   ArduinoOTA.begin();
@@ -168,7 +168,7 @@ void setup()
   //WebSocket设置
   webSocket.beginwebsocket(server_url, server_port, "/socket.io/?transport=websocket");
   webSocket.setAuthorization(admin_name, admin_password);
-  webSocket.on(device_name, event);
+  webSocket.on(device_id, event);
 }
 
 void loop()

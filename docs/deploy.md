@@ -6,7 +6,7 @@
   sudo mv docs/iot.conf /etc/nginx/sites-enabled/iot
   ```
 2. Enable HTTPS and HTTP2
-  - Install certbot
+  - Enable HTTPS
     ```bash
     sudo apt-get update
     sudo apt-get install software-properties-common

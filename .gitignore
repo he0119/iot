@@ -69,3 +69,4 @@ Sample/
 migrations/
 config.h
 .env
+iot/angular/

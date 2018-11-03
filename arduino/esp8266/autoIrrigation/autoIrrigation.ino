@@ -39,12 +39,15 @@ char msg[100];
 unsigned long lastMillis = 0;  //计时器
 unsigned long valveMillis = 0; //电磁阀自动关闭计时器
 bool valve_delay_trigger = 0;  //电磁阀自动关闭触发器
+unsigned long pumpMillis = 0;  //抽水机自动关闭计时器
+bool pump_delay_trigger = 0;   //抽水机自动关闭触发器
 
 String temperature = "";
 String relative_humidity = "";
 bool valve = false;
 bool pump = false;
-unsigned long valve_delay = 30; //电磁阀延时，单位 秒
+unsigned long valve_delay = 60; //电磁阀延时，单位 秒
+unsigned long pump_delay = 60;  //抽水机延时，单位 秒
 String data_readtime = "";
 #define PUMP_PIN D1  // 抽水机
 #define VALVE_PIN D2 // 电磁阀 (连接继电器的端口)
@@ -68,9 +71,18 @@ void event(const char *payload, size_t length)
     }
   }
   if (root["pump"] != "null")
+  {
     pump = root["pump"];
+    if (pump)
+    {
+      pump_delay_trigger = true;
+      pumpMillis = millis(); //重置抽水机关闭计时
+    }
+  }
   if (root["valve_delay"] != "null")
-    pump = root["valve_delay"];
+    valve_delay = root["valve_delay"];
+  if (root["pump_delay"] != "null")
+    pump_delay = root["pump_delay"];
   event_set();
   upload();
 }
@@ -122,6 +134,7 @@ void upload()
   payload += "," + String(valve);
   payload += "," + String(pump);
   payload += "," + String(valve_delay);
+  payload += "," + String(pump_delay);
   payload += "\"}";
 
   payload.toCharArray(msg, 100);
@@ -160,14 +173,15 @@ void setup()
 
 void loop()
 {
-  ArduinoOTA.handle(); //OTA
-  timeClient.update(); //更新NTP时间
-  webSocket.loop();    //Websocket loop
+  ArduinoOTA.handle(); // OTA
+  timeClient.update(); // 更新NTP时间
+  webSocket.loop();    // Websocket loop
 
+  // 每10秒上传一次数据
   if (millis() - lastMillis > 10000)
   {
     read_data();
-    upload(); //每10秒上传一次数据
+    upload();
   }
 
   // 延时关闭电磁阀
@@ -176,6 +190,15 @@ void loop()
     valve_delay_trigger = false;
     valve = false;
     digitalWrite(VALVE_PIN, valve);
+    upload();
+  }
+
+  // 延时关闭抽水机
+  if (pump_delay_trigger && millis() - pumpMillis > 1000 * pump_delay)
+  {
+    pump_delay_trigger = false;
+    pump = false;
+    digitalWrite(PUMP_PIN, pump);
     upload();
   }
 }

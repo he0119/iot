@@ -14,7 +14,7 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
     ```
 2. Setup angular environment
 	```bash
-    cd iot/angular/iot
+    cd angular/iot
     npm install -g @angular/cli
     npm install
     ng build --prod

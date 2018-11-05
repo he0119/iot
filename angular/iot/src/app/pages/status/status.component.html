@@ -6,11 +6,11 @@
       {{status[device.name]["time"] | date: 'medium':'+0800'}}
     </mat-list-item>
     <div *ngFor="let key of device.schema | keys">
-      <mat-list-item *ngIf="key.value=='int' || key.value=='float' || key.value=='string' ">
+      <mat-list-item *ngIf="key.value==deviceDataType.integer || key.value==deviceDataType.float || key.value==deviceDataType.string ">
         <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
         {{status[device.name]["data"][key.key]}}
       </mat-list-item>
-      <mat-list-item *ngIf="key.value=='boolean'">
+      <mat-list-item *ngIf="key.value==deviceDataType.boolean">
         <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
         <mat-slide-toggle color="primary" (click)="changeStatus(device.name, key.key)" [checked]="status[device.name]['data'][key.key]">
         </mat-slide-toggle>

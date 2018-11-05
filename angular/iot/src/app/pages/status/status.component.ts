@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WebsocketService } from '../../shared/websocket.service';
 import { DeviceService } from '../../shared/device.service';
 import { StatusService } from '../../shared/status.service';
-import { DeviceData, Device } from '../../shared/documentation-items';
+import { DeviceData, Device, DeviceDataType } from '../../shared/documentation-items';
 
 @Component({
   selector: 'app-status',
@@ -14,6 +14,7 @@ export class StatusComponent implements OnInit, OnDestroy {
   connection;
   devices: Device[];
   status = {};
+  deviceDataType = DeviceDataType;
 
   constructor(private websocketService: WebsocketService, private deviceService: DeviceService, private statusService: StatusService) { }
 

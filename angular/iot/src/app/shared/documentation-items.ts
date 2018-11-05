@@ -21,3 +21,10 @@ export interface Device {
   offlineOn: string;
   onlineStatus: string;
 }
+
+export enum DeviceDataType {
+  integer = 0,
+  float,
+  string,
+  boolean,
+}

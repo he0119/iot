@@ -1,0 +1,5 @@
+使用 3.1.0  版本的库 NTPClient
+使用 5.13.3  版本的库 ArduinoJson
+使用 0.3  版本的库 SocketIoClient
+使用 2.1.1  版本的库 WebSockets
+使用 0.2.4  版本的库 DHTstable

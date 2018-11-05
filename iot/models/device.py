@@ -56,5 +56,11 @@ class Device(db.Model):
         return self.data.filter(
             and_(DeviceData.time >= start, DeviceData.time <= end)).all()
 
+    def delete_data(self):
+        '''Delete all data'''
+        for device_data in self.data.all():
+            db.session.delete(device_data)
+            db.session.commit()
+
     def __repr__(self):
         return '<Device %r>' % self.name

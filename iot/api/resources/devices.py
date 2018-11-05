@@ -107,6 +107,10 @@ class Devices(Resource):
             Device.id == args.id).first()
         if not device:
             return {'message': f'Device(id:{args.id}) do not exist'}, 404
+
+        # Delete all device data before delete device
+        device.delete_data()
+
         db.session.delete(device)
         db.session.commit()
         return {}, 204

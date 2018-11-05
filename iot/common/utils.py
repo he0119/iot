@@ -15,7 +15,7 @@ def datetime2iso(datetime):
     return datetime.isoformat()
 
 @unique
-class DataType(IntEnum):
+class DeviceDataType(IntEnum):
     integer = 0
     float = 1
     string = 2

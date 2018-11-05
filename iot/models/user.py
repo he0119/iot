@@ -43,5 +43,12 @@ class User(db.Model, UserMixin):
         user = User.query.get(data['id'])
         return user
 
+    def delete_devices(self):
+        '''Delete all data'''
+        for device in self.devices.all():
+            device.delete_data()
+            db.session.delete(device)
+            db.session.commit()
+
     def __repr__(self):
         return '<User {}>'.format(self.username)

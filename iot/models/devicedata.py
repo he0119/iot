@@ -2,7 +2,7 @@
 DeviceData Model
 '''
 from iot import db
-from iot.common.utils import datetime2iso, DataType
+from iot.common.utils import datetime2iso, DeviceDataType
 
 
 class DeviceData(db.Model):
@@ -21,17 +21,17 @@ class DeviceData(db.Model):
 
         i = 0
         for name in schema:
-            if DataType(schema[name]) == DataType.integer:
+            if DeviceDataType(schema[name]) == DeviceDataType.integer:
                 converted_data['data'][name] = int(raw_data[i])
-            elif DataType(schema[name]) == DataType.float:
+            elif DeviceDataType(schema[name]) == DeviceDataType.float:
                 if raw_data[i] == 'Error':
                     converted_data['data'][name] = None
                 else:
                     converted_data['data'][name] = float(raw_data[i])
                 # TODO: Use more beautiful way
-            elif DataType(schema[name]) == DataType.boolean:
+            elif DeviceDataType(schema[name]) == DeviceDataType.boolean:
                 converted_data['data'][name] = bool(int(raw_data[i]))
-            elif DataType(schema[name]) == DataType.string:
+            elif DeviceDataType(schema[name]) == DeviceDataType.string:
                 converted_data['data'][name] = str(raw_data[i])
             i += 1
         return converted_data

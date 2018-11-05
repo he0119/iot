@@ -10,7 +10,7 @@ from iot.common.auth import authenticated_only
 from iot.models.devicedata import DeviceData
 
 
-@socketio.on('device status')
+@socketio.on('devicedata')
 @authenticated_only
 def handle_status_event(msg):
     '''Handle status data from IOT devices'''

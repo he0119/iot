@@ -2,6 +2,7 @@
 Auth
 '''
 import functools
+import json
 
 from flask import Response
 from flask_login import current_user
@@ -10,15 +11,14 @@ from flask_socketio import disconnect
 from iot import login_manager
 from iot.models.user import User
 
-
 # From https://flask-socketio.readthedocs.org/en/latest/
-def authenticated_only(f):
-    @functools.wraps(f)
+def authenticated_only(func):
+    @functools.wraps(func)
     def wrapped(*args, **kwargs):
         if not current_user.is_authenticated:
             disconnect()
         else:
-            return f(*args, **kwargs)
+            return func(*args, **kwargs)
     return wrapped
 
 
@@ -39,7 +39,8 @@ def load_user_from_request(request):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return Response(
-        'Could not verify your access level for that URL.\n'
-        'You have to login with proper credentials', 401,
-        {'WWW-Authenticate': 'Basic realm="Login Required"'})
+    message = {
+        'code': 401,
+        'message': 'You have to login with proper credentials'
+    }
+    return Response(json.dumps(message), 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})

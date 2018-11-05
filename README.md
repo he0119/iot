@@ -9,7 +9,7 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 1. Setup python environment
     ```bash
     virtualenv --no-site-packages --python=python3.6 venv 
-    . venv/bin/activite(venv\Scripts\activate on Windows)
+    . venv/bin/activate(venv\Scripts\activate on Windows)
     pip install -r requirements.txt
     ```
 2. Setup angular environment

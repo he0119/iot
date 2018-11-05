@@ -60,13 +60,14 @@ docs/_build/
 # PyBuilder
 target/
 
-#Ipython Notebook
+# Ipython Notebook
 .ipynb_checkpoints
 
+# Node.js
 node_modules/
-Sample/
 
 migrations/
 config.h
 .env
 iot/angular/
+.vscode/.ropeproject/objectdb

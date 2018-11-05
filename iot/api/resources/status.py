@@ -3,11 +3,11 @@ Status Resource
 '''
 from datetime import datetime
 
-from flask_login import login_required
+from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 
 from iot import db, socketio
-from iot.models.device import Device, DeviceData
+from iot.models.devicedata import DeviceData
 
 
 class Status(Resource):
@@ -24,10 +24,11 @@ class Status(Resource):
     @staticmethod
     def get():
         '''
-        Get device latest status
+        Get all user devices latest status
+        return a list
         '''
         json_data = []  # empty list
-        devices = db.session.query(Device).all()
+        devices = current_user.devices.all()
         for device in devices:
             json_data.append(device.get_latest_data())
         return json_data
@@ -39,13 +40,13 @@ class Status(Resource):
         Change status
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True, location='json')
+        parser.add_argument('id', required=True, location='json')
         parser.add_argument('data', type=dict, required=True, location='json')
         args = parser.parse_args()
 
-        device = db.session.query(Device).filter_by(name=args.name).first()
+        device = current_user.devices.filter_by(id=args.id).first()
         if not device:
-            return {'message': 'Device do not exist'}, 404
+            return {'code': 404, 'message': 'Device does not exist'}, 404
 
         payload = {}
         for field in device.schema:
@@ -54,8 +55,8 @@ class Status(Resource):
             else:
                 payload[field] = "null"
 
-        socketio.emit(args.name, payload)
-        return {'message': 'Succeed'}, 201
+        socketio.emit(str(device.id), payload)
+        return {'message': 'Change status succeed'}, 201
 
     @staticmethod
     @login_required
@@ -64,14 +65,14 @@ class Status(Resource):
         Add data to database
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('name', required=True, location='json')
+        parser.add_argument('id', required=True, location='json')
         parser.add_argument('time', required=True, type=int, location='json')
         parser.add_argument('data', required=True, location='json')
         args = parser.parse_args()
 
-        device = db.session.query(Device).filter_by(name=args.name).first()
+        device = current_user.devices.filter_by(id=args.id).first()
         if not device:
-            return {'message': 'Device do not exist'}, 404
+            return {'code': 404, 'message': 'Device does not exist'}, 404
 
         args.time = datetime.utcfromtimestamp(args.time)
 
@@ -80,5 +81,5 @@ class Status(Resource):
                 time=args.time, data=args.data, device=device)
             db.session.add(new_data)
             db.session.commit()
-            return {'message': 'Data added'}, 201
-        return {'message': 'Data already exist'}, 409
+            return {'message': f'Data{args.time} added'}, 201
+        return {'code': 409, 'message': 'Data already exist'}, 409

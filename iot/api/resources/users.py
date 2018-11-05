@@ -35,10 +35,10 @@ class Users(Resource):
         args = parser.parse_args()
 
         if db.session.query(User).filter(User.username == args.username).first():
-            return {'message': 'Username already exist'}, 400
+            return {'code': 400, 'message': 'Username already exist'}, 400
 
         if db.session.query(User).filter(User.email == args.email).first():
-            return {'message': 'This Email has been used, please change'}, 400
+            return {'code': 400, 'message': 'This Email has been used, please change'}, 400
 
         user = User(username=args.username, email=args.email)
         user.set_password(args.password)
@@ -61,9 +61,9 @@ class Users(Resource):
             User.username == current_user.username).first()
         if args.email:
             if args.email == current_user.email:
-                return {'message': 'You have used this email'}, 400
+                return {'code': 400, 'message': 'You have used this email'}, 400
             if db.session.query(User).filter(User.email == args.email).first():
-                return {'message': 'This Email has been used, please change'}, 400
+                return {'code': 400, 'message': 'This Email has been used, please change'}, 400
             user.email = args.email
         if args.password:
             user.set_password(args.password)
@@ -84,7 +84,7 @@ class Users(Resource):
         user = db.session.query(User).filter(
             User.username == args.username).first()
         if not user:
-            return {'message': f'{args.username} do not exist'}, 400
+            return {'code': 400, 'message': f'{args.username} do not exist'}, 400
         db.session.delete(user)
         db.session.commit()
         return {'message': f'{args.username} deleted'}, 204

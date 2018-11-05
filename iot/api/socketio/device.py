@@ -3,9 +3,11 @@ Deivce
 '''
 from datetime import datetime
 
+from flask_login import current_user
+
 from iot import db, socketio
 from iot.common.auth import authenticated_only
-from iot.models.device import Device, DeviceData
+from iot.models.devicedata import DeviceData
 
 
 @socketio.on('device status')
@@ -17,7 +19,7 @@ def handle_status_event(msg):
     time, device_id = device_data[0].split(',')
     data = device_data[1]
 
-    device = db.session.query(Device).filter_by(id=device_id).first()
+    device = current_user.devices.filter_by(id=device_id).first()
     if not device:
         pass
     elif int(time) > 1500000000:  # 确认时间是正确的(2017/7/14 10:40:0)

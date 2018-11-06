@@ -16,10 +16,11 @@ export interface DeviceData {
 export interface Device {
   name: string;
   schema: object;
-  createOn: string;
-  lastConnectOn: string;
-  offlineOn: string;
-  onlineStatus: string;
+  display: object;
+  createOn: Date;
+  lastConnectOn: Date;
+  offlineOn: Date;
+  onlineStatus: Date;
 }
 
 export enum DeviceDataType {

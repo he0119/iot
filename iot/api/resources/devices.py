@@ -34,12 +34,12 @@ class Devices(Resource):
         if args.id:
             for device in devices:
                 if device.id == args.id:
-                    return device.get_device_info()
+                    return device.device_info_to_json()
             return {'code': 404, 'message': 'Device not found'}, 404
 
         device_list = []
         for device in devices:
-            device_list.append(device.get_device_info())
+            device_list.append(device.device_info_to_json())
         return device_list
 
     @staticmethod
@@ -50,7 +50,8 @@ class Devices(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True, location='json')
-        parser.add_argument('type_id', required=True, location='json')
+        parser.add_argument('display', type=dict,
+                            required=True, location='json')
         parser.add_argument('schema', type=dict,
                             required=True, location='json')
         args = parser.parse_args()
@@ -59,13 +60,13 @@ class Devices(Resource):
             device = [device for device in current_user.devices.all()
                       if device.name == args.name]
             if device:
-                return {'message': 'Name already exist'}, 400
+                return {'code': 400, 'message': 'Name already exist'}, 400
 
         device = Device(name=args.name, schema=args.schema,
-                        type_id=args.type_id, user=current_user)
+                        display=args.display, user=current_user)
         db.session.add(device)
         db.session.commit()
-        return {'name': device.name, 'device_id': device.id, 'message': 'Device created'}, 201
+        return device.device_info_to_json(), 201
 
     @staticmethod
     @login_required
@@ -75,10 +76,9 @@ class Devices(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('id', required=True, location='json')
-        parser.add_argument('name', required=True, location='json')
-        parser.add_argument('type_id', required=True, location='json')
-        parser.add_argument('schema', type=dict,
-                            required=True, location='json')
+        parser.add_argument('name', location='json')
+        parser.add_argument('display', type=dict, location='json')
+        parser.add_argument('schema', type=dict, location='json')
         args = parser.parse_args()
 
         device = current_user.devices.filter(
@@ -86,9 +86,13 @@ class Devices(Resource):
         if not device:
             return {'code': 404, 'message': f'Device(id:{args.id}) does not exist'}, 404
 
-        device.schema = args.schema
-        device.name = args.name
-        device.type_id = args.type_id
+        if args.schema:
+            device.schema = args.schema
+        if args.name:
+            device.name = args.name
+        if args.display:
+            device.display = args.display
+
         db.session.add(device)
         db.session.commit()
         return {'message': 'Device info updated'}, 201
@@ -106,7 +110,7 @@ class Devices(Resource):
         device = current_user.devices.filter(
             Device.id == args.id).first()
         if not device:
-            return {'message': f'Device(id:{args.id}) do not exist'}, 404
+            return {'code': 404, 'message': f'Device(id:{args.id}) do not exist'}, 404
 
         # Delete all device data before delete device
         device.delete_data()

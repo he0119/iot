@@ -46,10 +46,16 @@
       "Device": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer"
+          },
           "name": {
             "type": "string"
           },
           "schema": {
+            "type": "object"
+          },
+          "display": {
             "type": "object"
           },
           "createOn": {
@@ -136,7 +142,6 @@
           "users"
         ],
         "description": "Get login user info",
-        "operationId": "getLoginUserInfo",
         "responses": {
           "200": {
             "description": "Current login user info",
@@ -268,30 +273,200 @@
         "tags": [
           "users"
         ],
-        "description": "Delete user",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "required": [
-                "username"
-              ],
-              "properties": {
-                "username": {
-                  "description": "Username",
-                  "type": "string"
-                }
-              },
-              "example": {
-                "username": "example"
-              }
-            }
-          }
-        ],
+        "description": "Delete login user",
         "responses": {
           "204": {
             "description": "User deleted"
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Get all devices info",
+        "responses": {
+          "200": {
+            "description": "Current login user devices info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Create a new device",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "name",
+                  "display",
+                  "schema"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Username",
+                    "type": "string"
+                  },
+                  "display": {
+                    "description": "Website display settings",
+                    "type": "object"
+                  },
+                  "schema": {
+                    "description": "Device data schema",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "name": "test",
+                  "display": {
+                    "temperature": [
+                      1,
+                      0
+                    ],
+                    "relative_humidity": [
+                      1,
+                      0
+                    ]
+                  },
+                  "schema": {
+                    "temperature": 1,
+                    "relative_humidity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Device name already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Modify device info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  },
+                  "name": {
+                    "description": "Device name",
+                    "type": "string"
+                  },
+                  "schema": {
+                    "description": "Device schema",
+                    "type": "object"
+                  },
+                  "display": {
+                    "description": "Device display settings",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "name": "test",
+                  "display": {
+                    "temperature": [
+                      1,
+                      0
+                    ],
+                    "relative_humidity": [
+                      1,
+                      0
+                    ]
+                  },
+                  "schema": {
+                    "temperature": 1,
+                    "relative_humidity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device info updated"
+          },
+          "400": {
+            "description": "Device name already exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Delete device",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  }
+                },
+                "example": {
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Device deleted"
           }
         }
       }

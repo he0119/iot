@@ -22,7 +22,7 @@ export class StatusComponent implements OnInit, OnDestroy {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
       this.devices = res;
       this.devices.forEach(device => {
-        this.status[device.name] = {
+        this.status[device.id] = {
           time: null,
           data: null
         }
@@ -30,13 +30,13 @@ export class StatusComponent implements OnInit, OnDestroy {
       // console.log(this.status);
       this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
         console.log(msg);
-        if (this.status[msg.name]) {
+        if (this.status[msg.id]) {
           if (msg.time == null) {
-            this.status[msg.name].time = Date();
-            this.status[msg.name].data = null;
+            this.status[msg.id].time = Date();
+            this.status[msg.id].data = null;
           } else {
-            this.status[msg.name].time = msg.time;
-            this.status[msg.name].data = msg.data;
+            this.status[msg.id].time = msg.time;
+            this.status[msg.id].data = msg.data;
           }
         }
       });
@@ -48,8 +48,8 @@ export class StatusComponent implements OnInit, OnDestroy {
     this.connection.unsubscribe();
   }
 
-  changeStatus(name, key) {
-    this.statusService.setDeviceStatus(name, key, !this.status[name]['data'][key]).subscribe(result =>
+  changeStatus(id, key) {
+    this.statusService.setDeviceStatus(id, key, !this.status[id]['data'][key]).subscribe(result =>
       console.log(result)
     );
   }

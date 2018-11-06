@@ -1,20 +1,21 @@
 <mat-card *ngFor="let device of devices">
-  <a *ngIf="status[device.name]['data']">{{device["name"] | titlecase}}</a>
-  <mat-list *ngIf="status[device.name]['data']">
+  <a *ngIf="status[device.id]['data']">{{device["name"] | titlecase}}</a>
+  <mat-list *ngIf="status[device.id]['data']">
     <mat-list-item>
       <span class="h5">Time:&nbsp;</span>
-      {{status[device.name]["time"] | date: 'medium':'+0800'}}
+      {{status[device.id]["time"] | date: 'medium':'+0800'}}
     </mat-list-item>
     <div *ngFor="let key of device.schema | keys">
-      <mat-list-item *ngIf="key.value==deviceDataType.integer || key.value==deviceDataType.float || key.value==deviceDataType.string ">
+      <mat-list-item *ngIf="(key.value==deviceDataType.integer || key.value==deviceDataType.float || key.value==deviceDataType.string) && device.display[key.key][0]">
         <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
-        {{status[device.name]["data"][key.key]}}
+        {{status[device.id]["data"][key.key]}}
       </mat-list-item>
-      <mat-list-item *ngIf="key.value==deviceDataType.boolean">
+      <mat-list-item *ngIf="key.value==deviceDataType.boolean && device.display[key.key][0]">
         <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
-        <mat-slide-toggle color="primary" (click)="changeStatus(device.name, key.key)" [checked]="status[device.name]['data'][key.key]">
+        <mat-slide-toggle color="primary" (click)="changeStatus(device.id, key.key)" [checked]="status[device.id]['data'][key.key]">
         </mat-slide-toggle>
-        {{status[device.name]["data"][key.key]}}
+        <span *ngIf="status[device.id]['data'][key.key]; else elseBlock">ON</span>
+        <ng-template #elseBlock>OFF</ng-template>
       </mat-list-item>
     </div>
   </mat-list>

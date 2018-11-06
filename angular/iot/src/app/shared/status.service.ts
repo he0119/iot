@@ -11,7 +11,7 @@ export class StatusService {
 
   constructor(private http: HttpClient) { }
 
-  setDeviceStatus(name, field, status) {
-    return this.http.put(this.API_URL, { 'name': name, 'data': { [field]: status } });
+  setDeviceStatus(id, field, status) {
+    return this.http.put(this.API_URL, { 'id': id, 'data': { [field]: status } });
   }
 }

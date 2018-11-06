@@ -78,7 +78,6 @@ class Devices(Resource):
         parser.add_argument('id', required=True, location='json')
         parser.add_argument('name', location='json')
         parser.add_argument('display', type=dict, location='json')
-        parser.add_argument('schema', type=dict, location='json')
         args = parser.parse_args()
 
         device = current_user.devices.filter(
@@ -86,8 +85,6 @@ class Devices(Resource):
         if not device:
             return {'code': 404, 'message': f'Device(id:{args.id}) does not exist'}, 404
 
-        if args.schema:
-            device.schema = args.schema
         if args.name:
             device.name = args.name
         if args.display:

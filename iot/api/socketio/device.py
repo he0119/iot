@@ -28,4 +28,4 @@ def handle_status_event(msg):
         if len(device.data.filter(DeviceData.time == time).all()) < 2:
             db.session.add(new_data)
             db.session.commit()
-        socketio.emit('status', new_data.get_data())
+        socketio.emit('status', new_data.data_to_json())

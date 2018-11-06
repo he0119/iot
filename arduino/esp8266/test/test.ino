@@ -41,23 +41,78 @@ SocketIoClient webSocket;
 dht DHT;
 
 //Status
-unsigned long lastMillis = 0;  //计时器
+unsigned long lastMillis = 0; //计时器
 
-float temperature = NULL;
-float relative_humidity = NULL;
+//Pump&Valve
+unsigned long valveMillis = 0; //电磁阀自动关闭计时器
+bool valve_delay_trigger = 0;  //电磁阀自动关闭触发器
+unsigned long pumpMillis = 0;  //抽水机自动关闭计时器
+bool pump_delay_trigger = 0;   //抽水机自动关闭触发器
+bool moisture_trigger = 0;     //湿度触发器
+unsigned long soil_moisture = 0;
+unsigned long soil_moisture_limit = 1023; //湿度触发阈值
+bool valve = false;
+bool pump = false;
+unsigned long valve_delay = 60; //电磁阀延时，单位 秒
+unsigned long pump_delay = 60;  //抽水机延时，单位 秒
 
-unsigned long data_readtime = 0;
+float temperature;
+float relative_humidity;
+
+unsigned long data_readtime;
+
+#define PUMP_PIN D1          //抽水机
+#define VALVE_PIN D2         //电磁阀 (连接继电器的端口)
+#define SOIL_MOISTURE_PIN A0 //土壤湿度传感器
 
 bool need_save_config = false; //设置保存触发器
 
 void event(const char *payload, size_t length)
 {
-  StaticJsonBuffer<200> jsonBuffer;
+  Serial.println(payload);
+  const size_t bufferSize = JSON_OBJECT_SIZE(8) + 150;
+  DynamicJsonBuffer jsonBuffer(bufferSize);
   JsonObject &root = jsonBuffer.parseObject(payload);
   //Test if parsing succeeds.
   if (!root.success())
   {
     return;
+  }
+  root.printTo(Serial);
+
+  if (root["valve"] != "null")
+  {
+    valve = root["valve"];
+    if (valve)
+    {
+      valve_delay_trigger = true;
+      valveMillis = millis(); //重置电磁阀关闭计时
+    }
+  }
+  if (root["pump"] != "null")
+  {
+    pump = root["pump"];
+    if (pump)
+    {
+      pump_delay_trigger = true;
+      pumpMillis = millis(); //重置抽水机关闭计时
+    }
+  }
+
+  if (root["valve_delay"] != "null")
+  {
+    valve_delay = root["valve_delay"];
+    need_save_config = true;
+  }
+  if (root["pump_delay"] != "null")
+  {
+    pump_delay = root["pump_delay"];
+    need_save_config = true;
+  }
+  if (root["soil_moisture_limit"] != "null")
+  {
+    soil_moisture_limit = root["soil_moisture_limit"];
+    need_save_config = true;
   }
 
   event_set();
@@ -71,6 +126,8 @@ void event(const char *payload, size_t length)
 
 void event_set()
 {
+  digitalWrite(PUMP_PIN, pump);
+  digitalWrite(VALVE_PIN, valve);
   data_readtime = timeClient.getEpochTime();
 }
 
@@ -101,6 +158,7 @@ void read_data()
     temperature = NULL;
     break;
   }
+  soil_moisture = analogRead(SOIL_MOISTURE_PIN); //雨水和湿度情况
   data_readtime = timeClient.getEpochTime();     //读取数据的时间
 }
 
@@ -111,6 +169,12 @@ void upload(bool reset)
   payload += "," + String(device_id);
   payload += "|" + String(temperature);
   payload += "," + String(relative_humidity);
+  payload += "," + String(soil_moisture);
+  payload += "," + String(valve);
+  payload += "," + String(pump);
+  payload += "," + String(valve_delay);
+  payload += "," + String(pump_delay);
+  payload += "," + String(soil_moisture_limit);
   payload += "\"}";
 
   char msg[200];
@@ -146,7 +210,8 @@ bool load_config()
   //use configFile.readString instead.
   configFile.readBytes(buf.get(), size);
 
-  StaticJsonBuffer<200> jsonBuffer;
+  const size_t bufferSize = JSON_OBJECT_SIZE(3) + 150;
+  DynamicJsonBuffer jsonBuffer(bufferSize);
   JsonObject &json = jsonBuffer.parseObject(buf.get());
 
   if (!json.success())
@@ -155,13 +220,26 @@ bool load_config()
     return false;
   }
 
+  // 读取配置---------------
+  valve_delay = json["valve_delay"];
+  pump_delay = json["pump_delay"];
+  soil_moisture_limit = json["soil_moisture_limit"];
+  // ----------------------
+
   return true;
 }
 
 bool save_config()
 {
-  StaticJsonBuffer<200> jsonBuffer;
+  const size_t bufferSize = JSON_OBJECT_SIZE(3);
+  DynamicJsonBuffer jsonBuffer(bufferSize);
   JsonObject &json = jsonBuffer.createObject();
+
+  // 保存配置---------------
+  json["valve_delay"] = valve_delay;
+  json["pump_delay"] = pump_delay;
+  json["soil_moisture_limit"] = soil_moisture_limit;
+  // -----------------------
 
   File configFile = SPIFFS.open("/config.json", "w");
   if (!configFile)
@@ -189,7 +267,11 @@ void setup()
   Serial.begin(115200);
 
   pinMode(BUILTIN_LED, OUTPUT);
+  pinMode(PUMP_PIN, OUTPUT);
+  pinMode(VALVE_PIN, OUTPUT);
   digitalWrite(BUILTIN_LED, HIGH); //初始为关闭状态
+  digitalWrite(PUMP_PIN, LOW);
+  digitalWrite(VALVE_PIN, LOW);
 
   SPIFFS.begin(); //配置FS
   if (!load_config())
@@ -213,6 +295,7 @@ void setup()
 
   char buf[16];
   itoa(device_id, buf, 10);
+  Serial.println(buf);
   webSocket.on(buf, event);
 
   //Watchdog
@@ -232,5 +315,23 @@ void loop()
   {
     read_data();
     upload(1);
+  }
+
+  //延时关闭电磁阀
+  if (valve_delay_trigger && millis() - valveMillis > 1000 * valve_delay)
+  {
+    valve_delay_trigger = false;
+    valve = false;
+    digitalWrite(VALVE_PIN, valve);
+    upload(0);
+  }
+
+  //延时关闭抽水机
+  if (pump_delay_trigger && millis() - pumpMillis > 1000 * pump_delay)
+  {
+    pump_delay_trigger = false;
+    pump = false;
+    digitalWrite(PUMP_PIN, pump);
+    upload(0);
   }
 }

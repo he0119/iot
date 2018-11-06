@@ -46,9 +46,9 @@ class Device(db.Model):
         '''Get device's latest data'''
         latest = self.data.order_by(DeviceData.id.desc()).first()
         if latest:
-            data = latest.get_data()
+            data = latest.data_to_json()
             return data
-        return {'name': self.name,
+        return {'id': self.id,
                 'time': None,
                 'data': None}
 

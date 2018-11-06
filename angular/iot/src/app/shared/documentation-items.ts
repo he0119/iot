@@ -1,3 +1,5 @@
+import { InternalNgModuleRef } from "@angular/core/src/linker/ng_module_factory";
+
 const HOME = '';
 const STATUS = 'status';
 const HISTORY = 'history';
@@ -8,12 +10,13 @@ export const SECTIONS = {
 };
 
 export interface DeviceData {
-  name: string;
-  time: string;
+  id: number;
+  time: Date;
   data: object;
 }
 
 export interface Device {
+  id: number;
   name: string;
   schema: object;
   display: object;

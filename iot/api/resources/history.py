@@ -43,7 +43,7 @@ class History(Resource):
             number += 1
             if number >= interval:
                 number = 0
-                data = status.get_data()
+                data = status.data_to_json()
                 if data['data']['temperature'] is None or \
                    data['data']['relative_humidity'] is None:
                     continue  # Skip None

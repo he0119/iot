@@ -399,10 +399,6 @@
                     "description": "Device name",
                     "type": "string"
                   },
-                  "schema": {
-                    "description": "Device schema",
-                    "type": "object"
-                  },
                   "display": {
                     "description": "Device display settings",
                     "type": "object"
@@ -420,10 +416,6 @@
                       1,
                       0
                     ]
-                  },
-                  "schema": {
-                    "temperature": 1,
-                    "relative_humidity": 1
                   }
                 }
               }

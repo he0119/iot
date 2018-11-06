@@ -12,9 +12,9 @@ export class DeviceService {
 
   constructor(private http: HttpClient) { }
 
-  deviceInfo(name) {
+  deviceInfo(id) {
     const params = new HttpParams()
-      .set('name', name);
+      .set('id', id);
 
     return this.http.get<Device>(this.API_URL, { params });
   }

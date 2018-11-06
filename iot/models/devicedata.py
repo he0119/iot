@@ -12,10 +12,11 @@ class DeviceData(db.Model):
     data = db.Column(db.String(120), nullable=False)
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=False)
 
-    def get_data(self):
+    def data_to_json(self):
+        '''Get json type devicedata'''
         schema = self.device.schema
         raw_data = self.data.split(',')
-        converted_data = {'name': self.device.name,
+        converted_data = {'id': self.device.id,
                           'time': datetime2iso(self.time),
                           'data': {}}
 
@@ -28,7 +29,6 @@ class DeviceData(db.Model):
                     converted_data['data'][name] = None
                 else:
                     converted_data['data'][name] = float(raw_data[i])
-                # TODO: Use more beautiful way
             elif DeviceDataType(schema[name]) == DeviceDataType.boolean:
                 converted_data['data'][name] = bool(int(raw_data[i]))
             elif DeviceDataType(schema[name]) == DeviceDataType.string:

@@ -12,6 +12,8 @@ import { HistoryComponent } from './pages/history/history.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { StatusComponent } from './pages/status/status.component';
+import { DeviceStatusComponent } from './pages/status/device-status/device-status.component';
+
 import { KeysPipe } from './shared/keys.pipe';
 
 import { MatListModule } from '@angular/material/list';
@@ -23,6 +25,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 //TODO: Rearrange the stuctrue
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
     HomeComponent,
     NotfoundComponent,
     StatusComponent,
-    KeysPipe
+    KeysPipe,
+    DeviceStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +57,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatSelectModule,
     MatNativeDateModule,
+    MatSnackBarModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

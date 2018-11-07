@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { WebsocketService } from '../../shared/websocket.service';
 import { DeviceService } from '../../shared/device.service';
-import { StatusService } from '../../shared/status.service';
-import { DeviceData, Device, DeviceDataType } from '../../shared/documentation-items';
+
+import { DeviceData, Device } from '../../shared/documentation-items';
 
 @Component({
   selector: 'app-status',
@@ -13,30 +13,29 @@ import { DeviceData, Device, DeviceDataType } from '../../shared/documentation-i
 export class StatusComponent implements OnInit, OnDestroy {
   connection;
   devices: Device[];
-  status = {};
-  deviceDataType = DeviceDataType;
+  devicesData = {};
 
-  constructor(private websocketService: WebsocketService, private deviceService: DeviceService, private statusService: StatusService) { }
+  constructor(private websocketService: WebsocketService, private deviceService: DeviceService) { }
 
   ngOnInit() {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
       this.devices = res;
       this.devices.forEach(device => {
-        this.status[device.id] = {
+        this.devicesData[device.id] = {
           time: null,
           data: null
         }
       })
       // console.log(this.status);
       this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
-        console.log(msg);
-        if (this.status[msg.id]) {
+        // console.log(msg);
+        if (this.devicesData[msg.id]) {
           if (msg.time == null) {
-            this.status[msg.id].time = Date();
-            this.status[msg.id].data = null;
+            this.devicesData[msg.id].time = Date();
+            this.devicesData[msg.id].data = null;
           } else {
-            this.status[msg.id].time = msg.time;
-            this.status[msg.id].data = msg.data;
+            this.devicesData[msg.id].time = msg.time;
+            this.devicesData[msg.id].data = msg.data;
           }
         }
       });
@@ -48,9 +47,4 @@ export class StatusComponent implements OnInit, OnDestroy {
     this.connection.unsubscribe();
   }
 
-  changeStatus(id, key) {
-    this.statusService.setDeviceStatus(id, key, !this.status[id]['data'][key]).subscribe(result =>
-      console.log(result)
-    );
-  }
 }

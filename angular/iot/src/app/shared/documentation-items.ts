@@ -27,8 +27,8 @@ export interface Device {
 }
 
 export enum DeviceDataType {
-  integer = 0,
+  integer = 1,
   float,
-  string,
   boolean,
+  string,
 }

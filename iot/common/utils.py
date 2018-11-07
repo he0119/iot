@@ -16,7 +16,7 @@ def datetime2iso(datetime):
 
 @unique
 class DeviceDataType(IntEnum):
-    integer = 0
-    float = 1
-    string = 2
+    integer = 1
+    float = 2
     boolean = 3
+    string = 4

@@ -8,10 +8,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StatusService {
   API_URL = 'api/status';
+  // API_URL = 'http://127.0.0.1:5000/api/status';
 
   constructor(private http: HttpClient) { }
 
-  setDeviceStatus(id, field, status) {
-    return this.http.put(this.API_URL, { 'id': id, 'data': { [field]: status } });
+  setDeviceStatus(id, key, value) {
+    return this.http.put(this.API_URL, { 'id': id, 'data': { [key]: value } });
   }
 }

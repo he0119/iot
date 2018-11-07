@@ -22,6 +22,7 @@ export class WebsocketService {
   onNewMessage() {
     const observable = new Observable(observer => {
       this.socket = io();
+      // this.socket = io("http://127.0.0.1:5000/");
       this.socket.on('status', (data: DeviceData) => {
         observer.next(data);
       });

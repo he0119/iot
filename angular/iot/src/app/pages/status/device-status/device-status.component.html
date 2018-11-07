@@ -8,11 +8,11 @@
   <mat-card-content>
     <mat-list>
       <ng-container *ngFor="let key of device.schema | keys">
-        <mat-list-item *ngIf="(key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string) && device.display[key.key][0] && !device.display[key.key][1]">
+        <mat-list-item *ngIf="device.display[key.key][0] && (key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string) && !device.display[key.key][1]">
           <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
           {{deviceData["data"][key.key]}}
         </mat-list-item>
-        <mat-list-item *ngIf="key.value==deviceDataType.boolean && device.display[key.key][0] && device.display[key.key][1]">
+        <mat-list-item *ngIf="device.display[key.key][0] && key.value==deviceDataType.boolean && device.display[key.key][1]">
           <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
           <mat-slide-toggle color="primary" (click)="changeStatus(device.id, key.key, !deviceData['data'][key.key])"
             [checked]="deviceData['data'][key.key]">
@@ -20,25 +20,54 @@
           <span *ngIf="deviceData['data'][key.key]; else offText">&nbsp;ON</span>
           <ng-template #offText>&nbsp;OFF</ng-template>
         </mat-list-item>
+        <mat-list-item *ngIf="device.display[key.key][0] && key.value==deviceDataType.boolean && !device.display[key.key][1]">
+          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+          <span *ngIf="deviceData['data'][key.key]; else offText">&nbsp;ON</span>
+          <ng-template #offText>&nbsp;OFF</ng-template>
+        </mat-list-item>
       </ng-container>
     </mat-list>
-    <mat-accordion displayMode="flat">
-      <ng-container *ngFor="let key of device.schema | keys">
-        <mat-expansion-panel *ngIf="(key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string) && device.display[key.key][0] && device.display[key.key][1]">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span class="h5">{{key.key | titlecase}}:&nbsp;</span>{{deviceData["data"][key.key]}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-form-field class="form-field">
-            <input matInput #inputBox>
-            <button mat-button matSuffix (click)="changeStatus(device.id, key.key, inputBox.value)">SET</button>
-          </mat-form-field>
-        </mat-expansion-panel>
-      </ng-container>
-    </mat-accordion>
+    <ng-container *ngIf="settingVisibility">
+      <mat-list>
+        <ng-container *ngFor="let key of device.schema | keys">
+          <mat-list-item *ngIf="!device.display[key.key][0] && !device.display[key.key][1] && (key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string)">
+            <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+            {{deviceData["data"][key.key]}}
+          </mat-list-item>
+          <mat-list-item *ngIf="!device.display[key.key][0] && key.value==deviceDataType.boolean && device.display[key.key][1]">
+            <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+            <mat-slide-toggle color="primary" (click)="changeStatus(device.id, key.key, !deviceData['data'][key.key])"
+              [checked]="deviceData['data'][key.key]">
+            </mat-slide-toggle>
+            <span *ngIf="deviceData['data'][key.key]; else offText">&nbsp;ON</span>
+            <ng-template #offText>&nbsp;OFF</ng-template>
+          </mat-list-item>
+          <mat-list-item *ngIf="!device.display[key.key][0] && key.value==deviceDataType.boolean && !device.display[key.key][1]">
+            <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+            <span *ngIf="deviceData['data'][key.key]; else offText">&nbsp;ON</span>
+            <ng-template #offText>&nbsp;OFF</ng-template>
+          </mat-list-item>
+        </ng-container>
+      </mat-list>
+      <mat-accordion displayMode="flat">
+        <ng-container *ngFor="let key of device.schema | keys">
+          <mat-expansion-panel *ngIf="!device.display[key.key][0] && device.display[key.key][1] &&(key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span class="h5">{{key.key | titlecase}}:&nbsp;</span>{{deviceData["data"][key.key]}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field class="form-field">
+              <input matInput #inputBox>
+              <button mat-button matSuffix (click)="changeStatus(device.id, key.key, inputBox.value)">SET</button>
+            </mat-form-field>
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-accordion>
+    </ng-container>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button (click)="showAll()">SHOW ALL</button>
+    <button mat-button *ngIf="!settingVisibility" (click)="showSettings()">SHOW SETTINGS</button>
+    <button mat-button *ngIf="settingVisibility" (click)="hideSettings()">HIDE SETTINGS</button>
   </mat-card-actions>
 </mat-card>

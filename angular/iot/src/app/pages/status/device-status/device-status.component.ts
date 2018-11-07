@@ -14,6 +14,8 @@ export class DeviceStatusComponent implements OnInit {
   @Input() device: Device;
   @Input() deviceData: DeviceData;
   deviceDataType = DeviceDataType;
+  settingVisibility = 0;
+
 
   constructor(private statusService: StatusService) { }
 
@@ -26,9 +28,10 @@ export class DeviceStatusComponent implements OnInit {
     );
   }
 
-  showAll(){
-      Object.keys(this.device.display).forEach(element => {
-        this.device.display[element][0] = 1;
-      })
+  showSettings(){
+    this.settingVisibility = 1;
+  }
+  hideSettings(){
+    this.settingVisibility = 0;
   }
 }

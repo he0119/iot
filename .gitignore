@@ -70,4 +70,4 @@ migrations/
 config.h
 .env
 iot/angular/
-.vscode/.ropeproject/objectdb
+.vscode/

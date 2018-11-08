@@ -13,40 +13,71 @@ export class HistoryComponent implements OnInit {
   chart: Chart;
   devices: Device[];
 
-  name = '';
+  id: number;
   start = new Date();
   end = new Date();
   interval = 18;
+  showSettings = false;
+
+  chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
 
   constructor(private historyService: HistoryService, private deviceService: DeviceService) { }
 
   ngOnInit() {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
       this.devices = res;
-      this.name = res[0].name;
+      this.id = res[0].id;
       this.start.setTime(this.start.getTime() - 24 * 60 * 60 * 1000);
-      this.drawChart(this.name, this.start, this.end, this.interval);
+      this.drawChart(this.id, this.start, this.end, this.interval, this.showSettings);
     })
   }
 
   onClick() {
-    this.drawChart(this.name, this.start, this.end, this.interval);
+    this.drawChart(this.id, this.start, this.end, this.interval, this.showSettings);
   }
 
-  drawChart(name: string, start: Date, end: Date, interval: number) {
+  drawChart(id: number, start: Date, end: Date, interval: number, showSettings: boolean) {
     const start_ep = Math.floor(start.getTime() / 1000);
     const end_ep = Math.floor(end.getTime() / 1000);
 
-    this.historyService.historyData(name, start_ep, end_ep, interval)
+    this.historyService.historyData(id, start_ep, end_ep, interval)
       .subscribe((res: DeviceData[]) => {
-        const temperature = [];
-        const relativeHumidity = [];
+        const datasets = [];
+        const data = {};
         const time = [];
+        const display = this.getDisplay();
 
-        res.forEach(entry => {
-          temperature.push(entry.data["temperature"]);
-          relativeHumidity.push(entry.data["relative_humidity"]);
-          time.push(new Date(entry.time));
+        let colorNames = Object.keys(this.chartColors);
+
+        res.forEach(devicedata => {
+          time.push(new Date(devicedata.time));
+          Object.keys(devicedata.data).forEach(key => {
+            if (display[key][0] || showSettings) {
+              if (!data[key]) data[key] = [];
+              data[key].push(devicedata.data[key]);
+            }
+          })
+        })
+
+        Object.keys(data).forEach(key => {
+          let colorName = colorNames[key.length % colorNames.length];
+          let newColor = this.chartColors[colorName];
+          datasets.push(
+            {
+              "label": key,
+              "data": data[key],
+              "fill": false,
+              "backgroundColor": newColor,
+              "borderColor": newColor
+            })
         })
 
         if (this.chart) this.chart.destroy(); // Destroy exist chart first
@@ -54,22 +85,7 @@ export class HistoryComponent implements OnInit {
           type: 'line',
           data: {
             labels: time,
-            datasets: [
-              {
-                label: 'Temperature',
-                data: temperature,
-                backgroundColor: '#3cba9f',
-                borderColor: '#3cba9f',
-                fill: false,
-              },
-              {
-                label: 'Relative Humidity',
-                data: relativeHumidity,
-                backgroundColor: '#ffcc00',
-                borderColor: '#ffcc00',
-                fill: false,
-              },
-            ]
+            datasets: datasets,
           },
           options: {
             tooltips: {
@@ -91,4 +107,25 @@ export class HistoryComponent implements OnInit {
         });
       })
   }
+
+  getRandomColor(): string {
+    let letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  getDisplay(): object {
+    let display = {};
+    this.devices.forEach(device => {
+      if (device.id = this.id) {
+        console.log(device);
+        display = device.display;
+      }
+    })
+    return display;
+  }
+
 }

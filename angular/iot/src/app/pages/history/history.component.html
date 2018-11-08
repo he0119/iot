@@ -1,22 +1,25 @@
-<mat-form-field>
-  <mat-select placeholder="Devices" [(ngModel)]="name">
-    <mat-option *ngFor="let device of devices" [value]="device.name">
-      {{device.name}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <input matInput [matDatepicker]="dp1" placeholder="Start" [(ngModel)]='start'>
-  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-  <mat-datepicker #dp1></mat-datepicker>
-</mat-form-field>
-<mat-form-field>
-  <input matInput [matDatepicker]="dp2" placeholder="End" [(ngModel)]='end'>
-  <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-  <mat-datepicker #dp2></mat-datepicker>
-</mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="Interval" [(ngModel)]='interval'>
-</mat-form-field>
-<button mat-button (click)='onClick()'>Draw Chart</button>
+<div>
+  <mat-form-field>
+    <mat-select placeholder="Devices" [(ngModel)]="id">
+      <mat-option *ngFor="let device of devices" [value]="device.id">
+        {{device.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="dp1" placeholder="Start" [(ngModel)]='start'>
+    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+    <mat-datepicker #dp1></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="dp2" placeholder="End" [(ngModel)]='end'>
+    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+    <mat-datepicker #dp2></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Interval" [(ngModel)]='interval'>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="showSettings">Settings</mat-checkbox>
+  <button mat-button (click)='onClick()'>Draw Chart</button>
+</div>
 <canvas id="canvas"></canvas>

@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 //TODO: Rearrange the stuctrue
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatNativeDateModule,
     MatSnackBarModule,
     MatExpansionModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

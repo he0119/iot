@@ -11,9 +11,9 @@ export class HistoryService {
 
   constructor(private http: HttpClient) { }
 
-  historyData(name, start, end, interval) {
+  historyData(id, start, end, interval) {
     const params = new HttpParams()
-      .set('name', name)
+      .set('id', id)
       .set('start', start)
       .set('end', end)
       .set('interval', interval);

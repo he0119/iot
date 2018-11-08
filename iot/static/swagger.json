@@ -75,7 +75,7 @@
           }
         }
       },
-      "Status": {
+      "DeviceData": {
         "type": "object",
         "properties": {
           "name": {
@@ -459,6 +459,235 @@
         "responses": {
           "204": {
             "description": "Device deleted"
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "description": "Get all devices latest status",
+        "responses": {
+          "200": {
+            "description": "Get all devices latest status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceData"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "status"
+        ],
+        "description": "Add a new devicedata",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id",
+                  "time",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  },
+                  "time": {
+                    "description": "Device data time",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Device data",
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "time": 12312313,
+                  "data": "12,12"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device data added"
+          },
+          "409": {
+            "description": "Device data already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "status"
+        ],
+        "description": "Modify device status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Device data to be modified",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "data": {
+                    "valve_delay": 60
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device status updated"
+          },
+          "404": {
+            "description": "Device does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Device id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "History start time",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1541579753
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "History start end",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1541666153
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "description": "History interval",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 18
+          }
+        ],
+        "responses":{
+          "200":{
+            "description": "Get device history status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceData"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/token": {
+      "get": {
+        "tags": [
+          "token"
+        ],
+        "responses":{
+          "200":{
+            "description": "User token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "token": {
+                      "type":"string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

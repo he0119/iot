@@ -22,6 +22,7 @@ class Status(Resource):
     '''
 
     @staticmethod
+    @login_required
     def get():
         '''
         Get all user devices latest status

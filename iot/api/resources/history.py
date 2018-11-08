@@ -20,7 +20,7 @@ class History(Resource):
         Get history data
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('id', required=True)
+        parser.add_argument('id', type=int, required=True)
         parser.add_argument('start', type=int, required=True)
         parser.add_argument('end', type=int, required=True)
         parser.add_argument('interval', type=int, required=True)

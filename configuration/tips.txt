@@ -1,6 +1,0 @@
-目录下运行
-pipreqs ./ --encoding UTF-8 --ignore iot/angular,migrations --print
-可以得到requirements.txt
-
-用这个指令，能避免RangeError: Maximum call stack size exceeded这个错误。
-ng build --prod --build-optimizer=false

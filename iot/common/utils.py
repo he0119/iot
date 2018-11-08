@@ -2,6 +2,7 @@
 Tools
 '''
 from datetime import timezone
+from enum import IntEnum, unique
 
 
 def datetime2iso(datetime):
@@ -12,3 +13,10 @@ def datetime2iso(datetime):
     if not datetime.tzinfo:
         datetime = datetime.replace(tzinfo=timezone.utc)
     return datetime.isoformat()
+
+@unique
+class DeviceDataType(IntEnum):
+    integer = 1
+    float = 2
+    boolean = 3
+    string = 4

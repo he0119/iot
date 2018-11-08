@@ -11,4 +11,4 @@ def handle_website_event(msg):
     if msg['type'] == 'request':
         devices = db.session.query(Device).all()
         for device in devices:
-            socketio.emit('status', device.get_latest_data())
+            socketio.emit('status', device.latest_data_to_json())

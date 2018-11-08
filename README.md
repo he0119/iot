@@ -3,18 +3,18 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 
 ## Requirements
 * Python 3.6.6
-* Node.js 8.11.3
+* Node.js 8.12.0
 
 ## Getting Started
 1. Setup python environment
     ```bash
-    virtualenv --no-site-packages venv
-    . venv/bin/activite(venv\Scripts\activate on Windows)
+    virtualenv --no-site-packages --python=python3.6 venv
+    . venv/bin/activate(venv\Scripts\activate on Windows)
     pip install -r requirements.txt
     ```
-2. Setup angular environment
+2. Setup angular environment and build
 	```bash
-    cd iot\angular
+    cd angular/iot
     npm install -g @angular/cli
     npm install
     ng build --prod
@@ -34,6 +34,3 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
     flask run
     ```
 Now you can go to http://127.0.0.1:5000/
-## ChangeLog
-### v0.2.1
-* Fixed missing time field in status page

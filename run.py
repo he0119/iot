@@ -1,4 +1,6 @@
 '''Flask App'''
+import getpass
+
 import click
 
 from config import Config
@@ -11,16 +13,19 @@ app = create_app(Config)
 @app.cli.command()
 def createaccount():
     '''create a new account'''
+    username = input('Please enter your username: ')
+    password = getpass.getpass('Please enter your password: ')
+    email = input('Please enter your email: ')
     with app.app_context():
-        if db.session.query(User).filter(User.username == app.config.get('ADMIN_USERNAME')).first():
+        if db.session.query(User).filter(User.username == username).first():
             click.echo('You have already created a user')
         else:
-            if db.session.query(User).filter(User.email == app.config.get('ADMIN_EMAIL')).first():
+            if db.session.query(User).filter(User.email == email).first():
                 click.echo('This Email has been used, please change')
             else:
-                new_user = User(username=app.config.get('ADMIN_USERNAME'),
-                                email=app.config.get('ADMIN_EMAIL'))
-                new_user.set_password(app.config.get('ADMIN_PASSWORD'))
+                new_user = User(username=username,
+                                email=email)
+                new_user.set_password(password)
                 db.session.add(new_user)
                 db.session.commit()
                 click.echo('Account Created')

@@ -1,0 +1,62 @@
+{
+  "name": "test",
+  "schema": {
+    "temperature": 2,
+    "relative_humidity": 2,
+    "soil_moisture": 1,
+    "valve": 3,
+    "pump": 3,
+    "autowatering": 3,
+    "moisture_trigger": 3,
+    "watering_interval": 1,
+    "valve_delay": 1,
+    "pump_delay": 1,
+    "soil_moisture_limit": 1
+  },
+  "display": {
+    "temperature": [
+      1,
+      0
+    ],
+    "relative_humidity": [
+      1,
+      0
+    ],
+    "soil_moisture": [
+      1,
+      0
+    ],
+    "valve": [
+      1,
+      1
+    ],
+    "pump": [
+      1,
+      1
+    ],
+    "autowatering": [
+      0,
+      1
+    ],
+    "moisture_trigger": [
+      0,
+      1
+    ],
+    "watering_interval": [
+      0,
+      1
+    ],
+    "valve_delay": [
+      0,
+      1
+    ],
+    "pump_delay": [
+      0,
+      1
+    ],
+    "soil_moisture_limit": [
+      0,
+      1
+    ]
+  }
+}

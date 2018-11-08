@@ -13,9 +13,10 @@ from iot import db
 class User(db.Model, UserMixin):
     '''User Data(id, username, password_hash)'''
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
+    username = db.Column(db.String(64), index=True, unique=True, nullable=False)
+    email = db.Column(db.String(120), index=True, unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    devices = db.relationship('Device', backref='user', lazy='dynamic')
 
     def set_password(self, password):
         '''set your password'''
@@ -41,6 +42,13 @@ class User(db.Model, UserMixin):
             return None  # invalid token
         user = User.query.get(data['id'])
         return user
+
+    def delete_devices(self):
+        '''Delete all data'''
+        for device in self.devices.all():
+            device.delete_data()
+            db.session.delete(device)
+            db.session.commit()
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

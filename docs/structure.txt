@@ -1,11 +1,10 @@
+├─angular
+│  └─iot
 ├─arduino
 │  └─esp8266
 ├─docs
 ├─iot
 │  ├─angular
-│  │  └─iot
-│  │      └─dist
-│  │         └─iot
 │  ├─api
 │  │  ├─resources
 │  │  └─socketio

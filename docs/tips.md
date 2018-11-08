@@ -1,6 +1,6 @@
 # Tips
 ## 生成requirements.txt
-目录下运行`pipreqs ./ --encoding UTF-8 --ignore iot/angular,migrations`
+目录下运行`pipreqs ./ --encoding UTF-8 --ignore angular,migrations`
 即可以得到requirements.txt
 
 ## 启用Gzip(nginx)

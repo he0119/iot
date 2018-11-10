@@ -11,12 +11,6 @@ from iot.models.device import Device
 class Devices(Resource):
     '''
     Devices Resource
-
-    GET: All devices info
-
-    POST(login_required): Add new device to database
-
-    PUT(login_required): Change device info
     '''
 
     @staticmethod
@@ -26,7 +20,7 @@ class Devices(Resource):
         Get devices info
         '''
         parser = reqparse.RequestParser()
-        parser.add_argument('id')
+        parser.add_argument('id', type=int)
         args = parser.parse_args()
 
         devices = current_user.devices.all()
@@ -35,7 +29,7 @@ class Devices(Resource):
             for device in devices:
                 if device.id == args.id:
                     return device.device_info_to_json()
-            return {'code': 404, 'message': 'Device not found'}, 404
+            return {'code': 404, 'message': f'Device(id:{args.id}) does not exist'}, 404
 
         device_list = []
         for device in devices:

@@ -78,8 +78,8 @@
       "DeviceData": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string"
+          "id": {
+            "type": "integer"
           },
           "time": {
             "type": "string",
@@ -287,6 +287,17 @@
           "devices"
         ],
         "description": "Get all devices info",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Device id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Current login user devices info",

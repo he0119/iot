@@ -103,10 +103,8 @@ void event(const char *payload, size_t length)
   if (root["autowatering"] != "null")
   {
     autowatering = root["autowatering"]; //自动灌溉
-    if (autowatering)
-      moisture_trigger = true;
-    else
-      moisture_trigger = false;
+    moisture_trigger = root["autowatering"];
+    need_save_config = true;
   }
   if (root["moisture_trigger"] != "null")
   {
@@ -226,7 +224,7 @@ bool load_config()
   //use configFile.readString instead.
   configFile.readBytes(buf.get(), size);
 
-  const size_t bufferSize = JSON_OBJECT_SIZE(4) + 150;
+  const size_t bufferSize = JSON_OBJECT_SIZE(6) + 150;
   DynamicJsonBuffer jsonBuffer(bufferSize);
   JsonObject &json = jsonBuffer.parseObject(buf.get());
 
@@ -240,6 +238,8 @@ bool load_config()
   pump_delay = json["pump_delay"];
   soil_moisture_limit = json["soil_moisture_limit"];
   watering_interval = json["watering_interval"];
+  autowatering = json["autowatering"];
+  last_watering_time = json["last_watering_time"];
   // ----------------------
 
   return true;
@@ -247,7 +247,7 @@ bool load_config()
 
 bool save_config()
 {
-  const size_t bufferSize = JSON_OBJECT_SIZE(4);
+  const size_t bufferSize = JSON_OBJECT_SIZE(6);
   DynamicJsonBuffer jsonBuffer(bufferSize);
   JsonObject &json = jsonBuffer.createObject();
 
@@ -256,6 +256,8 @@ bool save_config()
   json["pump_delay"] = pump_delay;
   json["soil_moisture_limit"] = soil_moisture_limit;
   json["watering_interval"] = watering_interval;
+  json["autowatering"] = autowatering;
+  json["last_watering_time"] = last_watering_time;
   // -----------------------
 
   File configFile = SPIFFS.open("/config.json", "w");
@@ -339,7 +341,9 @@ void loop()
   if (autowatering && moisture_trigger && soil_moisture > soil_moisture_limit)
   {
     moisture_trigger = false;
+
     last_watering_time = timeClient.getEpochTime(); //重置上次灌溉时间
+    save_config();
 
     valve = true;
     digitalWrite(VALVE_PIN, valve);

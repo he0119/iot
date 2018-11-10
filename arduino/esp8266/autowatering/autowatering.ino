@@ -57,7 +57,7 @@ unsigned long valve_delay = 60; //电磁阀延时，单位 秒
 unsigned long pump_delay = 60;  //抽水机延时，单位 秒
 
 //Auto Watering
-bool autowatering = false;             //自动灌溉控制
+bool auto_watering = false;             //自动灌溉控制
 unsigned long watering_interval = 720; //灌溉间隔(分钟)
 bool moisture_trigger = false;         //湿度触发器
 unsigned long soil_moisture = 0;
@@ -100,10 +100,10 @@ void event(const char *payload, size_t length)
     }
   }
 
-  if (root["autowatering"] != "null")
+  if (root["auto_watering"] != "null")
   {
-    autowatering = root["autowatering"]; //自动灌溉
-    moisture_trigger = root["autowatering"];
+    auto_watering = root["auto_watering"]; //自动灌溉
+    moisture_trigger = root["auto_watering"];
     need_save_config = true;
   }
   if (root["moisture_trigger"] != "null")
@@ -189,7 +189,7 @@ void upload(bool reset)
   payload += "," + String(soil_moisture);
   payload += "," + String(valve);
   payload += "," + String(pump);
-  payload += "," + String(autowatering);
+  payload += "," + String(auto_watering);
   payload += "," + String(moisture_trigger);
   payload += "," + String(watering_interval);
   payload += "," + String(valve_delay);
@@ -238,7 +238,7 @@ bool load_config()
   pump_delay = json["pump_delay"];
   soil_moisture_limit = json["soil_moisture_limit"];
   watering_interval = json["watering_interval"];
-  autowatering = json["autowatering"];
+  auto_watering = json["auto_watering"];
   last_watering_time = json["last_watering_time"];
   // ----------------------
 
@@ -256,7 +256,7 @@ bool save_config()
   json["pump_delay"] = pump_delay;
   json["soil_moisture_limit"] = soil_moisture_limit;
   json["watering_interval"] = watering_interval;
-  json["autowatering"] = autowatering;
+  json["auto_watering"] = auto_watering;
   json["last_watering_time"] = last_watering_time;
   // -----------------------
 
@@ -331,14 +331,14 @@ void loop()
   }
 
   //自动灌溉间隔
-  if (autowatering && !moisture_trigger && timeClient.getEpochTime() - last_watering_time > 60 * watering_interval)
+  if (auto_watering && !moisture_trigger && timeClient.getEpochTime() - last_watering_time > 60 * watering_interval)
   {
     moisture_trigger = true;
     upload(0);
   }
 
   //根据土壤湿度自动打开电磁阀
-  if (autowatering && moisture_trigger && soil_moisture > soil_moisture_limit)
+  if (auto_watering && moisture_trigger && soil_moisture > soil_moisture_limit)
   {
     moisture_trigger = false;
 

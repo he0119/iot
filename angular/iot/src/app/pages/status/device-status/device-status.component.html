@@ -1,6 +1,6 @@
 <mat-card *ngIf="deviceData['data']" class="card">
   <mat-card-header>
-    <mat-card-title>{{device["name"] | titlecase}}</mat-card-title>
+    <mat-card-title>{{device["name"].replace('_', ' ') | titlecase}}</mat-card-title>
     <mat-card-subtitle>
       {{deviceData["time"] | date: 'medium':'+0800'}}
     </mat-card-subtitle>
@@ -9,11 +9,11 @@
     <mat-list>
       <ng-container *ngFor="let key of device.schema | keys">
         <mat-list-item *ngIf="device.display[key.key][0] && (key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string) && !device.display[key.key][1]">
-          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+          <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>
           {{deviceData["data"][key.key]}}
         </mat-list-item>
         <mat-list-item *ngIf="device.display[key.key][0] && key.value==deviceDataType.boolean && device.display[key.key][1]">
-          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+          <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>
           <mat-slide-toggle color="primary" (click)="changeStatus(device.id, key.key, !deviceData['data'][key.key])"
             [checked]="deviceData['data'][key.key]">
           </mat-slide-toggle>
@@ -21,7 +21,7 @@
           <ng-template #offText>&nbsp;OFF</ng-template>
         </mat-list-item>
         <mat-list-item *ngIf="device.display[key.key][0] && key.value==deviceDataType.boolean && !device.display[key.key][1]">
-          <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+          <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>
           <span *ngIf="deviceData['data'][key.key]; else offText">&nbsp;ON</span>
           <ng-template #offText>&nbsp;OFF</ng-template>
         </mat-list-item>
@@ -31,11 +31,11 @@
       <mat-list>
         <ng-container *ngFor="let key of device.schema | keys">
           <mat-list-item *ngIf="!device.display[key.key][0] && !device.display[key.key][1] && (key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string)">
-            <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+            <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>
             {{deviceData["data"][key.key]}}
           </mat-list-item>
           <mat-list-item *ngIf="!device.display[key.key][0] && key.value==deviceDataType.boolean && device.display[key.key][1]">
-            <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+            <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>
             <mat-slide-toggle color="primary" (click)="changeStatus(device.id, key.key, !deviceData['data'][key.key])"
               [checked]="deviceData['data'][key.key]">
             </mat-slide-toggle>
@@ -43,7 +43,7 @@
             <ng-template #offText>&nbsp;OFF</ng-template>
           </mat-list-item>
           <mat-list-item *ngIf="!device.display[key.key][0] && key.value==deviceDataType.boolean && !device.display[key.key][1]">
-            <span class="h5">{{key.key | titlecase}}:&nbsp;</span>
+            <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>
             <span *ngIf="deviceData['data'][key.key]; else offText">&nbsp;ON</span>
             <ng-template #offText>&nbsp;OFF</ng-template>
           </mat-list-item>
@@ -54,7 +54,7 @@
           <mat-expansion-panel *ngIf="!device.display[key.key][0] && device.display[key.key][1] &&(key.value==deviceDataType.integer || key.value==deviceDataType.float ||key.value==deviceDataType.string)">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <span class="h5">{{key.key | titlecase}}:&nbsp;</span>{{deviceData["data"][key.key]}}
+                <span class="h5">{{key.key.replace('_', ' ') | titlecase}}:&nbsp;</span>{{deviceData["data"][key.key]}}
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-form-field class="form-field">

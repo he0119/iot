@@ -6,7 +6,7 @@
     "soil_moisture": 1,
     "valve": 3,
     "pump": 3,
-    "autowatering": 3,
+    "auto_watering": 3,
     "moisture_trigger": 3,
     "watering_interval": 1,
     "valve_delay": 1,
@@ -34,7 +34,7 @@
       1,
       1
     ],
-    "autowatering": [
+    "auto_watering": [
       0,
       1
     ],

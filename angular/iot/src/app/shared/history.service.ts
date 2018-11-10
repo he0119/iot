@@ -7,7 +7,6 @@ import { DeviceData } from './documentation-items';
 })
 export class HistoryService {
   API_URL = 'api/history';
-  // API_URL = 'http://127.0.0.1:5000/api/history';
 
   constructor(private http: HttpClient) { }
 

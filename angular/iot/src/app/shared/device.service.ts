@@ -9,7 +9,6 @@ import { Device } from './documentation-items';
 })
 export class DeviceService {
   API_URL = 'api/devices';
-  // API_URL = 'http://127.0.0.1:5000/api/devices';
 
   constructor(private http: HttpClient) { }
 

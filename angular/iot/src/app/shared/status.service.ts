@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StatusService {
   API_URL = 'api/status';
-  // API_URL = 'http://127.0.0.1:5000/api/status';
 
   constructor(private http: HttpClient) { }
 

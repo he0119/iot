@@ -32,28 +32,31 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LocalizedDatePipe } from './shared/localized-date.pipe';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
-// 这里配置
+// Translate
 export function createTranslateHttpLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 import { registerLocaleData } from '@angular/common';
 import localeZh from '@angular/common/locales/zh';
 
-// the second parameter 'zh' is optional
+// The second parameter 'zh' is optional
 registerLocaleData(localeZh, 'zh');
 
 //TODO: Rearrange the stuctrue
 @NgModule({
   declarations: [
     AppComponent,
+
     NavbarComponent,
     HistoryComponent,
     HomeComponent,
     NotfoundComponent,
     StatusComponent,
-    KeysPipe,
     DeviceStatusComponent,
+
+    KeysPipe,
     LocalizedDatePipe,
   ],
   imports: [
@@ -86,7 +89,9 @@ registerLocaleData(localeZh, 'zh');
     MatExpansionModule,
     MatCheckboxModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'zh' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

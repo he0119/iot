@@ -1,4 +1,4 @@
-<div>
+<div class="history-header">
   <mat-form-field>
     <mat-select [placeholder]="'history.devices' | translate" [(ngModel)]="id">
       <mat-option *ngFor="let device of devices" [value]="device.id">
@@ -19,7 +19,8 @@
   <mat-form-field>
     <input matInput [placeholder]="'history.interval' | translate" [(ngModel)]='interval'>
   </mat-form-field>
-  <mat-checkbox [(ngModel)]="showSettings">{{"history.settings" | translate}}</mat-checkbox>
+  <mat-checkbox color="primary" [(ngModel)]="showSettings">{{"history.settings" | translate}}</mat-checkbox>
+  <div class="flex-spacer"></div>
   <button mat-button (click)='onClick()'>{{"history.draw_chart" | translate}}</button>
 </div>
 <canvas id="canvas"></canvas>

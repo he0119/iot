@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SECTIONS } from '../documentation-items';
 import { TranslateService } from '@ngx-translate/core';
+import { DateAdapter } from '@angular/material/core';
 
 const SECTIONS_KEYS = Object.keys(SECTIONS);
 
@@ -21,7 +22,7 @@ export class NavbarComponent {
     return SECTIONS_KEYS;
   }
 
-  constructor(public translateService: TranslateService) {
+  constructor(public translateService: TranslateService, private adapter: DateAdapter<any>) {
   }
 
   ngOnInit() {
@@ -43,6 +44,7 @@ export class NavbarComponent {
   /*切换语言*/
   changeLanguage(lang: string) {
     this.translateService.use(lang);
+    this.adapter.setLocale(lang);
     this.settingBtn(lang);
   }
 }

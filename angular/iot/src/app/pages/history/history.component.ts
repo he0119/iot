@@ -121,7 +121,6 @@ export class HistoryComponent implements OnInit {
     let display = {};
     this.devices.forEach(device => {
       if (device.id = this.id) {
-        console.log(device);
         display = device.display;
       }
     })

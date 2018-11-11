@@ -1,0 +1,40 @@
+{
+  "navbar": {
+    "home": "主页",
+    "status": "状态",
+    "history": "历史"
+  },
+  "home": {
+    "welcome": "欢迎来到何家!"
+  },
+  "device_status": {
+    "show_settings": "显示设置",
+    "hide_settings": "隐藏设置",
+    "set": "设置",
+    "on": "开",
+    "off": "关",
+    "temperature": "温度",
+    "relative_humidity": "相对湿度",
+    "soil_moisture": "土壤湿度",
+    "valve": "阀门",
+    "pump": "泵",
+    "auto_watering": "自动浇水",
+    "moisture_trigger": "湿度触发器",
+    "watering_interval": "浇水间隔",
+    "valve_delay": "阀门延迟",
+    "pump_delay": "泵延迟",
+    "soil_moisture_limit": "土壤湿度极限"
+  },
+  "history": {
+    "devices": "设备",
+    "draw_chart": "画图",
+    "settings": "设置",
+    "start": "开始",
+    "end": "结束",
+    "interval": "间隔"
+  },
+  "device_name":{
+    "test": "测试",
+    "auto watering": "自动浇水"
+  }
+}

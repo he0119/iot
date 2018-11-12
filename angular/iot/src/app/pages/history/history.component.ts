@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HistoryService } from '../../shared/history.service';
 import { Chart } from 'chart.js';
-import { Device, DeviceData } from '../../shared/documentation-items';
+import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../shared/device.service';
+import { HistoryService } from '../../shared/history.service';
+import { Device, DeviceData } from '../../shared/documentation-items';
 
 @Component({
   selector: 'app-history',
@@ -29,7 +30,7 @@ export class HistoryComponent implements OnInit {
     grey: 'rgb(201, 203, 207)'
   };
 
-  constructor(private historyService: HistoryService, private deviceService: DeviceService) { }
+  constructor(private historyService: HistoryService, private deviceService: DeviceService, private translate: TranslateService) { }
 
   ngOnInit() {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
@@ -68,11 +69,15 @@ export class HistoryComponent implements OnInit {
         })
 
         Object.keys(data).forEach(key => {
+          let translateName;
           let colorName = colorNames[key.length % colorNames.length];
           let newColor = this.chartColors[colorName];
+          this.translate.get("device_status." + key).subscribe((res: string) => {
+            translateName = res;
+          })
           datasets.push(
             {
-              "label": key,
+              "label": translateName,
               "data": data[key],
               "fill": false,
               "backgroundColor": newColor,

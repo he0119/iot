@@ -1,0 +1,40 @@
+{
+  "navbar": {
+    "home": "Home",
+    "status": "Status",
+    "history": "History"
+  },
+  "home": {
+    "welcome": "Welcome to hehome!"
+  },
+  "device_status": {
+    "show_settings": "SHOW SETTINGS",
+    "hide_settings": "HIDE SETTINGS",
+    "set": "SET",
+    "on": "ON",
+    "off": "OFF",
+    "temperature": "Temperature",
+    "relative_humidity": "Relative Humidity",
+    "soil_moisture": "Soil Moisture",
+    "valve": "Valve",
+    "pump": "Pump",
+    "auto_watering": "Auto Watering",
+    "moisture_trigger": "Moisture Trigger",
+    "watering_interval": "Watering Interval",
+    "valve_delay": "Valve Delay",
+    "pump_delay": "Pump Delay",
+    "soil_moisture_limit": "Soil Moisture Limit"
+  },
+  "history": {
+    "devices": "Devices",
+    "draw_chart": "Draw Chart",
+    "settings": "Settings",
+    "start": "Start",
+    "end": "End",
+    "interval": "Interval"
+  },
+  "device_name":{
+    "test": "Test",
+    "auto watering": "Auto Watering"
+  }
+}

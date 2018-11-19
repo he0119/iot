@@ -2,26 +2,18 @@
   <a mat-button routerLink="/" aria-label="IOT">
     <span class="header-text">IOT</span>
   </a>
-  <a mat-button class="navbar-hide-small"
-      *ngFor="let key of sectionKeys"
-      [routerLink]="key">{{sections[key]}}</a>
+  <a mat-button class="navbar-hide-small" *ngFor="let key of sectionKeys" [routerLink]="key">{{sections[key] |
+    translate}}</a>
   <div class="flex-spacer"></div>
-  <a mat-button class="navbar-hide-small" href="https://github.com/he0119/iot"
-      aria-label="GitHub Repository">
-    <img class="github-logo"
-          src="../../../assets/img/homepage/github-circle-white-transparent.svg"
-          alt="iot">
+  <a mat-button (click)="changeLanguage(language)">{{ languageBtn }}</a>
+  <a mat-button class="navbar-hide-small" href="https://github.com/he0119/iot" aria-label="GitHub Repository">
+    <img class="github-logo" src="../../../assets/img/homepage/github-circle-white-transparent.svg" alt="iot">
     GitHub
   </a>
-  <a mat-icon-button class="navbar-show-small"
-      href="https://github.com/he0119/iot" aria-label="GitHub Repository">
-    <img class="navbar-github-logo"
-          src="../../../assets/img/homepage/github-circle-white-transparent.svg"
-          alt="iot">
+  <a mat-icon-button class="navbar-show-small" href="https://github.com/he0119/iot" aria-label="GitHub Repository">
+    <img class="navbar-github-logo" src="../../../assets/img/homepage/github-circle-white-transparent.svg" alt="iot">
   </a>
 </nav>
 <nav class="navbar navbar-show-small" color="primary">
-  <a mat-button class="navbar-link"
-    *ngFor="let key of sectionKeys"
-    [routerLink]="key">{{sections[key]}}</a>
+  <a mat-button class="navbar-link" *ngFor="let key of sectionKeys" [routerLink]="key">{{sections[key] | translate}}</a>
 </nav>

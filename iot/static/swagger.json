@@ -6,7 +6,7 @@
     "contact": {
       "name": "hemengyang",
       "email": "hmy0119@gmail.com",
-      "url": "https://hehome.tk"
+      "url": "https://hehome.xyz"
     },
     "license": {
       "name": "MIT",
@@ -20,7 +20,7 @@
       "description": "Development server"
     },
     {
-      "url": "https://hehome.tk/api",
+      "url": "https://iot.hehome.xyz/api",
       "description": "Production server"
     }
   ],

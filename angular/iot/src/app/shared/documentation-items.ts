@@ -4,9 +4,9 @@ const HOME = '';
 const STATUS = 'status';
 const HISTORY = 'history';
 export const SECTIONS = {
-  [HOME]: 'Home',
-  [STATUS]: 'Status',
-  [HISTORY]: 'History',
+  [HOME]: 'navbar.home',
+  [STATUS]: 'navbar.status',
+  [HISTORY]: 'navbar.history',
 };
 
 export interface DeviceData {

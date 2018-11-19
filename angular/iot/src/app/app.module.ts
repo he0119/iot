@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -28,17 +28,36 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { LocalizedDatePipe } from './shared/localized-date.pipe';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+
+// Translate
+export function createTranslateHttpLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+import { registerLocaleData } from '@angular/common';
+import localeZh from '@angular/common/locales/zh';
+
+// The second parameter 'zh' is optional
+registerLocaleData(localeZh, 'zh');
+
 //TODO: Rearrange the stuctrue
 @NgModule({
   declarations: [
     AppComponent,
+
     NavbarComponent,
     HistoryComponent,
     HomeComponent,
     NotfoundComponent,
     StatusComponent,
+    DeviceStatusComponent,
+
     KeysPipe,
-    DeviceStatusComponent
+    LocalizedDatePipe,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +65,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateHttpLoader),
+        deps: [HttpClient]
+      }
+    }),
 
     MatListModule,
     MatButtonModule,
@@ -62,7 +89,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatExpansionModule,
     MatCheckboxModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'zh' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -28,11 +28,12 @@ def load_user_from_request(request):
     # try to authenticate with username/password
     if auth:
         user = User.verify_auth_token(auth.username)
-        if not user:
-            user = User.query.filter_by(username=auth.username).first()
-            if not user or not user.check_password(auth.password):
-                return None
+        if user:
             return user
+        user = User.query.filter_by(username=auth.username).first()
+        if not user or not user.check_password(auth.password):
+            return None
+        return user
     # finally, return None if both methods did not login the user
     return None
 

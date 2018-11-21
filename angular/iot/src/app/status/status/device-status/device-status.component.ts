@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { StatusService } from '../../../shared/status.service';
 
 import { DeviceData, Device, DeviceDataType } from '../../../shared/documentation-items';
-import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-device-status',

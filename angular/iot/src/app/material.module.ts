@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { MatListModule } from '@angular/material/list';
-import { MatButtonModule, MatMenuModule, MatNativeDateModule } from '@angular/material';
+import { MatButtonModule, MatMenuModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -25,7 +25,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatDatepickerModule,
     MatInputModule,
     MatSelectModule,
-    MatNativeDateModule,
     MatSnackBarModule,
     MatExpansionModule,
     MatCheckboxModule,
@@ -41,7 +40,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatDatepickerModule,
     MatInputModule,
     MatSelectModule,
-    MatNativeDateModule,
     MatSnackBarModule,
     MatExpansionModule,
     MatCheckboxModule,

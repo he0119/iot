@@ -5,6 +5,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatNativeDateModule } from '@angular/material';
+
 import { SharedModule } from './shared.module';
 import { MaterialModule } from './material.module';
 
@@ -45,6 +47,7 @@ registerLocaleData(localeZh, 'zh');
 
     SharedModule,
     MaterialModule,
+    MatNativeDateModule,
 
     TranslateModule.forRoot({
       loader: {

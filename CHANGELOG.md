@@ -1,3 +1,6 @@
+# v0.4.0-alpha
+* **Angular:** lazy loading status and history module
+* **Flask:** fix error when authenticate with token
 # v0.3.0(2018-11-08)
 * **Arduino:** add autowatering ability base on soil moisture sensor
 * **Arduino:** add ability to save/load config

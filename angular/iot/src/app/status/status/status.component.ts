@@ -44,7 +44,8 @@ export class StatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
+    if (this.connection)
+      this.connection.unsubscribe();
   }
 
 }

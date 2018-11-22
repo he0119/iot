@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
@@ -50,13 +50,12 @@ export class AuthorizationService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getAccessToken();
+    return !!this.getRefreshToken();
   }
 
   private handleAuthenticationError(err: any) {
-    if (err.status === 401) {
-      this.setAccessToken(null);
-      this.setRefreshToken(null);
+    if (err.status === 401 || err.status === 422) {
+      this.logout();
     }
   }
 

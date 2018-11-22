@@ -36,5 +36,11 @@
   "device_name":{
     "test": "Test",
     "auto watering": "Auto Watering"
+  },
+  "login": {
+    "username": "Username",
+    "password": "Password",
+    "welcome": "Please login to continue",
+    "login": "Login"
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-
 import { MatSnackBar } from '@angular/material';
 import { AuthorizationService } from '../../shared/authorization.service';
 
@@ -49,7 +48,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          // this.error = error.error.message;
           this.snackBar.open(error.error.message, 'OK', {
             duration: 2000,
           });

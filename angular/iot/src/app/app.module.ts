@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -16,10 +16,16 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 
+// JWT
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from "./shared/token.interceptor";
+import { RefreshTokenInterceptor } from "./shared/refresh-token-interceptor";
+
 // Translate
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { HttpClient } from '@angular/common/http';
 
 export function createTranslateHttpLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -58,7 +64,10 @@ registerLocaleData(localeZh, 'zh');
     }),
   ],
   providers: [
+    TokenInterceptor,
     { provide: MAT_DATE_LOCALE, useValue: 'zh' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

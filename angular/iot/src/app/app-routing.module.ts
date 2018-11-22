@@ -3,16 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './pages/home/home.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
+import { AuthGuard } from './shared/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'status', loadChildren: './status/status.module#StatusModule' },
-  { path: 'history', loadChildren: './history/history.module#HistoryModule' },
-  { path: '**', component: NotfoundComponent},
+  { path: 'status', loadChildren: './status/status.module#StatusModule', canActivate: [AuthGuard] },
+  { path: 'history', loadChildren: './history/history.module#HistoryModule', canActivate: [AuthGuard] },
+  { path: 'login', loadChildren: './login/login.module#LoginModule' },
+  { path: '**', component: NotfoundComponent },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

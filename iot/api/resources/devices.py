@@ -1,7 +1,7 @@
 '''
 Devices Resource
 '''
-from flask_login import current_user, login_required
+from flask_jwt_extended import current_user, jwt_required
 from flask_restful import Resource, reqparse
 
 from iot import db
@@ -14,7 +14,7 @@ class Devices(Resource):
     '''
 
     @staticmethod
-    @login_required
+    @jwt_required
     def get():
         '''
         Get devices info
@@ -37,7 +37,7 @@ class Devices(Resource):
         return device_list
 
     @staticmethod
-    @login_required
+    @jwt_required
     def post():
         '''
         Create a new device
@@ -63,7 +63,7 @@ class Devices(Resource):
         return device.device_info_to_json(), 201
 
     @staticmethod
-    @login_required
+    @jwt_required
     def put():
         '''
         Modify device info
@@ -89,7 +89,7 @@ class Devices(Resource):
         return {'message': 'Device info updated'}, 201
 
     @staticmethod
-    @login_required
+    @jwt_required
     def delete():
         '''
         Delete device

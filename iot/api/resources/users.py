@@ -1,7 +1,7 @@
 '''
 User Resource
 '''
-from flask_login import current_user, login_required
+from flask_jwt_extended import current_user, jwt_required
 from flask_restful import Resource, reqparse
 
 from iot import db
@@ -11,7 +11,7 @@ from iot.models.user import User
 class Users(Resource):
     '''Users Resource'''
     @staticmethod
-    @login_required
+    @jwt_required
     def get():
         '''
         Get login user info
@@ -20,7 +20,7 @@ class Users(Resource):
                 'email': current_user.email}
 
     @staticmethod
-    @login_required
+    @jwt_required
     def post():
         '''
         Create a new user
@@ -47,7 +47,7 @@ class Users(Resource):
         return {'username': user.username, 'message': 'Account Created'}, 201
 
     @staticmethod
-    @login_required
+    @jwt_required
     def put():
         '''
         Modify user info
@@ -70,7 +70,7 @@ class Users(Resource):
         return {'message': 'User info updated'}, 201
 
     @staticmethod
-    @login_required
+    @jwt_required
     def delete():
         '''
         Delete user

@@ -3,7 +3,7 @@ Status Resource
 '''
 from datetime import datetime
 
-from flask_login import current_user, login_required
+from flask_jwt_extended import current_user, jwt_required
 from flask_restful import Resource, reqparse
 
 from iot import db, socketio
@@ -22,7 +22,7 @@ class Status(Resource):
     '''
 
     @staticmethod
-    @login_required
+    @jwt_required
     def get():
         '''
         Get all user devices latest status
@@ -35,7 +35,7 @@ class Status(Resource):
         return json_data
 
     @staticmethod
-    @login_required
+    @jwt_required
     def put():
         '''
         Change status
@@ -61,7 +61,7 @@ class Status(Resource):
         return {'message': 'Change status succeed'}, 201
 
     @staticmethod
-    @login_required
+    @jwt_required
     def post():
         '''
         Add data to database

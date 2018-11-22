@@ -17,14 +17,9 @@ import iot.api.socketio.website
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
+#TODO: Use flask-jwt-extended instead of flask-login(socketio remain unchange)
 api.add_resource(Token, '/token')
 api.add_resource(Status, '/status')
 api.add_resource(History, '/history')
 api.add_resource(Users, '/users')
 api.add_resource(Devices, '/devices')
-
-
-@api_bp.route('/logout')
-def logout():
-    logout_user()
-    return "logout"

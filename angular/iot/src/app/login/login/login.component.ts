@@ -3,22 +3,31 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+import { MatSnackBar } from '@angular/material';
 import { AuthorizationService } from '../../shared/authorization.service';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
+})
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   returnUrl: string;
-  error = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authorizationService: AuthorizationService
+    private authorizationService: AuthorizationService,
+    public snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
+    if (this.authorizationService.isAuthenticated())
+    {
+      this.router.navigate(['/']);
+    }
     this.loginForm = new FormGroup({
       username: new FormControl(''),
       password: new FormControl('')
@@ -31,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  login() {
+  onSubmit() {
     this.loading = true;
     this.authorizationService.login(this.loginForm.value)
       .pipe(first())
@@ -40,7 +49,10 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.error = error;
+          // this.error = error.error.message;
+          this.snackBar.open(error.error.message, 'OK', {
+            duration: 2000,
+          });
           this.loading = false;
         });
   }

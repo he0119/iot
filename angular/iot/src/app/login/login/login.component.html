@@ -18,9 +18,13 @@
             </mat-form-field>
           </mat-list-item>
         </mat-list>
-        <mat-spinner [style.display]="loading ? 'block' : 'none'"></mat-spinner>
-        <button mat-raised-button color="primary">{{"login.login" | translate}}</button>
+        <mat-spinner style="margin:0 auto;" diameter="30" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
       </form>
     </mat-card-content>
+    <mat-card-actions>
+      <div>
+        <button mat-raised-button color="primary" (click)="onSubmit()">{{"login.login" | translate}}</button>
+      </div>
+      </mat-card-actions>
   </mat-card>
 </div>

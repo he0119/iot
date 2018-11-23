@@ -36,6 +36,9 @@ import localeZh from '@angular/common/locales/zh';
 // The second parameter 'zh' is optional
 registerLocaleData(localeZh, 'zh');
 
+// PWA
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -62,6 +65,8 @@ registerLocaleData(localeZh, 'zh');
         deps: [HttpClient]
       }
     }),
+
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     TokenInterceptor,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { AuthorizationService } from './authorization.service';
+import { AuthorizationService } from '../_service/authorization.service';
 import { TokenInterceptor } from './token.interceptor';
 import { Router } from "@angular/router";
 

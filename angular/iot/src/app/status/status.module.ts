@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from "../shared.module";
-import { MaterialModule } from "../material.module";
+import { SharedModule } from "../shared/shared.module";
+import { MaterialModule } from "../shared/material.module";
 
 import { StatusRoutingModule } from './status-routing.module';
 import { StatusComponent } from "./status/status.component";

@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatNativeDateModule } from '@angular/material';
 
-import { SharedModule } from './shared.module';
-import { MaterialModule } from './material.module';
+import { SharedModule } from './shared/shared.module';
+import { MaterialModule } from './shared/material.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -18,8 +18,8 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 // JWT
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from "./shared/token.interceptor";
-import { RefreshTokenInterceptor } from "./shared/refresh-token-interceptor";
+import { TokenInterceptor } from "./_helpers/token.interceptor";
+import { RefreshTokenInterceptor } from "./_helpers/refresh-token-interceptor";
 
 // Translate
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';

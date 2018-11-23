@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
-import { AuthorizationService } from '../../shared/authorization.service';
+import { AuthorizationService } from '../../_service/authorization.service';
 
 @Component({
   selector: 'app-login',

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { StatusService } from '../../../shared/status.service';
+import { StatusService } from '../../../_service/status.service';
 
 import { DeviceData, Device, DeviceDataType } from '../../../shared/documentation-items';
 

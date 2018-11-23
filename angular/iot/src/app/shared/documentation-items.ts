@@ -1,5 +1,3 @@
-import { InternalNgModuleRef } from "@angular/core/src/linker/ng_module_factory";
-
 const HOME = '';
 const STATUS = 'status';
 const HISTORY = 'history';

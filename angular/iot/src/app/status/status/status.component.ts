@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { WebsocketService } from '../../shared/websocket.service';
-import { DeviceService } from '../../shared/device.service';
+import { WebsocketService } from '../../_service/websocket.service';
+import { DeviceService } from '../../_service/device.service';
 
 import { DeviceData, Device } from '../../shared/documentation-items';
 

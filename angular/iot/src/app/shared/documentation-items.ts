@@ -1,4 +1,4 @@
-const HOME = '';
+const HOME = 'home';
 const STATUS = 'status';
 const HISTORY = 'history';
 export const SECTIONS = {

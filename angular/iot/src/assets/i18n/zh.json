@@ -36,5 +36,11 @@
   "device_name":{
     "test": "测试",
     "auto watering": "自动浇水"
+  },
+  "login": {
+    "username": "用户名",
+    "password": "密码",
+    "welcome": "请登陆以继续",
+    "login": "登陆"
   }
 }

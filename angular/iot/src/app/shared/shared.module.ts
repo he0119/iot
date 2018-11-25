@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { KeysPipe } from "./shared/keys.pipe";
-import { LocalizedDatePipe } from "./shared/localized-date.pipe";
+import { TranslateModule } from '@ngx-translate/core';
+
+import { KeysPipe } from "../_helpers/keys.pipe";
+import { LocalizedDatePipe } from "../_helpers/localized-date.pipe";
 
 @NgModule({
   imports: [
@@ -16,6 +18,7 @@ import { LocalizedDatePipe } from "./shared/localized-date.pipe";
   exports: [
     CommonModule,
     FormsModule,
+    TranslateModule,
 
     LocalizedDatePipe,
     KeysPipe,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
-import { DeviceData } from './documentation-items';
+import { DeviceData } from '../shared/documentation-items';
 
 @Injectable({
   providedIn: 'root'

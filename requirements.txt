@@ -7,3 +7,4 @@ flask_swagger_ui==3.18.0
 flask_socketio==3.0.2
 python_dotenv==0.9.1
 eventlet==0.24.1
+flask_jwt_extended==3.13.1

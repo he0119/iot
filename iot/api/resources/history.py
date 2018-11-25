@@ -3,7 +3,7 @@ History Resource
 '''
 from datetime import datetime
 
-from flask_login import current_user, login_required
+from flask_jwt_extended import current_user, jwt_required
 from flask_restful import Resource, reqparse
 
 from iot.models.device import Device
@@ -14,7 +14,7 @@ class History(Resource):
     get: return history data
     '''
     @staticmethod
-    @login_required
+    @jwt_required
     def get():
         '''
         Get history data

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { TranslateService } from '@ngx-translate/core';
-import { DeviceService } from '../../shared/device.service';
-import { HistoryService } from '../../shared/history.service';
+import { DeviceService } from '../../_service/device.service';
+import { HistoryService } from '../../_service/history.service';
 import { Device, DeviceData } from '../../shared/documentation-items';
 
 @Component({

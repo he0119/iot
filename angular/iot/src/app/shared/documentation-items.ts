@@ -1,6 +1,4 @@
-import { InternalNgModuleRef } from "@angular/core/src/linker/ng_module_factory";
-
-const HOME = '';
+const HOME = 'home';
 const STATUS = 'status';
 const HISTORY = 'history';
 export const SECTIONS = {

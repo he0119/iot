@@ -13,10 +13,19 @@ export interface DeviceData {
   data: object;
 }
 
+export interface DeviceSchema {
+  name: string;
+  displayName: string;
+  dataType: number;
+  show: boolean;
+  allowControl: boolean;
+}
+
 export interface Device {
   id: number;
   name: string;
-  schema: object;
+  displayName: string;
+  schema: DeviceSchema[];
   display: object;
   createOn: Date;
   lastConnectOn: Date;

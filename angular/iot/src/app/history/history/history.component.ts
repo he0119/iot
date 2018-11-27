@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../_service/device.service';
 import { HistoryService } from '../../_service/history.service';
 import { Device, DeviceData } from '../../shared/documentation-items';
+import { normalizeArray } from "../../_helpers/normalize-array";
 
 @Component({
   selector: 'app-history',
@@ -13,6 +14,7 @@ import { Device, DeviceData } from '../../shared/documentation-items';
 export class HistoryComponent implements OnInit {
   chart: Chart;
   devices: Device[];
+  schema: object;
 
   id: number;
   start = new Date();
@@ -36,12 +38,14 @@ export class HistoryComponent implements OnInit {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
       this.devices = res;
       this.id = res[0].id;
+      this.schema = this.getDeviceSchema();
       this.start.setTime(this.start.getTime() - 24 * 60 * 60 * 1000);
       this.drawChart(this.id, this.start, this.end, this.interval, this.showSettings);
     })
   }
 
   onClick() {
+    this.schema = this.getDeviceSchema();
     this.drawChart(this.id, this.start, this.end, this.interval, this.showSettings);
   }
 
@@ -52,16 +56,15 @@ export class HistoryComponent implements OnInit {
     this.historyService.historyData(id, start_ep, end_ep, interval)
       .subscribe((res: DeviceData[]) => {
         const datasets = [];
-        const data = {};
         const time = [];
-        const display = this.getDisplay();
+        const data = {};
 
         let colorNames = Object.keys(this.chartColors);
 
         res.forEach(devicedata => {
           time.push(new Date(devicedata.time));
           Object.keys(devicedata.data).forEach(key => {
-            if (display[key][0] || showSettings) {
+            if (this.schema[key].show || showSettings) {
               if (!data[key]) data[key] = [];
               data[key].push(devicedata.data[key]);
             }
@@ -69,15 +72,12 @@ export class HistoryComponent implements OnInit {
         })
 
         Object.keys(data).forEach(key => {
-          let translateName;
           let colorName = colorNames[key.length % colorNames.length];
           let newColor = this.chartColors[colorName];
-          this.translate.get("device_status." + key).subscribe((res: string) => {
-            translateName = res;
-          })
+
           datasets.push(
             {
-              "label": translateName,
+              "label": this.schema[key].displayName,
               "data": data[key],
               "fill": false,
               "backgroundColor": newColor,
@@ -122,14 +122,13 @@ export class HistoryComponent implements OnInit {
     return color;
   }
 
-  getDisplay(): object {
-    let display = {};
-    this.devices.forEach(device => {
-      if (device.id = this.id) {
-        display = device.display;
+  getDeviceSchema(): object {
+    let schema = null;
+    this.devices.forEach(item => {
+      if (item.id = this.id) {
+        schema = normalizeArray(item.schema, 'name');
       }
     })
-    return display;
+    return schema
   }
-
 }

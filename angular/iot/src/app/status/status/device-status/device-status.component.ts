@@ -22,9 +22,7 @@ export class DeviceStatusComponent implements OnInit {
   }
 
   changeStatus(id, key, value) {
-    this.statusService.setDeviceStatus(id, key, value).subscribe(result =>
-      console.log(result)
-    );
+    this.statusService.setDeviceStatus(id, key, value).subscribe();
   }
 
   showSettings(){

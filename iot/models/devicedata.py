@@ -15,16 +15,17 @@ class DeviceData(db.Model):
 
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
 
-    def data_to_json(self):
+    def data_to_json(self, schema=None):
         '''Get json type devicedata'''
-        schema = self.device.schema
+        if not schema:
+            schema = self.device.schema
+            schema = schema.all()
         raw_data = self.data.split(',')
         converted_data = {'id': self.device.id,
                           'time': datetime2iso(self.time),
                           'data': {}}
-        # print(schema.all())
         i = 0
-        for item in schema.all():
+        for item in schema:
             if DeviceDataType(item.data_type) == DeviceDataType.integer:
                 converted_data['data'][item.name] = int(raw_data[i])
             elif DeviceDataType(item.data_type) == DeviceDataType.float:

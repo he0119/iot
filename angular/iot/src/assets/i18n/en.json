@@ -12,18 +12,7 @@
     "hide_settings": "HIDE SETTINGS",
     "set": "SET",
     "on": "ON",
-    "off": "OFF",
-    "temperature": "Temperature",
-    "relative_humidity": "Relative Humidity",
-    "soil_moisture": "Soil Moisture",
-    "valve": "Valve",
-    "pump": "Pump",
-    "auto_watering": "Auto Watering",
-    "moisture_trigger": "Moisture Trigger",
-    "watering_interval": "Watering Interval",
-    "valve_delay": "Valve Delay",
-    "pump_delay": "Pump Delay",
-    "soil_moisture_limit": "Soil Moisture Limit"
+    "off": "OFF"
   },
   "history": {
     "devices": "Devices",
@@ -33,14 +22,14 @@
     "end": "End",
     "interval": "Interval"
   },
-  "device_name":{
-    "test": "Test",
-    "auto watering": "Auto Watering"
-  },
   "login": {
     "username": "Username",
     "password": "Password",
     "welcome": "Please login to continue",
     "login": "Login"
+  },
+  "update": {
+    "available": "Update Available",
+    "reload": "Reload"
   }
 }

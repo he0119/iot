@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
-import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../_service/device.service';
 import { HistoryService } from '../../_service/history.service';
 import { Device, DeviceData } from '../../shared/documentation-items';
@@ -32,7 +31,7 @@ export class HistoryComponent implements OnInit {
     grey: 'rgb(201, 203, 207)'
   };
 
-  constructor(private historyService: HistoryService, private deviceService: DeviceService, private translate: TranslateService) { }
+  constructor(private historyService: HistoryService, private deviceService: DeviceService) { }
 
   ngOnInit() {
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {

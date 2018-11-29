@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
+import { UpdateService } from "./_service/update.service";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { DateAdapter } from '@angular/material/core';
 })
 export class AppComponent implements OnInit{
 
-  constructor(public translateService: TranslateService, private adapter: DateAdapter<any>) {
+  constructor(public translateService: TranslateService, private adapter: DateAdapter<any>, private update: UpdateService) {
   }
 
   ngOnInit() {

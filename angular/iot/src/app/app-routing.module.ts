@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'status', loadChildren: './status/status.module#StatusModule', canActivate: [AuthGuard] },
   { path: 'history', loadChildren: './history/history.module#HistoryModule', canActivate: [AuthGuard] },
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule', canActivate: [AuthGuard] },
   { path: 'login', loadChildren: './login/login.module#LoginModule' },
   { path: '**', component: NotfoundComponent },
 ];

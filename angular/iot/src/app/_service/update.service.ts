@@ -19,17 +19,31 @@ export class UpdateService {
         reloadString = res;
       })
 
-      const snack = this.snackbar.open(availableString, reloadString);
+      console.log('current version is', event.current);
+      console.log('available version is', event.available);
+
+      const snack = this.snackbar.open(availableString, reloadString, {
+        duration: 6000,
+      });
 
       snack
         .onAction()
         .subscribe(() => {
           swUpdate.activateUpdate().then(() => document.location.reload());
         });
+    });
+    this.swUpdate.activated.subscribe(event => {
+      let activatedString;
+      this.translate.get("update.activated").subscribe((res: string) => {
+        activatedString = res;
+      })
 
-      setTimeout(() => {
-        snack.dismiss();
-      }, 6000);
+      const snack = this.snackbar.open(activatedString, '', {
+        duration: 6000,
+      });
+
+      console.log('old version was', event.previous);
+      console.log('new version is', event.current);
     });
   }
 }

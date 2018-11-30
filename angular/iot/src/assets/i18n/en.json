@@ -2,7 +2,8 @@
   "navbar": {
     "home": "Home",
     "status": "Status",
-    "history": "History"
+    "history": "History",
+    "setting": "Settings"
   },
   "home": {
     "welcome": "Welcome to hehome!"
@@ -30,6 +31,7 @@
   },
   "update": {
     "available": "Update Available",
-    "reload": "Reload"
+    "reload": "Reload",
+    "activated": "Update Activated"
   }
 }

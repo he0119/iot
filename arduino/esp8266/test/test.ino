@@ -23,19 +23,20 @@ NTPClient timeClient(ntpUDP, "ntp.aliyun.com", 0, 60000);
 
 //Socket
 #include <SocketIoClient.h>
-#if ENABLE_SSL
-#define beginwebsocket beginSSL
+#ifdef ENABLE_SSL
+  #define beginwebsocket beginSSL
 #else
-#define beginwebsocket begin
+  #define beginwebsocket begin
 #endif
 SocketIoClient webSocket;
 
 //DHT
 #include <dht.h>
-#if DHT_VER == 11
-#define readdht read11
-#elif DHT_VER == 22
-#define readdht read22
+#ifdef DHT_VERSION_11
+  #define readdht read11
+#endif
+#ifdef DHT_VERSION_22
+  #define readdht read22
 #endif
 #define DHT_PIN D4 //连接到DHT传感器的端口
 dht DHT;

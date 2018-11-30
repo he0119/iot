@@ -31,9 +31,13 @@ export class HistoryComponent implements OnInit {
     grey: 'rgb(201, 203, 207)'
   };
 
+  aspectRatio;
+
   constructor(private historyService: HistoryService, private deviceService: DeviceService) { }
 
   ngOnInit() {
+    this.getChartRatio();
+
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
       this.devices = res;
       this.id = res[0].id;
@@ -41,6 +45,14 @@ export class HistoryComponent implements OnInit {
       this.start.setTime(this.start.getTime() - 24 * 60 * 60 * 1000);
       this.drawChart(this.id, this.start, this.end, this.interval, this.showSettings);
     })
+  }
+
+  getChartRatio() {
+    const narbarHeight = document.getElementById('navbar').clientHeight;
+    const headerHeight = document.getElementById('history-header').clientHeight;
+    const innerHeight = window.innerHeight;
+    const innerWidth = window.innerWidth;
+    this.aspectRatio = innerWidth / (innerHeight - narbarHeight - headerHeight - 16);
   }
 
   onClick() {
@@ -85,13 +97,14 @@ export class HistoryComponent implements OnInit {
         })
 
         if (this.chart) this.chart.destroy(); // Destroy exist chart first
-        this.chart = new Chart('canvas', {
+        this.chart = new Chart('chart', {
           type: 'line',
           data: {
             labels: time,
             datasets: datasets,
           },
           options: {
+            aspectRatio: this.aspectRatio,
             tooltips: {
               mode: 'index',
               intersect: false,
@@ -106,6 +119,20 @@ export class HistoryComponent implements OnInit {
                 type: 'time',
                 distribution: 'linear'
               }],
+            },
+            pan: {
+              enabled: true,
+              mode: "x",
+              speed: 5,
+              threshold: 10
+            },
+            zoom: {
+              enabled: true,
+              mode: 'x',
+              limits: {
+                max: 10,
+                min: 0.5
+              }
             }
           }
         });

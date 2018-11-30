@@ -1,6 +1,7 @@
 # v0.5.0
 * **Angular:** Add update service
 * **Angular:** Add settings page
+* **Angular:** Add zoom and pan for chartjs
 * **Flask:** Change database structure
 * **Flask:** Add support for mysql
 # v0.4.0

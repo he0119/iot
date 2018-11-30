@@ -2,8 +2,8 @@
   "index": "/index.html",
   "version": 1,
   "appData": {
-    "version": "0.5.0-alpha",
-    "description": "Add settings page"
+    "version": "0.5.0-alpha.1",
+    "description": "Add zoom and pan for chartjs"
   },
   "assetGroups": [
     {

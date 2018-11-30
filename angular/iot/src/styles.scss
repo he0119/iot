@@ -2,9 +2,6 @@
 @import '~@angular/material/theming';
 @import './app/shared/navbar/navbar-theme';
 
-@import url('//fonts.googleapis.com/icon?family=Material+Icons');
-@import url('//fonts.googleapis.com/css?family=Roboto:300,400,500');
-
 // Define the light theme.
 $primary: mat-palette($mat-indigo);
 $accent:  mat-palette($mat-pink, A200, A100, A400);

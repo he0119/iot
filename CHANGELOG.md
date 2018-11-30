@@ -1,3 +1,8 @@
+# v0.5.0
+* **Angular:** Add update service
+* **Angular:** Add settings page
+* **Flask:** Change database structure
+* **Flask:** Add support for mysql
 # v0.4.0
 * **Angular:** Lazy loading status and history module
 * **Angular:** JSON Web Token support(also add login module)

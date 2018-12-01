@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Chart } from 'chart.js';
 import { DeviceService } from '../../_service/device.service';
-import { HistoryService } from '../../_service/history.service';
+import { HistoryService } from '../history.service';
 import { Device, DeviceData } from '../../shared/documentation-items';
 import { normalizeArray } from "../../_helpers/normalize-array";
+import { ResizeService } from "../resize.service";
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
   chart: Chart;
   devices: Device[];
   schema: object;
@@ -31,12 +32,22 @@ export class HistoryComponent implements OnInit {
     grey: 'rgb(201, 203, 207)'
   };
 
-  aspectRatio;
+  chartHeight;
+  chartWidth;
+  resizeSubscription;
 
-  constructor(private historyService: HistoryService, private deviceService: DeviceService) { }
+  constructor(
+    private historyService: HistoryService,
+    private deviceService: DeviceService,
+    private resizeService: ResizeService,
+  ) { }
 
   ngOnInit() {
-    this.getChartRatio();
+    this.resizeSubscription = this.resizeService.onResize$
+      .subscribe(size => {
+        this.getChartSize();
+      });
+    this.getChartSize();
 
     this.deviceService.devicesInfo().subscribe((res: Device[]) => {
       this.devices = res;
@@ -47,12 +58,19 @@ export class HistoryComponent implements OnInit {
     })
   }
 
-  getChartRatio() {
+  ngOnDestroy() {
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
+    }
+  }
+
+  getChartSize() {
     const narbarHeight = document.getElementById('navbar').clientHeight;
     const headerHeight = document.getElementById('history-header').clientHeight;
     const innerHeight = window.innerHeight;
     const innerWidth = window.innerWidth;
-    this.aspectRatio = innerWidth / (innerHeight - narbarHeight - headerHeight - 16);
+    this.chartHeight = String(innerHeight - narbarHeight - headerHeight - 16) + 'px';
+    this.chartWidth = String(innerWidth) + 'px';
   }
 
   onClick() {
@@ -104,7 +122,7 @@ export class HistoryComponent implements OnInit {
             datasets: datasets,
           },
           options: {
-            aspectRatio: this.aspectRatio,
+            maintainAspectRatio: false,
             tooltips: {
               mode: 'index',
               intersect: false,

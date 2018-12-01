@@ -23,6 +23,6 @@
   <div class="flex-spacer"></div>
   <button mat-button (click)='onClick()'>{{"history.draw_chart" | translate}}</button>
 </div>
-<div class="chart-container">
+<div class="chart-container" [ngStyle]="{'width': chartWidth, 'height': chartHeight}">
   <canvas id="chart"></canvas>
 </div>

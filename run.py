@@ -11,10 +11,38 @@ app = create_app(Config)
 
 
 @app.cli.command()
+def devicedatatosql():
+    '''device data to sql format'''
+    with app.app_context():
+        username = input('Please enter your username: ')
+        with open('devicedata.sql', 'w') as f:
+            devicedata = db.session.query(User).filter(
+                User.username == username).first().devices.first().data.all()
+            i = 0
+            end = len(devicedata)
+            f.write('INSERT INTO `devicedata` VALUES ')
+            for data in devicedata:
+                i += 1
+                f.write(
+                    f"({data.id},'{data.time.isoformat().replace('T', ' ')}','{data.data}',{data.device_id})")
+
+                if i < end:
+                    f.write(',')
+                else:
+                    f.write(';')
+
+
+@app.cli.command()
 def createaccount():
     '''create a new account'''
     username = input('Please enter your username: ')
-    password = getpass.getpass('Please enter your password: ')
+    while True:
+        password = getpass.getpass('Please enter your password: ')
+        password2 = getpass.getpass('Please enter your password again: ')
+        if password == password2:
+            break
+        print("Password mismatch, please try again")
+
     email = input('Please enter your email: ')
     with app.app_context():
         if db.session.query(User).filter(User.username == username).first():

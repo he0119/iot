@@ -1,5 +1,10 @@
 {
   "index": "/index.html",
+  "version": 1,
+  "appData": {
+    "version": "0.5.0",
+    "description": "Chartjs Autoresize"
+  },
   "assetGroups": [
     {
       "name": "app",

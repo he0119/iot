@@ -1,8 +1,8 @@
-<div class="history-header">
+<div class="history-header" id="history-header">
   <mat-form-field>
     <mat-select [placeholder]="'history.devices' | translate" [(ngModel)]="id">
       <mat-option *ngFor="let device of devices" [value]="device.id">
-        {{"device_name." + device.name | translate}}
+        {{device.displayName}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -23,4 +23,6 @@
   <div class="flex-spacer"></div>
   <button mat-button (click)='onClick()'>{{"history.draw_chart" | translate}}</button>
 </div>
-<canvas id="canvas"></canvas>
+<div class="chart-container" [ngStyle]="{'width': chartWidth, 'height': chartHeight}">
+  <canvas id="chart"></canvas>
+</div>

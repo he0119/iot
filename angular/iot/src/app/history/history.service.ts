@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DeviceData } from '../shared/documentation-items';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class HistoryService {
   API_URL = 'api/history';
 

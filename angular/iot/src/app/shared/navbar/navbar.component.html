@@ -5,14 +5,22 @@
   <a mat-button class="navbar-hide-small" *ngFor="let key of sectionKeys" [routerLink]="key">{{sections[key] |
     translate}}</a>
   <div class="flex-spacer"></div>
-  <a mat-button (click)="changeLanguage(language)">{{ languageBtn }}</a>
   <a mat-button class="navbar-hide-small" href="https://github.com/he0119/iot" aria-label="GitHub Repository">
-    <img class="github-logo" src="../../../assets/img/homepage/github-circle-white-transparent.svg" alt="iot">
+    <img class="github-logo" src="../../../assets/img/navbar/github-circle-white-transparent.svg" alt="iot">
     GitHub
   </a>
   <a mat-icon-button class="navbar-show-small" href="https://github.com/he0119/iot" aria-label="GitHub Repository">
-    <img class="navbar-github-logo" src="../../../assets/img/homepage/github-circle-white-transparent.svg" alt="iot">
+    <img class="navbar-github-logo" src="../../../assets/img/navbar/github-circle-white-transparent.svg" alt="iot">
   </a>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="settings">
+      <mat-icon>settings</mat-icon>
+      <span>{{"navbar.setting" | translate}}</span>
+    </button>
+  </mat-menu>
 </nav>
 <nav class="navbar navbar-show-small" color="primary">
   <a mat-button class="navbar-link" *ngFor="let key of sectionKeys" [routerLink]="key">{{sections[key] | translate}}</a>

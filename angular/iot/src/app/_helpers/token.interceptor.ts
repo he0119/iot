@@ -5,7 +5,7 @@ import { AuthorizationService } from '../_service/authorization.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public auth: AuthorizationService) { }
+  constructor(private auth: AuthorizationService) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!request.url.includes('api/refresh')) {
       request = request.clone({

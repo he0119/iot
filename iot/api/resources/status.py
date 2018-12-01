@@ -51,11 +51,11 @@ class Status(Resource):
 
         payload = {}
         for field in device.schema:
-            if device.display[field][1] == 1:
-                if field in args.data:
-                    payload[field] = args.data[field]
+            if field.allow_control:
+                if field.name in args.data:
+                    payload[field.name] = args.data[field.name]
                 else:
-                    payload[field] = "null"
+                    payload[field.name] = "null"
 
         socketio.emit(str(device.id), payload)
         return {'message': 'Change status succeed'}, 201

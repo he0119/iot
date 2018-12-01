@@ -36,7 +36,13 @@ def devicedatatosql():
 def createaccount():
     '''create a new account'''
     username = input('Please enter your username: ')
-    password = getpass.getpass('Please enter your password: ')
+    while True:
+        password = getpass.getpass('Please enter your password: ')
+        password2 = getpass.getpass('Please enter your password again: ')
+        if password == password2:
+            break
+        print("Password mismatch, please try again")
+
     email = input('Please enter your email: ')
     with app.app_context():
         if db.session.query(User).filter(User.username == username).first():

@@ -32,18 +32,5 @@ export class UpdateService {
           swUpdate.activateUpdate().then(() => document.location.reload());
         });
     });
-    this.swUpdate.activated.subscribe(event => {
-      let activatedString;
-      this.translate.get("update.activated").subscribe((res: string) => {
-        activatedString = res;
-      })
-
-      const snack = this.snackbar.open(activatedString, '', {
-        duration: 6000,
-      });
-
-      console.log('old version was', event.previous);
-      console.log('new version is', event.current);
-    });
   }
 }

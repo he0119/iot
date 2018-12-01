@@ -33,5 +33,8 @@
     "available": "发现可用更新",
     "reload": "更新",
     "activated": "更新成功"
+  },
+  "setting": {
+    "switchLanguage": "切换语言"
   }
 }

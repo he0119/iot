@@ -9,5 +9,11 @@ $accent:  mat-palette($mat-pink, A200, A100, A400);
 $theme: mat-light-theme($primary, $accent);
 @include nav-bar-theme($theme);
 
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Roboto', sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}

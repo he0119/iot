@@ -11,7 +11,7 @@ import { UpdateService } from "./_service/update.service";
 })
 export class AppComponent implements OnInit{
 
-  constructor(public translateService: TranslateService, private adapter: DateAdapter<any>, private update: UpdateService) {
+  constructor(private translateService: TranslateService, private adapter: DateAdapter<any>, private update: UpdateService) {
   }
 
   ngOnInit() {

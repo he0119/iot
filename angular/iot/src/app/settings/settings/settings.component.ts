@@ -11,10 +11,10 @@ export class SettingsComponent implements OnInit {
   languageBtn;
   language;
 
-  constructor(public translateService: TranslateService, private adapter: DateAdapter<any>) { }
+  constructor(private translateService: TranslateService, private adapter: DateAdapter<any>) { }
 
   ngOnInit() {
-    const browserLang = this.translateService.getBrowserLang();
+    const browserLang = this.translateService.currentLang;
     this.settingBtn(browserLang);
   }
 

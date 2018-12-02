@@ -3,6 +3,7 @@ Device Model
 '''
 from datetime import datetime
 
+from sqlalchemy import func
 from sqlalchemy.sql.expression import and_
 
 from iot import db
@@ -69,10 +70,20 @@ class Device(db.Model):
                 'time': None,
                 'data': None}
 
-    def history_data(self, start, end):
+    def history_data(self, start, end, interval):
         '''Get history data'''
-        return self.data.filter(
-            and_(DeviceData.time >= start, DeviceData.time <= end)).all()
+        data = self.data.filter(
+            and_(DeviceData.time >= start, DeviceData.time <= end))
+        number = data.count()
+        # Set proper remainder, make the end always to be the latest data
+        number = number % interval
+
+        row_number_column = func.row_number().over(
+            order_by=DeviceData.id).label("row_number")
+        data = data.add_column(row_number_column)
+        data = data.from_self().filter(row_number_column % interval == number).all()
+
+        return data
 
     def set_schema(self, schema):
         '''Set schema'''

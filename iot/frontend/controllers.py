@@ -20,7 +20,7 @@ def catch_all(path):
 
     # files with certain suffix
     is_angular_src = re.match(
-        r'^.*\.(html|ico|js|css|json|woff|woff2|ttf|eot|svg|txt)$', path)
+        r'^.*\.(html|ico|png|js|css|json|svg|txt)$', path)
     if is_angular_src:
         return angular_src(is_angular_src[0])
 

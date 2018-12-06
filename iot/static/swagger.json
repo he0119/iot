@@ -12,7 +12,7 @@
       "name": "MIT",
       "url": "https://mit-license.org/"
     },
-    "version": "0.3.0"
+    "version": "0.5.0"
   },
   "servers": [
     {
@@ -26,18 +26,26 @@
   ],
   "security": [
     {
-      "type": "http",
-      "scheme": "basic"
+      "accessToken": []
     }
   ],
   "components": {
+    "securitySchemes": {
+      "accessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "refreshToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "GeneralError": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "integer"
-          },
           "message": {
             "type": "string"
           }
@@ -52,11 +60,14 @@
           "name": {
             "type": "string"
           },
-          "schema": {
-            "type": "object"
+          "displayName": {
+            "type": "string"
           },
-          "display": {
-            "type": "object"
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceSchema"
+            }
           },
           "createOn": {
             "type": "string",
@@ -90,6 +101,26 @@
           }
         }
       },
+      "DeviceSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "dataType": {
+            "type": "integer"
+          },
+          "show": {
+            "type": "boolean"
+          },
+          "allowControl": {
+            "type": "boolean"
+          }
+        }
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -114,7 +145,7 @@
         "description": "Illegal input for operation."
       },
       "Unauthorized": {
-        "description": "Do not have proper credentials",
+        "description": "Token is missing or invalid",
         "content": {
           "application/json": {
             "schema": {
@@ -652,8 +683,8 @@
             "example": 18
           }
         ],
-        "responses":{
-          "200":{
+        "responses": {
+          "200": {
             "description": "Get device history status",
             "content": {
               "application/json": {
@@ -679,21 +710,81 @@
         }
       }
     },
-    "/token": {
-      "get": {
+    "/login": {
+      "post": {
         "tags": [
-          "token"
+          "login"
         ],
-        "responses":{
-          "200":{
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "description": "Username",
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "Password",
+                    "type": "string",
+                    "format": "password"
+                  }
+                },
+                "example": {
+                  "username": "example",
+                  "password": "example"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
             "description": "User token",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties":{
-                    "token": {
-                      "type":"string"
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/refresh": {
+      "get": {
+        "tags": [
+          "refresh"
+        ],
+        "security": [
+          {
+            "refreshToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
                     }
                   }
                 }

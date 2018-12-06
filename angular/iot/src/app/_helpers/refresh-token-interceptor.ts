@@ -24,11 +24,13 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
           }));
         }
         if (errorResponse.url.includes('api/refresh')) {
-          this.router.navigate(['/login'], {
-            queryParams: {
-              returnUrl: document.location.pathname
-            }
-          });
+          if ((errorResponse.status === 401 && errorResponse.error.msg === 'Token has expired') || (errorResponse.status === 422)) {
+            this.router.navigate(['/login'], {
+              queryParams: {
+                returnUrl: document.location.pathname
+              }
+            });
+          }
         }
         return throwError(err);
       }));

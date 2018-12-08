@@ -6,7 +6,7 @@ import re
 from flask import Blueprint, jsonify, make_response, send_from_directory
 
 frontend_bp = Blueprint('frontend_bp', __name__)
-angular_dir = 'dist'
+angular_dir = 'angular-dist'
 
 
 @frontend_bp.route('/', defaults={'path': ''})

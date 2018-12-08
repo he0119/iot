@@ -13,5 +13,5 @@ rsync -czrt --progress \
 --exclude ".env" \
 --exclude "app.db" \
 --exclude "iot.log" \
-/mnt/c/Users/hmy01/Desktop/Works/Working/IoT/server/ \
+/mnt/c/Users/hmy01/Desktop/Works/Working/IoT/flask/ \
 root@hemengyang.tk:/root/iot/

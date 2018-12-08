@@ -36,18 +36,14 @@ class History(Resource):
         days_end = datetime.utcfromtimestamp(args.end)
         interval = args.interval
 
-        history_data = device.history_data(days_start, days_end)
+        history_data = device.history_data(days_start, days_end, interval)
         schema = device.schema.all()
 
-        number = interval - (len(history_data) % interval)  # 初始取值，使最后一个为最新数据
         for status in history_data:
-            number += 1
-            if number >= interval:
-                number = 0
-                data = status.data_to_json(schema)
-                if data['data']['temperature'] is None or \
-                   data['data']['relative_humidity'] is None:
-                    continue  # Skip None
-                json_data.append(data)
+            data = status[0].data_to_json(schema)
+            if data['data']['temperature'] is None or \
+                data['data']['relative_humidity'] is None:
+                continue  # Skip None
+            json_data.append(data)
 
         return json_data

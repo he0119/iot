@@ -8,9 +8,9 @@
   "home": {
     "welcome": "Welcome to hehome!"
   },
-  "device_status": {
-    "show_settings": "SHOW SETTINGS",
-    "hide_settings": "HIDE SETTINGS",
+  "deviceStatus": {
+    "showSettings": "SHOW SETTINGS",
+    "hideSettings": "HIDE SETTINGS",
     "set": "SET",
     "on": "ON",
     "off": "OFF"
@@ -36,5 +36,10 @@
   },
   "setting": {
     "switchLanguage": "Switch Language"
+  },
+  "auth": {
+    "reload": "Reload",
+    "error": "Authorization Error",
+    "tokenExpired": "Token has expired"
   }
 }

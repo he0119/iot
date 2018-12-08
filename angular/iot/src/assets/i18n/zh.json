@@ -8,9 +8,9 @@
   "home": {
     "welcome": "欢迎来到何家!"
   },
-  "device_status": {
-    "show_settings": "显示设置",
-    "hide_settings": "隐藏设置",
+  "deviceStatus": {
+    "showSettings": "显示设置",
+    "hideSettings": "隐藏设置",
     "set": "设置",
     "on": "开",
     "off": "关"
@@ -36,5 +36,10 @@
   },
   "setting": {
     "switchLanguage": "切换语言"
+  },
+  "auth": {
+    "reload": "刷新",
+    "error": "身份验证失败",
+    "tokenExpired": "登录失效"
   }
 }

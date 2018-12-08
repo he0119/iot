@@ -17,13 +17,13 @@
           <mat-slide-toggle color="primary" (click)="changeStatus(device.id, item.name, !deviceData['data'][item.name])"
             [checked]="deviceData['data'][item.name]">
           </mat-slide-toggle>
-          <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"device_status.on" | translate}}</span>
-          <ng-template #offText>&nbsp;{{"device_status.off" | translate}}</ng-template>
+          <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"deviceStatus.on" | translate}}</span>
+          <ng-template #offText>&nbsp;{{"deviceStatus.off" | translate}}</ng-template>
         </mat-list-item>
         <mat-list-item *ngIf="item.show && item.dataType==deviceDataType.boolean && !item.allowControl">
           <span class="h5">{{item.name}}:&nbsp;</span>
-          <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"device_status.on" | translate}}</span>
-          <ng-template #offText>&nbsp;{{"device_status.off" | translate}}</ng-template>
+          <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"deviceStatus.on" | translate}}</span>
+          <ng-template #offText>&nbsp;{{"deviceStatus.off" | translate}}</ng-template>
         </mat-list-item>
       </ng-container>
     </mat-list>
@@ -39,13 +39,13 @@
             <mat-slide-toggle color="primary" (click)="changeStatus(device.id, item.name, !deviceData['data'][item.name])"
               [checked]="deviceData['data'][item.name]">
             </mat-slide-toggle>
-            <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"device_status.on" | translate}}</span>
-            <ng-template #offText>&nbsp;{{"device_status.off" | translate}}</ng-template>
+            <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"deviceStatus.on" | translate}}</span>
+            <ng-template #offText>&nbsp;{{"deviceStatus.off" | translate}}</ng-template>
           </mat-list-item>
           <mat-list-item *ngIf="!item.show && item.dataType==deviceDataType.boolean && !item.allowControl">
-            <span class="h5">{{"device_status." + item.displayName | translate}}:&nbsp;</span>
-            <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"device_status.on" | translate}}</span>
-            <ng-template #offText>&nbsp;{{"device_status.off" | translate}}</ng-template>
+            <span class="h5">{{"deviceStatus." + item.displayName | translate}}:&nbsp;</span>
+            <span *ngIf="deviceData['data'][item.name]; else offText">&nbsp;{{"deviceStatus.on" | translate}}</span>
+            <ng-template #offText>&nbsp;{{"deviceStatus.off" | translate}}</ng-template>
           </mat-list-item>
         </ng-container>
       </mat-list>
@@ -59,7 +59,7 @@
             </mat-expansion-panel-header>
             <mat-form-field class="form-field">
               <input matInput #inputBox>
-              <button mat-button matSuffix (click)="changeStatus(device.id, item.name, inputBox.value)">{{"device_status.set"
+              <button mat-button matSuffix (click)="changeStatus(device.id, item.name, inputBox.value)">{{"deviceStatus.set"
                 | translate}}</button>
             </mat-form-field>
           </mat-expansion-panel>
@@ -68,7 +68,7 @@
     </ng-container>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button *ngIf="!settingVisibility" (click)="showSettings()">{{"device_status.show_settings"| translate}}</button>
-    <button mat-button *ngIf="settingVisibility" (click)="hideSettings()">{{"device_status.hide_settings"| translate}}</button>
+    <button mat-button *ngIf="!settingVisibility" (click)="showSettings()">{{"deviceStatus.showSettings"| translate}}</button>
+    <button mat-button *ngIf="settingVisibility" (click)="hideSettings()">{{"deviceStatus.hideSettings"| translate}}</button>
   </mat-card-actions>
 </mat-card>

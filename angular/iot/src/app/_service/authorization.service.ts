@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, ReplaySubject } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private snackbar: MatSnackBar, private translate: TranslateService) {
   }
 
   loginCheckUrl = 'api/login';
@@ -54,10 +56,38 @@ export class AuthorizationService {
   }
 
   private handleAuthenticationError(err: any) {
+    let errorString;
+
     if (err.status === 401 || err.status === 422) {
       this.logout();
+      this.translate.get("auth.tokenExpired").subscribe((res: string) => {
+        errorString = res;
+      })
     }
+    else {
+      this.translate.get("auth.error").subscribe((res: string) => {
+        errorString = res;
+      })
+    }
+    this.errorMessage(errorString);
   }
+
+  private errorMessage(msg: string) {
+    let reloadString;
+    this.translate.get("auth.reload").subscribe((res: string) => {
+      reloadString = res;
+    })
+    const snack = this.snackbar.open(msg, reloadString, {
+      duration: 6000,
+    });
+
+    snack
+      .onAction()
+      .subscribe(() => {
+        document.location.reload();
+      });
+  }
+
 
   private setAccessToken(accessToken: string) {
     if (!accessToken) {

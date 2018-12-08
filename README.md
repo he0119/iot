@@ -2,8 +2,8 @@
 Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 
 ## Requirements
-* Python 3.6.6
-* Node.js 8.12.0
+* Python 3.7.1
+* Node.js 10.14.1
 
 ## Getting Started
 1. Setup python environment

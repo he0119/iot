@@ -15,6 +15,8 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv('SECRET_KEY') or 'This is a very strong secret key!'
 
+    # SQLALCHEMY_ECHO = True
+
     PROPAGATE_EXCEPTIONS = True
 
     SWAGGER_URL = '/api/docs'

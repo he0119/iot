@@ -1,15 +1,27 @@
-├─angular
-│  └─iot
-├─arduino
-│  └─esp8266
-├─docs
-├─iot
-│  ├─angular
-│  ├─api
-│  │  ├─resources
-│  │  └─socketio
-│  ├─common
-│  ├─frontend
-│  ├─models
-│  └─static
-└─migrations
+.
+├── angular
+│   ├── e2e
+│   │   └── src
+│   └── src
+│       ├── app
+│       ├── assets
+│       └── environments
+├── arduino
+│   └── esp8266
+│       ├── autowatering
+│       ├── httpupdate
+│       ├── temperture
+│       └── test
+├── docs
+└── server
+    ├── iot
+    │   ├── api
+    │   ├── common
+    │   ├── dist
+    │   ├── frontend
+    │   ├── models
+    │   └── static
+    └── migrations
+        └── versions
+
+24 directories

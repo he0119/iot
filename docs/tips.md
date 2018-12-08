@@ -3,6 +3,9 @@
 目录下运行`pipreqs ./ --encoding UTF-8 --ignore angular,migrations`
 即可以得到requirements.txt
 
+## 生成structure.txt
+目录下运行`tree -d -L 3 -I "venv|node_modules|__pycache__" . > docs/structure.txt`
+
 ## 启用Gzip(nginx)
 使用Gzip压缩JS或者JSON文件[参考](https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/)  
 编辑文件`/etc/nginx/nginx.conf`

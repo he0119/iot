@@ -55,7 +55,7 @@ class Status(Resource):
                 if field.name in args.data:
                     payload[field.name] = args.data[field.name]
                 else:
-                    payload[field.name] = "null"
+                    payload[field.name] = 'null'
 
         socketio.emit(str(device.id), payload)
         return {'message': 'Change status succeed'}, 201

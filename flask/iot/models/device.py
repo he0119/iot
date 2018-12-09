@@ -23,8 +23,8 @@ class Device(db.Model):
     last_connect_on = db.Column(db.DateTime)
     offline_on = db.Column(db.DateTime)
     online_status = db.Column(db.Boolean)
-    data = db.relationship("DeviceData", backref='device', lazy='dynamic')
-    schema = db.relationship("DeviceSchema", backref='device', lazy='dynamic')
+    data = db.relationship('DeviceData', backref='device', lazy='dynamic')
+    schema = db.relationship('DeviceSchema', backref='device', lazy='dynamic')
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -79,7 +79,7 @@ class Device(db.Model):
         number = number % interval
 
         row_number_column = func.row_number().over(
-            order_by=DeviceData.id).label("row_number")
+            order_by=DeviceData.id).label('row_number')
         data = data.add_column(row_number_column)
         data = data.from_self().filter(row_number_column % interval == number).all()
 

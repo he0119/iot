@@ -39,8 +39,8 @@ def test_add_status(client):
     assert res.json[0]['id'] == 1
     assert res.json[0]['time'] == '2017-07-14T02:40:10+00:00'
     assert res.json[0]['data'] == {
-        'test1': 12,
-        'test2': 22,
+        'test1': 12.0,
+        'test2': 22.0,
         'control': True,
     }
 

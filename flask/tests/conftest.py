@@ -16,13 +16,14 @@ from tests.utils.http import AuthType, MyHttpClient
 def client():
     app.config['TESTING'] = True
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
-        # os.path.abspath(os.path.dirname(__file__)), 'test.db')
+    # os.path.abspath(os.path.dirname(__file__)), 'test.db')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://test:Test12345678!@localhost/iot_test'
 
     http_client = app.test_client()
     socketio_client = socketio.test_client(app)
 
     with app.app_context():
+        db.drop_all()
         db.create_all()
 
         # Add test user
@@ -46,7 +47,13 @@ def client():
 
         # Add test data
         new_data = DeviceData(
-            time=datetime.utcfromtimestamp(1500000000), data='10, 12, 0', device=device)
+            time=datetime.utcfromtimestamp(1500000000),
+            data={
+                'test1': 10.0,
+                'test2': 12.0,
+                'control': False,
+            },
+            device=device)
         db.session.add(new_data)
         db.session.commit()
 

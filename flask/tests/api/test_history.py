@@ -10,6 +10,13 @@ def test_get_history(client):
         f'{API_URL}?id=1&start=1500000000&end=1500000010&interval=1')
 
     assert res.status_code == 200
+    assert res.json[0]['id'] == 1
+    assert res.json[0]['time'] == '2017-07-14T02:40:00+00:00'
+    assert res.json[0]['data'] == {
+        'test1': 10.0,
+        'test2': 12.0,
+        'control': False,
+    }
 
 
 def add_some_data(client):

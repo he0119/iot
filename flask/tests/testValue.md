@@ -22,9 +22,9 @@
   "id": 1,
   "time": "2017-07-14T02:40:00+00:00",
   "data": {
-  "test1": 10,
-  "test2": 12,
-  "control": false,
+    "test1": 10.0,
+    "test2": 12.0,
+    "control": false,
   }
 }
 ```
@@ -42,9 +42,9 @@
   "id": 1,
   "time": "2017-07-14T02:40:10+00:00",
   "data": {
-  "test1": 12,
-  "test2": 22,
-  "control": true,
+    "test1": 12.0,
+    "test2": 22.0,
+    "control": true,
   }
 }
 ```
@@ -62,9 +62,9 @@
   "id": 1,
   "time": "2017-07-14T16:33:20+00:00",
   "data": {
-  "test1": 10,
-  "test2": 12,
-  "control": false,
+    "test1": 10.0,
+    "test2": 12.0,
+    "control": false,
   }
 }
 ```

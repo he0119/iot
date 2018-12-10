@@ -1,9 +1,10 @@
 '''Test JWT Token'''
+from tests.utils.http import AuthType
 
 
 def test_login_to_get_token(client):
     '''test login to get token'''
-    client.set_auth(None)
+    client.set_auth(AuthType.empty)
 
     res = client.post(
         '/api/login',
@@ -16,7 +17,7 @@ def test_login_to_get_token(client):
 
 def test_refresh_token(client):
     '''test refresh token'''
-    client.set_auth('refresh')
+    client.set_auth(AuthType.refresh)
 
     res = client.get('/api/refresh')
 

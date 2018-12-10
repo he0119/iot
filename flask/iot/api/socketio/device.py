@@ -24,8 +24,9 @@ def handle_status_event(msg):
         pass
     elif int(time) > 1500000000:  # 确认时间是正确的(2017/7/14 10:40:0)
         time = datetime.utcfromtimestamp(int(time))
+        data = device.data_to_json(data)
         new_data = DeviceData(time=time, data=data, device=device)
         if len(device.data.filter(DeviceData.time == time).all()) < 2:
             db.session.add(new_data)
             db.session.commit()
-        socketio.emit('status', new_data.data_to_json())
+        socketio.emit('status', new_data.get_data())

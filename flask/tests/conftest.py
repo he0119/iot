@@ -20,7 +20,7 @@ def client():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://test:Test12345678!@localhost/iot_test'
 
     http_client = app.test_client()
-    socketio_client = socketio.test_client(app)
+    socketio_client = socketio.test_client(app, headers={'Authorization': 'Basic dGVzdDp0ZXN0'})
 
     with app.app_context():
         db.drop_all()

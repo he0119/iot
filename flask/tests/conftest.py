@@ -15,8 +15,9 @@ from tests.utils.http import AuthType, MyHttpClient
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
-        os.path.abspath(os.path.dirname(__file__)), 'test.db')
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
+        # os.path.abspath(os.path.dirname(__file__)), 'test.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://test:Test12345678!@localhost/iot_test'
 
     http_client = app.test_client()
     socketio_client = socketio.test_client(app)

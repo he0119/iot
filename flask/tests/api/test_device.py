@@ -1,15 +1,10 @@
 '''Test Device API'''
-import json
-
 API_URL = '/api/devices'
 
 
 def test_get_device(client):
     '''get device info'''
-    access_token = client.environ_base['ACCESS_TOKEN']
-    res = client.get(
-        API_URL,
-        headers={'Authorization': f'Bearer {access_token}'})
+    res = client.get(API_URL)
 
     assert res.status_code == 200
     assert res.json[0]['id'] == 1
@@ -23,9 +18,7 @@ def test_get_device(client):
         'allowControl': False
     }
 
-    res = client.get(
-        f'{API_URL}?id=1',
-        headers={'Authorization': f'Bearer {access_token}'})
+    res = client.get(f'{API_URL}?id=1')
 
     assert res.status_code == 200
     assert res.json['id'] == 1
@@ -39,16 +32,13 @@ def test_get_device(client):
         'allowControl': False
     }
 
-    res = client.get(
-        f'{API_URL}?id=10',
-        headers={'Authorization': f'Bearer {access_token}'})
+    res = client.get(f'{API_URL}?id=10')
 
     assert res.status_code == 404
 
 
 def test_create_device(client):
     '''create new device'''
-    access_token = client.environ_base['ACCESS_TOKEN']
     data = {
         "name": "test1",
         "display_name": "test1",
@@ -57,10 +47,7 @@ def test_create_device(client):
             "test22": ["test22", 1, 1, 0],
         }
     }
-    res = client.post(
-        API_URL,
-        data=json.dumps(data),
-        headers={'Authorization': f'Bearer {access_token}', 'content-type': 'application/json'})
+    res = client.post(API_URL, data=data)
 
     assert res.status_code == 201
     assert res.json['id'] == 2
@@ -77,22 +64,16 @@ def test_create_device(client):
 
 def test_modify_device(client):
     '''modify device info'''
-    access_token = client.environ_base['ACCESS_TOKEN']
     data = {
         'id': 1,
         'name': 'testtt',
         'display_name': 'testtt'
     }
-    res = client.put(
-        API_URL,
-        data=json.dumps(data),
-        headers={'Authorization': f'Bearer {access_token}', 'content-type': 'application/json'})
+    res = client.put(API_URL, data=data)
 
     assert res.status_code == 201
 
-    res = client.get(
-        f'{API_URL}?id=1',
-        headers={'Authorization': f'Bearer {access_token}'})
+    res = client.get(f'{API_URL}?id=1')
 
     assert res.status_code == 200
     assert res.json['id'] == 1
@@ -102,17 +83,14 @@ def test_modify_device(client):
 
 def test_delete_device(client):
     '''delete current user'''
-    access_token = client.environ_base['ACCESS_TOKEN']
     res = client.delete(
         API_URL,
-        data=json.dumps({'id': 1}),
-        headers={'Authorization': f'Bearer {access_token}', 'content-type': 'application/json'})
+        data={'id': 1})
 
     assert res.status_code == 204
 
     res = client.delete(
         API_URL,
-        data=json.dumps({'id': 1}),
-        headers={'Authorization': f'Bearer {access_token}', 'content-type': 'application/json'})
+        data={'id': 1})
 
     assert res.status_code == 404

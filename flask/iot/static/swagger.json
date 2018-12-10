@@ -12,7 +12,7 @@
       "name": "MIT",
       "url": "https://mit-license.org/"
     },
-    "version": "0.5.0"
+    "version": "0.6.0"
   },
   "servers": [
     {
@@ -555,13 +555,16 @@
                   },
                   "data": {
                     "description": "Device data",
-                    "type": "string"
+                    "type": "object"
                   }
                 },
                 "example": {
                   "id": 1,
                   "time": 12312313,
-                  "data": "12,12"
+                  "data": {
+                    "temperature": 12.0,
+                    "valve": true
+                  }
                 }
               }
             }

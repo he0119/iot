@@ -37,13 +37,8 @@ class History(Resource):
         interval = args.interval
 
         history_data = device.history_data(days_start, days_end, interval)
-        schema = device.schema.all()
 
         for status in history_data:
-            data = status[0].data_to_json(schema)
-            if data['data']['temperature'] is None or \
-                data['data']['relative_humidity'] is None:
-                continue  # Skip None
-            json_data.append(data)
+            json_data.append(status[0].get_data())
 
         return json_data

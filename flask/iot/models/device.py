@@ -10,6 +10,7 @@ from iot import db
 from iot.common.utils import datetime2iso
 from iot.models.devicedata import DeviceData
 from iot.models.deviceschema import DeviceSchema
+from iot.common.utils import DeviceDataType
 
 
 class Device(db.Model):
@@ -64,11 +65,34 @@ class Device(db.Model):
         '''Get device's latest data'''
         latest = self.data.order_by(DeviceData.id.desc()).first()
         if latest:
-            data = latest.data_to_json()
+            data = latest.get_data()
             return data
         return {'id': self.id,
                 'time': None,
                 'data': None}
+
+    def data_to_json(self, data):
+        '''Get json type devicedata'''
+        schema = self.schema.all()
+        raw_data = data.split(',')
+        converted_data = {}
+
+        i = 0
+        for item in schema:
+            if DeviceDataType(item.data_type) == DeviceDataType.integer:
+                converted_data[item.name] = int(raw_data[i])
+            elif DeviceDataType(item.data_type) == DeviceDataType.float:
+                if raw_data[i] == 'Error':
+                    converted_data[item.name] = None
+                else:
+                    converted_data[item.name] = float(raw_data[i])
+            elif DeviceDataType(item.data_type) == DeviceDataType.boolean:
+                converted_data[item.name] = bool(int(raw_data[i]))
+            elif DeviceDataType(item.data_type) == DeviceDataType.string:
+                converted_data[item.name] = str(raw_data[i])
+            i += 1
+
+        return converted_data
 
     def history_data(self, start, end, interval):
         '''Get history data'''

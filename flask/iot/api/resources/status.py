@@ -80,7 +80,7 @@ class Status(Resource):
 
         if not device.data.filter(DeviceData.time == args.time).all():
             new_data = DeviceData(
-                time=args.time, data=args.data, device=device)
+                time=args.time, data=device.data_to_json(args.data), device=device)
             db.session.add(new_data)
             db.session.commit()
             return {'message': f'Data{args.time} added'}, 201

@@ -31,7 +31,7 @@ class Status(Resource):
         json_data = []  # empty list
         devices = current_user.devices.all()
         for device in devices:
-            json_data.append(device.latest_data_to_json())
+            json_data.append(device.latest_json_data())
         return json_data
 
     @staticmethod

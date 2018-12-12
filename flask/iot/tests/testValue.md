@@ -14,7 +14,7 @@
 {
   "id": 1,
   "time": 1500000000,
-  "data": "10, 12, 0",
+  "data": "10, 12, 0"
 }
 ```
 ```json
@@ -24,7 +24,7 @@
   "data": {
     "test1": 10.0,
     "test2": 12.0,
-    "control": false,
+    "control": false
   }
 }
 ```
@@ -34,7 +34,7 @@
 {
   "id": 1,
   "time": 1500000010,
-  "data": "12, 22, 1",
+  "data": "12, 22, 1"
 }
 ```
 ```json
@@ -44,7 +44,7 @@
   "data": {
     "test1": 12.0,
     "test2": 22.0,
-    "control": true,
+    "control": true
   }
 }
 ```
@@ -54,7 +54,7 @@
 {
   "id": 1,
   "time": 1500050000,
-  "data": "10, 12, 0",
+  "data": "10, 12, 0"
 }
 ```
 ```json
@@ -64,7 +64,7 @@
   "data": {
     "test1": 10.0,
     "test2": 12.0,
-    "control": false,
+    "control": false
   }
 }
 ```

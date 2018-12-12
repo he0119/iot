@@ -1,6 +1,6 @@
-'''
+"""
 History Resource
-'''
+"""
 from datetime import datetime
 
 from flask_jwt_extended import current_user, jwt_required
@@ -10,15 +10,11 @@ from iot.models.device import Device
 
 
 class History(Resource):
-    '''
-    get: return history data
-    '''
+    """Get: return history data."""
     @staticmethod
     @jwt_required
     def get():
-        '''
-        Get history data
-        '''
+        """Get history data."""
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int, required=True)
         parser.add_argument('start', type=int, required=True)

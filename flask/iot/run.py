@@ -12,7 +12,7 @@ app = create_app(Config)
 
 @app.cli.command()
 def devicedatatosql():
-    '''device data to sql format'''
+    """device data to sql format"""
     with app.app_context():
         username = input('Please enter your username: ')
         with open('devicedata.sql', 'w') as f:
@@ -34,7 +34,7 @@ def devicedatatosql():
 
 @app.cli.command()
 def createaccount():
-    '''create a new account'''
+    """create a new account"""
     username = input('Please enter your username: ')
     while True:
         password = getpass.getpass('Please enter your password: ')

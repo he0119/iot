@@ -1,6 +1,6 @@
-'''
+"""
 Device Model
-'''
+"""
 from datetime import datetime
 
 from sqlalchemy import func
@@ -14,7 +14,7 @@ from iot.common.utils import DeviceDataType
 
 
 class Device(db.Model):
-    '''device model'''
+    """Device Model."""
     __tablename__ = 'device'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +30,7 @@ class Device(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def change_status(self, status):
-        '''Change online status'''
+        """Change online status"""
         self.online_status = status
         if status:
             self.last_connect_on = datetime.utcnow()
@@ -38,7 +38,7 @@ class Device(db.Model):
             self.offline_on = datetime.utcnow()
 
     def schema_to_json(self):
-        ''''Get schema'''
+        """'Get schema"""
         json = []
         for item in self.schema:
             json.append({
@@ -51,7 +51,7 @@ class Device(db.Model):
         return json
 
     def device_info_to_json(self):
-        '''Get device info'''
+        """Get device info"""
         return {'id': self.id,
                 'name': self.name,
                 'displayName': self.display_name,
@@ -61,18 +61,25 @@ class Device(db.Model):
                 'offlineOn': datetime2iso(self.offline_on),
                 'onlineStatus': self.online_status}
 
-    def latest_data_to_json(self):
-        '''Get device's latest data'''
+    def latest_json_data(self):
+        """Return device latest data ."""
         latest = self.data.order_by(DeviceData.id.desc()).first()
         if latest:
-            data = latest.get_data()
+            data = latest.json_data()
             return data
         return {'id': self.id,
                 'time': None,
                 'data': None}
 
     def data_to_json(self, data):
-        '''Get json type devicedata'''
+        """Return json format devicedata.
+
+        example:
+        {
+            "temp": 12,
+            "vavle": true
+        }
+        """
         schema = self.schema.all()
         raw_data = data.split(',')
         converted_data = {}
@@ -95,7 +102,11 @@ class Device(db.Model):
         return converted_data
 
     def history_data(self, start, end, interval):
-        '''Get history data'''
+        """Return history data(a list of devicedata object)
+
+        example:
+        [DeviceData(1), DeviceData(2), DeviceData(3)]
+        """
         data = self.data.filter(
             and_(DeviceData.time >= start, DeviceData.time <= end))
         number = data.count()
@@ -110,7 +121,7 @@ class Device(db.Model):
         return data
 
     def set_schema(self, schema):
-        '''Set schema'''
+        """Set schema"""
         for item in schema:
             new_item = DeviceSchema(
                 name=item,
@@ -124,7 +135,7 @@ class Device(db.Model):
             db.session.commit()
 
     def delete_data(self):
-        '''Delete all data'''
+        """Delete all data"""
         for device_data in self.data.all():
             db.session.delete(device_data)
             db.session.commit()

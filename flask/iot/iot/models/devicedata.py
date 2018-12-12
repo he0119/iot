@@ -1,11 +1,14 @@
-'''
+"""
 DeviceData Model
-'''
+"""
 from iot import db
 from iot.common.utils import datetime2iso
 
 class DeviceData(db.Model):
-    '''device data model'''
+    """DeviceData Model
+
+    it contains three field id(Integer), time(DateTime), data(JSON)
+    """
     __tablename__ = 'devicedata'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -14,8 +17,19 @@ class DeviceData(db.Model):
 
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
 
-    def get_data(self):
-        '''get formatted data'''
+    def json_data(self):
+        """Return formatted data with device id and data time.
+
+        example:
+        {
+            "id": 1,
+            "time": "2017-07-14T02:40:10+00:00", //ISO 8601 String
+            "data": {
+                "temp": 12,
+                "valve": true
+            }
+        }
+        """
         return {
             'id': self.device_id,
             'time': datetime2iso(self.time),

@@ -11,7 +11,7 @@ class AuthType(IntEnum):
     refresh = 3
 
 
-class MyHttpClient():
+class MyTestClient():
     '''Add JWT Support'''
 
     def __init__(self,

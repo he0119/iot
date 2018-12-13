@@ -1,6 +1,4 @@
-'''
-Frontend
-'''
+"""Frontend"""
 import re
 
 from flask import Blueprint, jsonify, make_response, send_from_directory
@@ -12,7 +10,7 @@ angular_dir = 'angular-dist'
 @frontend_bp.route('/', defaults={'path': ''})
 @frontend_bp.route('/<path:path>')
 def catch_all(path):
-    '''catch all path'''
+    """Catch all path"""
     # except api/*
     is_angular_page = re.match(r'^((?!api\/)\w\/?)+$', path)
     if is_angular_page or not path:
@@ -28,12 +26,12 @@ def catch_all(path):
 
 
 def angular_page():
-    '''index.html'''
+    """Return angular index.html"""
     return send_from_directory(angular_dir, 'index.html')
 
 
 def angular_src(path):
-    '''angular static files'''
+    """Return angular static files"""
     if path.split('.')[-1] == 'js':
         return send_from_directory(angular_dir, path, mimetype='text/javascript')
     return send_from_directory(angular_dir, path)

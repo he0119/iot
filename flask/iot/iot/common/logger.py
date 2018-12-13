@@ -1,9 +1,8 @@
-'''
-Logger
-'''
+"""Logger"""
 import logging
 
 def init_logger(logger):
+    """Init logger."""
     # create file handler and set level to debug
     fh = logging.FileHandler('iot.log', encoding='UTF-8')
     fh.setLevel(logging.DEBUG)

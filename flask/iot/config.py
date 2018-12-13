@@ -1,4 +1,4 @@
-'''config'''
+"""Config"""
 import os
 from pathlib import Path  # python3 only
 
@@ -9,7 +9,7 @@ load_dotenv(dotenv_path=ENV_PATH)
 
 
 class Config(object):
-    '''config'''
+    """Config."""
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI') or 'sqlite:///' + os.path.join(
         os.path.abspath(os.path.dirname(__file__)), 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False

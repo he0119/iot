@@ -1,9 +1,9 @@
-'''Test Device API'''
+"""Test Device API"""
 API_URL = '/api/devices'
 
 
 def test_get_device(client):
-    '''get device info'''
+    """Get device info."""
     res = client.get(API_URL)
 
     assert res.status_code == 200
@@ -38,7 +38,7 @@ def test_get_device(client):
 
 
 def test_create_device(client):
-    '''create new device'''
+    """Create new device."""
     data = {
         "name": "test1",
         "display_name": "test1",
@@ -63,10 +63,10 @@ def test_create_device(client):
 
 
 def test_modify_device(client):
-    '''modify device info'''
+    """Modify device info."""
     data = {
         'id': 1,
-        'name': 'testtt',
+        'name': 'testt',
         'display_name': 'testtt'
     }
     res = client.put(API_URL, data=data)
@@ -77,12 +77,12 @@ def test_modify_device(client):
 
     assert res.status_code == 200
     assert res.json['id'] == 1
-    assert res.json['name'] == 'testtt'
+    assert res.json['name'] == 'testt'
     assert res.json['displayName'] == 'testtt'
 
 
 def test_delete_device(client):
-    '''delete current user'''
+    """Delete current user."""
     res = client.delete(
         API_URL,
         data={'id': 1})

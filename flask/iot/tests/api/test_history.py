@@ -1,12 +1,17 @@
-'''Test History API'''
+"""Test History API"""
 import pytest
 API_URL = '/api/history'
 
 
-@pytest.mark.skip(reason="Do not support sqlite3")
+@pytest.mark.skip(reason='Do not support sqlite3')
 def test_get_history(client):
-    '''get status'''
-    # FIXME: Won't pass when using sqlite, because func.row_number isn't available
+    """Test history data.
+
+    Won't pass when using sqlite,
+    because func.row_number isn't available(will support in SQLite 3.25.0),
+    but current version in python3.7 is 3.21.0
+    """
+
     add_some_data(client)
     res = client.get(
         f'{API_URL}?id=1&start=1500000000&end=1500000010&interval=1')
@@ -22,7 +27,7 @@ def test_get_history(client):
 
 
 def add_some_data(client):
-    '''Add some test data'''
+    """Add some test data."""
     api_url = '/api/status'
     data = {
         "id": 1,

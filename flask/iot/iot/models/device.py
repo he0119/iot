@@ -1,6 +1,4 @@
-"""
-Device Model
-"""
+"""Device Model"""
 from datetime import datetime
 
 from sqlalchemy import func
@@ -30,7 +28,7 @@ class Device(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def change_status(self, status):
-        """Change online status"""
+        """Change online status."""
         self.online_status = status
         if status:
             self.last_connect_on = datetime.utcnow()
@@ -38,7 +36,7 @@ class Device(db.Model):
             self.offline_on = datetime.utcnow()
 
     def schema_to_json(self):
-        """'Get schema"""
+        """'Get schema."""
         json = []
         for item in self.schema:
             json.append({
@@ -86,23 +84,25 @@ class Device(db.Model):
 
         i = 0
         for item in schema:
-            if DeviceDataType(item.data_type) == DeviceDataType.integer:
+            data_type = DeviceDataType(item.data_type)
+
+            if data_type == DeviceDataType.integer:
                 converted_data[item.name] = int(raw_data[i])
-            elif DeviceDataType(item.data_type) == DeviceDataType.float:
+            elif data_type == DeviceDataType.float:
                 if raw_data[i] == 'Error':
                     converted_data[item.name] = None
                 else:
                     converted_data[item.name] = float(raw_data[i])
-            elif DeviceDataType(item.data_type) == DeviceDataType.boolean:
+            elif data_type == DeviceDataType.boolean:
                 converted_data[item.name] = bool(int(raw_data[i]))
-            elif DeviceDataType(item.data_type) == DeviceDataType.string:
+            elif data_type == DeviceDataType.string:
                 converted_data[item.name] = str(raw_data[i])
             i += 1
 
         return converted_data
 
     def history_data(self, start, end, interval):
-        """Return history data(a list of devicedata object)
+        """Return history data(a list of devicedata object).
 
         example:
         [DeviceData(1), DeviceData(2), DeviceData(3)]
@@ -121,7 +121,7 @@ class Device(db.Model):
         return data
 
     def set_schema(self, schema):
-        """Set schema"""
+        """Set schema."""
         for item in schema:
             new_item = DeviceSchema(
                 name=item,
@@ -135,7 +135,7 @@ class Device(db.Model):
             db.session.commit()
 
     def delete_data(self):
-        """Delete all data"""
+        """Delete all data."""
         for device_data in self.data.all():
             db.session.delete(device_data)
             db.session.commit()

@@ -1,11 +1,9 @@
-"""
-DeviceData Model
-"""
+"""DeviceData Model"""
 from iot import db
 from iot.common.utils import datetime2iso
 
 class DeviceData(db.Model):
-    """DeviceData Model
+    """DeviceData Model.
 
     it contains three field id(Integer), time(DateTime), data(JSON)
     """

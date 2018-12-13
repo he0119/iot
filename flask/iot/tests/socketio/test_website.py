@@ -1,8 +1,8 @@
-'''Test Website Socketio'''
+"""Test Website Socketio"""
 
 
 def test_website(client):
-    '''request data through socketio'''
+    """Request data through socketio."""
     client.socketio.emit('website', {'type': 'request'})
 
     res = client.socketio.get_received()

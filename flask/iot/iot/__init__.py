@@ -1,6 +1,4 @@
-'''
-All Flask extensions are created here
-'''
+"""All Flask extensions are created here"""
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -16,9 +14,10 @@ socketio = SocketIO()
 login_manager = LoginManager()
 jwt = JWTManager()
 
-def create_app(Config):
+def create_app(config):
+    """Return a Flask App."""
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config)
 
     db.init_app(app)
     migrate.init_app(app, db)

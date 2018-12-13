@@ -1,6 +1,4 @@
-'''
-Token Resource
-'''
+"""Token Resource"""
 from flask_restful import Resource
 from flask_jwt_extended import (
     create_access_token,
@@ -8,11 +6,12 @@ from flask_jwt_extended import (
 
 
 class Refresh(Resource):
-    '''get(login_required): return token'''
+    """Get(refresh_token_required): return token"""
 
     @staticmethod
     @jwt_refresh_token_required
     def get():
+        """Return access token."""
         ret = {
             'access_token': create_access_token(identity=get_jwt_identity())
         }

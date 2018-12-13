@@ -1,9 +1,9 @@
-'''Test Status API'''
+"""Test Status API"""
 API_URL = '/api/status'
 
 
 def test_get_status(client):
-    '''get status'''
+    """Get latest data."""
     res = client.get(API_URL)
 
     assert res.status_code == 200
@@ -17,7 +17,7 @@ def test_get_status(client):
 
 
 def test_add_status(client):
-    '''add new status'''
+    """Add new device data."""
     data = {
         "id": 1,
         "time": 1500000010,
@@ -46,7 +46,7 @@ def test_add_status(client):
 
 
 def test_modify_device(client):
-    '''modify device status'''
+    """Modify device status."""
     data = {
         'id': 1,
         'data': {

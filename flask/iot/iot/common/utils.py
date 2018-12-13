@@ -1,12 +1,10 @@
-'''
-Tools
-'''
+"""Tools"""
 from datetime import timezone
 from enum import IntEnum, unique
 
 
 def datetime2iso(datetime):
-    '''datetime to ISO 8601 str'''
+    """Datetime to ISO 8601 str."""
     if not datetime:
         return None
     # default timezone is utc

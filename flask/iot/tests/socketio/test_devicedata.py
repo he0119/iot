@@ -1,7 +1,7 @@
-'''Test Device Socketio'''
+"""Test Device Socketio"""
 
 def test_add_devicedata(client):
-    '''add data through socketio'''
+    """Add data through socketio."""
     client.socketio.emit('devicedata', {'data': "1500000010,1|12,22,1"})
 
     res = client.socketio.get_received()

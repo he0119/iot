@@ -1,6 +1,4 @@
-'''
-RESTful API&SocketIO
-'''
+"""RESTful API&SocketIO"""
 from flask import Blueprint
 from flask_restful import Api
 

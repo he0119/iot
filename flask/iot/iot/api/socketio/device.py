@@ -1,6 +1,4 @@
-'''
-Deivce
-'''
+"""Deivce SocketIO"""
 from datetime import datetime
 
 from flask_login import current_user
@@ -13,7 +11,7 @@ from iot.models.devicedata import DeviceData
 @socketio.on('devicedata')
 @authenticated_only
 def handle_status_event(msg):
-    '''Handle status data from IOT devices'''
+    """Handle status data from IOT devices."""
     print(f'device data: {msg["data"]}')
     device_data = msg['data'].split('|')
     time, device_id = device_data[0].split(',')

@@ -1,6 +1,4 @@
-"""
-History Resource
-"""
+"""History Resource"""
 from datetime import datetime
 
 from flask_jwt_extended import current_user, jwt_required
@@ -25,7 +23,7 @@ class History(Resource):
         device = current_user.devices.filter(
             Device.id == args.id).first()
         if not device:
-            return {'code': 404, 'message': f'Device(id:{args.id}) do not exist'}, 404
+            return {'message': f'Device(id:{args.id}) do not exist'}, 404
 
         json_data = []  # Empty list
         days_start = datetime.utcfromtimestamp(args.start)
@@ -35,6 +33,6 @@ class History(Resource):
         history_data = device.history_data(days_start, days_end, interval)
 
         for status in history_data:
-            json_data.append(status[0].get_data())
+            json_data.append(status[0].json_data())
 
         return json_data

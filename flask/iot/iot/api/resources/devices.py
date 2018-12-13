@@ -1,6 +1,4 @@
-'''
-Devices Resource
-'''
+"""Devices Resource"""
 from flask_jwt_extended import current_user, jwt_required
 from flask_restful import Resource, reqparse
 
@@ -9,16 +7,12 @@ from iot.models.device import Device
 
 
 class Devices(Resource):
-    '''
-    Devices Resource
-    '''
+    """Devices Resource"""
 
     @staticmethod
     @jwt_required
     def get():
-        '''
-        Get devices info
-        '''
+        """Get devices info."""
         parser = reqparse.RequestParser()
         parser.add_argument('id', type=int)
         args = parser.parse_args()
@@ -29,7 +23,7 @@ class Devices(Resource):
             for device in devices:
                 if device.id == args.id:
                     return device.device_info_to_json()
-            return {'code': 404, 'message': f'Device(id:{args.id}) does not exist'}, 404
+            return {'message': f'Device(id:{args.id}) does not exist'}, 404
 
         device_list = []
         for device in devices:
@@ -39,9 +33,7 @@ class Devices(Resource):
     @staticmethod
     @jwt_required
     def post():
-        '''
-        Create a new device
-        '''
+        """Create a new device."""
         parser = reqparse.RequestParser()
         parser.add_argument('name', required=True, location='json')
         parser.add_argument('display_name', required=True, location='json')
@@ -53,7 +45,7 @@ class Devices(Resource):
             device = [device for device in current_user.devices.all()
                       if device.name == args.name]
             if device:
-                return {'code': 400, 'message': 'Name already exist'}, 400
+                return {'message': 'Name already exist'}, 400
 
         device = Device(
             name=args.name, display_name=args.display_name, user=current_user)
@@ -67,9 +59,7 @@ class Devices(Resource):
     @staticmethod
     @jwt_required
     def put():
-        '''
-        Modify device info
-        '''
+        """Modify device info."""
         parser = reqparse.RequestParser()
         parser.add_argument('id', required=True, location='json')
         parser.add_argument('name', location='json')
@@ -80,7 +70,7 @@ class Devices(Resource):
         device = current_user.devices.filter(
             Device.id == args.id).first()
         if not device:
-            return {'code': 404, 'message': f'Device(id:{args.id}) does not exist'}, 404
+            return {'message': f'Device(id:{args.id}) does not exist'}, 404
 
         if args.name:
             device.name = args.name
@@ -96,9 +86,7 @@ class Devices(Resource):
     @staticmethod
     @jwt_required
     def delete():
-        '''
-        Delete device
-        '''
+        """Delete device."""
         parser = reqparse.RequestParser()
         parser.add_argument('id', required=True, location='json')
         args = parser.parse_args()
@@ -106,7 +94,7 @@ class Devices(Resource):
         device = current_user.devices.filter(
             Device.id == args.id).first()
         if not device:
-            return {'code': 404, 'message': f'Device(id:{args.id}) do not exist'}, 404
+            return {'message': f'Device(id:{args.id}) do not exist'}, 404
 
         # Delete all device data before delete device
         device.delete_data()

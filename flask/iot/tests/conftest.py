@@ -1,4 +1,4 @@
-'''pytest config'''
+"""pytest config"""
 from datetime import datetime
 
 import pytest
@@ -13,7 +13,7 @@ from tests.utils.client import TokenType, MyTestClient
 
 @pytest.fixture
 def client():
-    '''My custom test client'''
+    """My custom test client."""
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
     # app.config['SQLALCHEMY_DATABASE_URI'] = \

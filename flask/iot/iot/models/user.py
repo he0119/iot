@@ -1,6 +1,4 @@
-"""
-User Model
-"""
+"""User Model"""
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -8,7 +6,7 @@ from iot import db
 
 
 class User(db.Model, UserMixin):
-    """User Data(id, username, password_hash)"""
+    """User Data(id, username, password_hash)."""
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -18,15 +16,15 @@ class User(db.Model, UserMixin):
     devices = db.relationship('Device', backref='user', lazy='dynamic')
 
     def set_password(self, password):
-        """set your password"""
+        """Set your password."""
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        """check your password"""
+        """Check your password."""
         return check_password_hash(self.password_hash, password)
 
     def delete_devices(self):
-        """Delete all data"""
+        """Delete all data."""
         for device in self.devices.all():
             device.delete_data()
             db.session.delete(device)

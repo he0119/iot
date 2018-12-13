@@ -1,10 +1,8 @@
-'''
-Auth
-'''
+"""Authentication"""
 import functools
 import json
 
-from flask import Response, jsonify
+from flask import Response
 from flask_login import current_user
 from flask_socketio import disconnect
 
@@ -26,6 +24,7 @@ def authenticated_only(func):
 
 @login_manager.request_loader
 def load_user_from_request(request):
+    """Load user for flask login."""
     auth = request.authorization
     # try to authenticate with username/password
     if auth:
@@ -39,24 +38,14 @@ def load_user_from_request(request):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
+    """Handle unauthorized request."""
     message = {
-        'code': 401,
         'message': 'You have to login with proper credentials'
     }
-    return Response(json.dumps(message), 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+    return Response(json.dumps(message), 401)
 
 
 @jwt.user_loader_callback_loader
 def jwt_user_loader(username):
-    '''
-    return user based on username
-    '''
+    """Return user based on username."""
     return User.query.filter_by(username=username).first()
-
-
-# @jwt.user_loader_error_loader
-# def jwt_user_loader_error(username):
-#     '''
-#     return an error when failed to load user
-#     '''
-#     return jsonify({'code': 400, 'message': f'User({username}: load error!)'}), 400

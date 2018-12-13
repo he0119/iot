@@ -1,25 +1,29 @@
-'''HTTP Client'''
+"""Custom HTTP&SocketIO Test Client"""
 import json
 from enum import IntEnum, unique
 
+from tests.conftest import app, socketio
+
 
 @unique
-class AuthType(IntEnum):
-    '''Authorization Type'''
+class TokenType(IntEnum):
+    """Authorization Type"""
     empty = 1
     access = 2
     refresh = 3
 
 
 class MyTestClient():
-    '''Add JWT Support'''
+    """Add JWT Support"""
 
     def __init__(self,
-                 http_client, socketio_client,
                  access_token, refresh_token, default_auth=None):
 
-        self.http = http_client
-        self.socketio = socketio_client
+        # Use basic auth for socketio client
+        self.socketio = socketio.test_client(
+            app, headers={'Authorization': 'Basic dGVzdDp0ZXN0'})
+
+        self.http = app.test_client()
         self.headers = {}
         self.access_token = access_token
         self.refresh_token = refresh_token
@@ -28,17 +32,17 @@ class MyTestClient():
             self.set_auth(default_auth)
 
     def set_auth(self, auth):
-        '''set auth'''
-        if auth == AuthType.empty:
+        """Set Authorization Token Type."""
+        if auth == TokenType.empty:
             if 'Authorization' in self.headers:
                 self.headers.pop('Authorization')
-        if auth == AuthType.access:
+        if auth == TokenType.access:
             self.headers['Authorization'] = f'Bearer {self.access_token}'
-        if auth == AuthType.refresh:
+        if auth == TokenType.refresh:
             self.headers['Authorization'] = f'Bearer {self.refresh_token}'
 
     def get(self, url, headers=None, data=None):
-        '''get'''
+        """Get"""
         _headers = self.headers
 
         if headers:
@@ -47,7 +51,7 @@ class MyTestClient():
         return self.http.get(url, data=data, headers=_headers)
 
     def post(self, url, headers=None, data=None):
-        '''post'''
+        """Post"""
         _headers = {**{'content-type': 'application/json'}, **self.headers}
 
         if headers:
@@ -56,7 +60,7 @@ class MyTestClient():
         return self.http.post(url, data=json.dumps(data), headers=_headers)
 
     def put(self, url, headers=None, data=None):
-        '''put'''
+        """Put"""
         _headers = {**{'content-type': 'application/json'}, **self.headers}
 
         if headers:
@@ -65,7 +69,7 @@ class MyTestClient():
         return self.http.put(url, data=json.dumps(data), headers=_headers)
 
     def delete(self, url, headers=None, data=None):
-        '''delete'''
+        """Delete"""
         _headers = {**{'content-type': 'application/json'}, **self.headers}
 
         if headers:

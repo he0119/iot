@@ -4,11 +4,11 @@ from datetime import datetime
 import pytest
 from flask_jwt_extended import create_access_token, create_refresh_token
 
+from run import app, db, socketio
 from iot.models.device import Device
 from iot.models.devicedata import DeviceData
 from iot.models.user import User
-from run import app, db, socketio
-from tests.utils.http import AuthType, MyTestClient
+from tests.utils.client import TokenType, MyTestClient
 
 
 @pytest.fixture
@@ -18,10 +18,6 @@ def client():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
     # app.config['SQLALCHEMY_DATABASE_URI'] = \
     #     'mysql+mysqlconnector://test:Test12345678!@localhost/iot_test'
-
-    http_client = app.test_client()
-    socketio_client = socketio.test_client(
-        app, headers={'Authorization': 'Basic dGVzdDp0ZXN0'})
 
     with app.app_context():
         db.drop_all()
@@ -60,12 +56,11 @@ def client():
 
         # Get token
         access_token = create_access_token(
-            identity='test')
+            identity=user.username)
         refresh_token = create_refresh_token(
-            identity='test')
+            identity=user.username)
 
-        my_client = MyTestClient(http_client, socketio_client,
-                                 access_token, refresh_token, default_auth=AuthType.access)
+        my_client = MyTestClient(access_token, refresh_token, default_auth=TokenType.access)
 
     yield my_client
 

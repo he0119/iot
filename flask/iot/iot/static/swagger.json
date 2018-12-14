@@ -1,0 +1,801 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "IOT",
+    "description": "This is a simple iot server.",
+    "contact": {
+      "name": "hemengyang",
+      "email": "hmy0119@gmail.com",
+      "url": "https://hehome.xyz"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://mit-license.org/"
+    },
+    "version": "0.6.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5000/api",
+      "description": "Development server"
+    },
+    {
+      "url": "https://hemengyang.tk/api",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "accessToken": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "accessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "refreshToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "GeneralError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceSchema"
+            }
+          },
+          "createOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastConnectOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "offlineOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "onlineStatus": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DeviceData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "DeviceSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "dataType": {
+            "type": "integer"
+          },
+          "show": {
+            "type": "boolean"
+          },
+          "allowControl": {
+            "type": "boolean"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "username": "example",
+          "email": "example@example.com"
+        }
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Entity not found."
+      },
+      "IllegalInput": {
+        "description": "Illegal input for operation."
+      },
+      "Unauthorized": {
+        "description": "Token is missing or invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralError"
+            }
+          }
+        }
+      },
+      "GeneralError": {
+        "description": "General Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Get login user info",
+        "responses": {
+          "200": {
+            "description": "Current login user info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "username",
+                  "password",
+                  "email"
+                ],
+                "properties": {
+                  "username": {
+                    "description": "Username",
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "Password",
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "email": {
+                    "description": "Email",
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "username": "example",
+                  "password": "example",
+                  "email": "example@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Username or Email already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "Modify user info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "username",
+                  "password",
+                  "email"
+                ],
+                "properties": {
+                  "username": {
+                    "description": "Username",
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "Password",
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "email": {
+                    "description": "Email",
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "username": "example",
+                  "password": "example",
+                  "email": "example@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User info updated"
+          },
+          "400": {
+            "description": "Email already exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "description": "Delete login user",
+        "responses": {
+          "204": {
+            "description": "User deleted"
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Get all devices info",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Device id",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current login user devices info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Create a new device",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "name",
+                  "display",
+                  "schema"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Username",
+                    "type": "string"
+                  },
+                  "display": {
+                    "description": "Website display settings",
+                    "type": "object"
+                  },
+                  "schema": {
+                    "description": "Device data schema",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "name": "test",
+                  "display": {
+                    "temperature": [
+                      1,
+                      0
+                    ],
+                    "relative_humidity": [
+                      1,
+                      0
+                    ]
+                  },
+                  "schema": {
+                    "temperature": 1,
+                    "relative_humidity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Device info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Device name already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Modify device info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  },
+                  "name": {
+                    "description": "Device name",
+                    "type": "string"
+                  },
+                  "display": {
+                    "description": "Device display settings",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "name": "test",
+                  "display": {
+                    "temperature": [
+                      1,
+                      0
+                    ],
+                    "relative_humidity": [
+                      1,
+                      0
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device info updated"
+          },
+          "400": {
+            "description": "Device name already exist"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Delete device",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  }
+                },
+                "example": {
+                  "id": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Device deleted"
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "description": "Get all devices latest status",
+        "responses": {
+          "200": {
+            "description": "Get all devices latest status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceData"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "status"
+        ],
+        "description": "Add a new devicedata",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id",
+                  "time",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  },
+                  "time": {
+                    "description": "Device data time",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Device data",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "time": 12312313,
+                  "data": {
+                    "temperature": 12.0,
+                    "valve": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device data added"
+          },
+          "409": {
+            "description": "Device data already exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "status"
+        ],
+        "description": "Modify device status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "id",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Device id",
+                    "type": "integer"
+                  },
+                  "data": {
+                    "description": "Device data to be modified",
+                    "type": "object"
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "data": {
+                    "valve_delay": 60
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Device status updated"
+          },
+          "404": {
+            "description": "Device does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Device id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "History start time",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1541579753
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "History start end",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1541666153
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "description": "History interval",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 18
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get device history status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeviceData"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Device does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "description": "Username",
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "Password",
+                    "type": "string",
+                    "format": "password"
+                  }
+                },
+                "example": {
+                  "username": "example",
+                  "password": "example"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/refresh": {
+      "get": {
+        "tags": [
+          "refresh"
+        ],
+        "security": [
+          {
+            "refreshToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

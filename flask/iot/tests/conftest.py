@@ -4,11 +4,11 @@ from datetime import datetime
 import pytest
 from flask_jwt_extended import create_access_token, create_refresh_token
 
-from run import app, db, socketio
 from iot.models.device import Device
 from iot.models.devicedata import DeviceData
 from iot.models.user import User
-from tests.utils.client import TokenType, MyTestClient
+from run import app, db
+from tests.utils.client import MyTestClient, TokenType
 
 
 @pytest.fixture

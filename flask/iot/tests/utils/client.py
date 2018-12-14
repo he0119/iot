@@ -2,7 +2,8 @@
 import json
 from enum import IntEnum, unique
 
-from tests.conftest import app, socketio
+from run import socketio
+from tests.conftest import app
 
 
 @unique

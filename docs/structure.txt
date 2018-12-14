@@ -13,15 +13,33 @@
 │       ├── temperture
 │       └── test
 ├── docs
-└── server
-    ├── iot
-    │   ├── api
-    │   ├── common
-    │   ├── dist
-    │   ├── frontend
-    │   ├── models
-    │   └── static
-    └── migrations
-        └── versions
+├── flask
+│   ├── iot
+│   │   ├── angular-dist
+│   │   ├── api
+│   │   ├── common
+│   │   ├── frontend
+│   │   ├── models
+│   │   └── static
+│   ├── migrations
+│   │   └── versions
+│   └── tests
+│       ├── api
+│       ├── socketio
+│       └── utils
+└── flutter
+    ├── android
+    │   ├── app
+    │   └── gradle
+    ├── build
+    │   └── app
+    ├── gen
+    ├── ios
+    │   ├── Flutter
+    │   ├── Runner
+    │   ├── Runner.xcodeproj
+    │   └── Runner.xcworkspace
+    ├── lib
+    └── test
 
-24 directories
+42 directories

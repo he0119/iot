@@ -1,62 +1,17 @@
 {
-  "name": "auto watering",
+  "name": "auto_watering",
+  "display_name": "自动浇水",
   "schema": {
-    "temperature": 2,
-    "relative_humidity": 2,
-    "soil_moisture": 1,
-    "valve": 3,
-    "pump": 3,
-    "auto_watering": 3,
-    "moisture_trigger": 3,
-    "watering_interval": 1,
-    "valve_delay": 1,
-    "pump_delay": 1,
-    "soil_moisture_limit": 1
-  },
-  "display": {
-    "temperature": [
-      1,
-      0
-    ],
-    "relative_humidity": [
-      1,
-      0
-    ],
-    "soil_moisture": [
-      1,
-      0
-    ],
-    "valve": [
-      1,
-      1
-    ],
-    "pump": [
-      1,
-      1
-    ],
-    "auto_watering": [
-      0,
-      1
-    ],
-    "moisture_trigger": [
-      0,
-      1
-    ],
-    "watering_interval": [
-      0,
-      1
-    ],
-    "valve_delay": [
-      0,
-      1
-    ],
-    "pump_delay": [
-      0,
-      1
-    ],
-    "soil_moisture_limit": [
-      0,
-      1
-    ]
+    "temperature": ["温度",2,1,0],
+    "relative_humidity": ["相对湿度",2,1,0],
+    "soil_moisture": ["土壤湿度",1,1,0],
+    "valve": ["电磁阀",3,1,1],
+    "pump": ["水泵",3,1,1],
+    "auto_watering": ["自动浇水",3,0,1],
+    "moisture_trigger": ["湿度触发器",3,0,1],
+    "watering_interval": ["浇水间隔",1,0,1],
+    "valve_delay": ["阀门延迟",1,0,1],
+    "pump_delay": ["泵延迟",1,0,1],
+    "soil_moisture_limit": ["土壤湿度极限",1,0,1]
   }
 }

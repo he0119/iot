@@ -1,5 +1,6 @@
 """Test History API"""
 import pytest
+
 API_URL = '/api/history'
 
 

@@ -11,28 +11,6 @@ app = create_app(Config)
 
 
 @app.cli.command()
-def devicedatatosql():
-    """Device data to sql format."""
-    with app.app_context():
-        username = input('Please enter your username: ')
-        with open('devicedata.sql', 'w') as f:
-            devicedata = db.session.query(User).filter(
-                User.username == username).first().devices.first().data.all()
-            i = 0
-            end = len(devicedata)
-            f.write('INSERT INTO `devicedata` VALUES ')
-            for data in devicedata:
-                i += 1
-                f.write(
-                    f"({data.id},'{data.time.isoformat().replace('T', ' ')}','{data.data}',{data.device_id})")
-
-                if i < end:
-                    f.write(',')
-                else:
-                    f.write(';')
-
-
-@app.cli.command()
 def createaccount():
     """Create a new account."""
     username = input('Please enter your username: ')

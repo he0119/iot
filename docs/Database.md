@@ -27,7 +27,7 @@ user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 __tablename__ = 'devicedata'
 id = db.Column(db.Integer, primary_key=True)
 time = db.Column(db.DateTime, index=True, nullable=False)
-data = db.Column(db.String(120), nullable=False)
+data = db.Column(db.JSON, nullable=False)
 device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
 ```
 ## DeviceSchema

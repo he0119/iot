@@ -114,7 +114,7 @@ class Device(db.Model):
         number = number % interval
 
         row_number_column = func.row_number().over(
-            order_by=DeviceData.id).label('row_number')
+            order_by=DeviceData.time).label('row_number')
         data = data.add_column(row_number_column)
         data = data.from_self().filter(row_number_column % interval == number).all()
 

@@ -8,8 +8,8 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 ## Getting Started
 1. Setup python environment
     ```bash
-    cd flask
-    virtualenv --no-site-packages --python=python3.6 venv
+    cd flask/iot
+    virtualenv --no-site-packages venv
     . venv/bin/activate(venv\Scripts\activate on Windows)
     pip install -r requirements.txt
     ```
@@ -22,7 +22,7 @@ Simple try for home automation using Python, Flask, Angular, SocketIO, Arduino
 	```
 3. Configuration
 
-    - Rename ```.env.example``` to ```.env``` in root folder and finish configuration
+    - Rename ```.env.example``` to ```.env``` in flask folder and finish configuration
     - Init database
     ```bash
     flask db init

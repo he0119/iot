@@ -1,3 +1,5 @@
+# v0.6.0
+* **Flask:** Use json to store device data
 # v0.5.0
 * **Angular:** Add update service
 * **Angular:** Add settings page

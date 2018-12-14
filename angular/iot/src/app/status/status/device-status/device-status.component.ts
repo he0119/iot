@@ -25,10 +25,10 @@ export class DeviceStatusComponent implements OnInit {
     this.statusService.setDeviceStatus(id, key, value).subscribe();
   }
 
-  showSettings(){
+  showSettings() {
     this.settingVisibility = 1;
   }
-  hideSettings(){
+  hideSettings() {
     this.settingVisibility = 0;
   }
 }

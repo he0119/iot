@@ -15,9 +15,9 @@ export class DeviceService {
   deviceInfo(id) {
     let key = 'device';
     key = key + id;
-    let value: Device = JSON.parse(sessionStorage.getItem(key));
+    const value: Device = JSON.parse(sessionStorage.getItem(key));
 
-    if (value){
+    if (value) {
       return of(value);
     }
 
@@ -33,15 +33,15 @@ export class DeviceService {
   }
 
   devicesInfo() {
-    let value: Device[] = JSON.parse(sessionStorage.getItem("devicesInfo"));
+    const value: Device[] = JSON.parse(sessionStorage.getItem('devicesInfo'));
 
-    if (value){
+    if (value) {
       return of(value);
     }
 
     return this.http.get<Device[]>(this.API_URL).pipe(
       map(res => {
-        sessionStorage.setItem("devicesInfo", JSON.stringify(res));
+        sessionStorage.setItem('devicesInfo', JSON.stringify(res));
         return res;
       })
     );

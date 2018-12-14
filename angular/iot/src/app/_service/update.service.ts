@@ -12,12 +12,12 @@ export class UpdateService {
     this.swUpdate.available.subscribe(event => {
       let availableString;
       let reloadString;
-      this.translate.get("update.available").subscribe((res: string) => {
+      this.translate.get('update.available').subscribe((res: string) => {
         availableString = res;
-      })
-      this.translate.get("update.reload").subscribe((res: string) => {
+      });
+      this.translate.get('update.reload').subscribe((res: string) => {
         reloadString = res;
-      })
+      });
 
       console.log('current version is', event.current);
       console.log('available version is', event.available);

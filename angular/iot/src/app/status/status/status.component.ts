@@ -24,8 +24,8 @@ export class StatusComponent implements OnInit, OnDestroy {
         this.devicesData[device.id] = {
           time: null,
           data: null
-        }
-      })
+        };
+      });
       // console.log(this.status);
       this.connection = this.websocketService.onNewMessage().subscribe((msg: DeviceData) => {
         // console.log(msg);
@@ -44,8 +44,9 @@ export class StatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.connection)
+    if (this.connection) {
       this.connection.unsubscribe();
+    }
   }
 
 }

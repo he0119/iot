@@ -23,8 +23,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.authorizationService.isAuthenticated())
-    {
+    if (this.authorizationService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
     this.loginForm = new FormGroup({

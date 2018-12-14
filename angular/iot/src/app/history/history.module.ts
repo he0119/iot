@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from "../shared/shared.module";
-import { MaterialModule } from "../shared/material.module";
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../shared/material.module';
 
 import { HistoryRoutingModule } from './history-routing.module';
-import { HistoryComponent } from "./history/history.component";
+import { HistoryComponent } from './history/history.component';
 
-import { ResizeService } from "./resize.service";
-import { HistoryService } from "./history.service";
+import { ResizeService } from './resize.service';
+import { HistoryService } from './history.service';
 
 import 'chartjs-plugin-zoom';
 

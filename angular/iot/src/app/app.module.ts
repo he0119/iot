@@ -18,8 +18,8 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 // JWT
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from "./_helpers/token.interceptor";
-import { RefreshTokenInterceptor } from "./_helpers/refresh-token-interceptor";
+import { TokenInterceptor } from './_helpers/token.interceptor';
+import { RefreshTokenInterceptor } from './_helpers/refresh-token-interceptor';
 
 // Translate
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';

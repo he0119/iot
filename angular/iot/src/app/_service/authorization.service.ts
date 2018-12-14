@@ -8,11 +8,11 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  constructor(private httpClient: HttpClient, private snackbar: MatSnackBar, private translate: TranslateService) {
-  }
-
   loginCheckUrl = 'api/login';
   refreshTokenUrl = 'api/refresh';
+
+  constructor(private httpClient: HttpClient, private snackbar: MatSnackBar, private translate: TranslateService) {
+  }
 
   login(form: any): Observable<any> {
 
@@ -60,23 +60,22 @@ export class AuthorizationService {
 
     if (err.status === 401 || err.status === 422) {
       this.logout();
-      this.translate.get("auth.tokenExpired").subscribe((res: string) => {
+      this.translate.get('auth.tokenExpired').subscribe((res: string) => {
         errorString = res;
-      })
-    }
-    else {
-      this.translate.get("auth.error").subscribe((res: string) => {
+      });
+    } else {
+      this.translate.get('auth.error').subscribe((res: string) => {
         errorString = res;
-      })
+      });
     }
     this.errorMessage(errorString);
   }
 
   private errorMessage(msg: string) {
     let reloadString;
-    this.translate.get("auth.reload").subscribe((res: string) => {
+    this.translate.get('auth.reload').subscribe((res: string) => {
       reloadString = res;
-    })
+    });
     const snack = this.snackbar.open(msg, reloadString, {
       duration: 6000,
     });

@@ -1,10 +1,13 @@
 """Logger"""
 import logging
+from pathlib import Path
+
 
 def init_logger(logger):
     """Init logger."""
     # create file handler and set level to debug
-    fh = logging.FileHandler('iot.log', encoding='UTF-8')
+    log_path = Path(__file__).parent.parent.parent / 'iot.log'
+    fh = logging.FileHandler(log_path, encoding='UTF-8')
     fh.setLevel(logging.DEBUG)
 
     # create formatter

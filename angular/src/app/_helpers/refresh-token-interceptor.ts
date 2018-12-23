@@ -18,12 +18,6 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err) => {
         const errorResponse = err as HttpErrorResponse;
-        if ((errorResponse.status === 401 && errorResponse.error.msg === 'Token has expired') ||
-        (errorResponse.status === 422) && !errorResponse.url.includes('api/refresh')) {
-          return this.authorizationService.refresh().pipe(mergeMap(() => {
-            return this.tokenInterceptor.intercept(req, next);
-          }));
-        }
         if (errorResponse.url.includes('api/refresh')) {
           if ((errorResponse.status === 401 && errorResponse.error.msg === 'Token has expired') || (errorResponse.status === 422)) {
             this.router.navigate(['/login'], {
@@ -32,8 +26,14 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
               }
             });
           }
+          return throwError(err);
         }
-        return throwError(err);
+        if ((errorResponse.status === 401 && errorResponse.error.msg === 'Token has expired') ||
+          (errorResponse.status === 422) && !errorResponse.url.includes('api/refresh')) {
+          return this.authorizationService.refresh().pipe(mergeMap(() => {
+            return this.tokenInterceptor.intercept(req, next);
+          }));
+        }
       }));
   }
 }

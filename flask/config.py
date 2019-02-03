@@ -4,7 +4,7 @@ from pathlib import Path  # python3 only
 
 from dotenv import load_dotenv
 
-ENV_PATH = Path(__file__) / '.env'
+ENV_PATH = Path(__file__).parent / '.env'
 load_dotenv(dotenv_path=ENV_PATH)
 
 
@@ -20,4 +20,5 @@ class Config(object):
     PROPAGATE_EXCEPTIONS = True
 
     SWAGGER_URL = '/api/docs'
-    SWAGGER_API_URL = os.getenv('SWAGGER_API_URL') or 'http://127.0.0.1:5000/static/swagger.json'
+    SWAGGER_API_URL = os.getenv(
+        'SWAGGER_API_URL') or 'http://127.0.0.1:5000/static/swagger.json'

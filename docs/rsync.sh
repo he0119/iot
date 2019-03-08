@@ -8,6 +8,7 @@ echo "Upload Files to Server"
 # --progress 在传输时显示传输过程
 rsync -czrt --progress \
 --exclude "__pycache__" \
+--exclude ".pytest_cache" \
 --exclude "venv" \
 --exclude "migrations" \
 --exclude ".env" \

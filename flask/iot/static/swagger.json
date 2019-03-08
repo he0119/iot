@@ -21,6 +21,10 @@
     },
     {
       "url": "https://hemengyang.tk/api",
+      "description": "Test server"
+    },
+    {
+      "url": "https://iot.hehome.xyz/api",
       "description": "Production server"
     }
   ],

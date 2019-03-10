@@ -15,4 +15,4 @@ rsync -czrt --progress \
 --exclude "app.db" \
 --exclude "iot.log" \
 /mnt/c/Users/hmy01/Desktop/Works/Working/IoT/Flask/ \
-root@hemengyang.tk:/root/iot/
+ubuntu@iot.hemengyang.tk:/home/ubuntu/iot/

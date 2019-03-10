@@ -2,8 +2,8 @@
   "index": "/index.html",
   "version": 1,
   "appData": {
-    "version": "0.5.0",
-    "description": "Chartjs Autoresize"
+    "version": "0.6.0",
+    "description": "maybe the last version(moving to flutter)"
   },
   "assetGroups": [
     {

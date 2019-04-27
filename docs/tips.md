@@ -1,15 +1,20 @@
 # Tips
-## 生成requirements.txt
-目录下运行`pipreqs ./ --encoding UTF-8 --ignore angular,migrations`
-即可以得到requirements.txt
 
-## 生成structure.txt
+## 生成 requirements.txt
+
+目录下运行 `pipreqs ./ --encoding UTF-8 --ignore angular,migrations`
+即可以得到 `requirements.txt`
+
+## 生成 structure.txt
+
 目录下运行`tree -d -L 3 -I "venv|node_modules|__pycache__" . > docs/structure.txt`
 
-## 启用Gzip(nginx)
-使用Gzip压缩JS或者JSON文件[参考](https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/)  
-编辑文件`/etc/nginx/nginx.conf`
-```conf
+## 启用 gzip(nginx)
+
+使用 gzip 压缩 js 或者 json 文件 [参考](https://www.darrenfang.com/2015/01/setting-up-http-cache-and-gzip-with-nginx/)  
+编辑文件 `/etc/nginx/nginx.conf`
+
+```nginx
 http {
   # 开启gzip
   gzip on;

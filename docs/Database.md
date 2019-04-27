@@ -1,5 +1,7 @@
 # Database
+
 ## User
+
 ```python
 __tablename__ = 'user'
 id = db.Column(db.Integer, primary_key=True)
@@ -8,7 +10,9 @@ email = db.Column(db.String(120), index=True, unique=True, nullable=False)
 password_hash = db.Column(db.String(128), nullable=False)
 devices = db.relationship('Device', backref='user', lazy='dynamic')
 ```
+
 ## Device
+
 ```python
 __tablename__ = 'device'
 id = db.Column(db.Integer, primary_key=True)
@@ -22,7 +26,9 @@ data = db.relationship("DeviceData", backref='device', lazy='dynamic')
 schema = db.relationship("DeviceSchema", backref='device', lazy='dynamic')
 user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 ```
+
 ## DeviceData
+
 ```python
 __tablename__ = 'devicedata'
 id = db.Column(db.Integer, primary_key=True)
@@ -30,7 +36,9 @@ time = db.Column(db.DateTime, index=True, nullable=False)
 data = db.Column(db.JSON, nullable=False)
 device_id = db.Column(db.Integer, db.ForeignKey('device.id'))
 ```
+
 ## DeviceSchema
+
 ```python
 __tablename__ = 'deviceschema'
 id = db.Column(db.Integer, primary_key=True)

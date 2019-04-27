@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=idle
-WorkingDirectory=/home/ubuntu
+WorkingDirectory=/home/ubuntu/iot
 ExecStart=/home/ubuntu/iot/venv/bin/python run.py
 Restart=on-failure
 RestartSec=30s

@@ -1,5 +1,8 @@
 # API
+
 ## Restful API
-Using Swagger UI  
-[Swagger.json](../iot/static/swagger.json)
+
+Using Swagger UI
+[Swagger.json](../flask/iot/static/swagger.json)
+
 ## SocketIO
